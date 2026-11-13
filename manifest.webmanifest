@@ -1,0 +1,16 @@
+{
+  "name": "Larsen",
+  "short_name": "Larsen",
+  "description": "Accordeur de guitare électrique et petits tutos de morceaux.",
+  "lang": "fr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#e3e1da",
+  "theme_color": "#e3e1da",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
