@@ -129,6 +129,9 @@ main{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .primary.running::before{display:none}
 .primary.running i{width:10px;height:10px;border-radius:50%;background:var(--ok);animation:pulse 1.4s infinite}
 @keyframes pulse{50%{opacity:.3}}
+.level{display:flex;align-items:center;gap:10px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.level div{flex:1;height:6px;border-radius:3px;background:var(--lamp-off);overflow:hidden}
+.level i{display:block;height:100%;background:var(--ok);transform-origin:left;transform:scaleX(0);transition:transform .08s linear}
 .error{color:var(--accent-text);font-size:14px;font-weight:600;text-align:center}
 
 /* Onglets */
@@ -296,6 +299,7 @@ dialog::backdrop{background:rgba(10,10,9,.55)}
     <div class="strings" id="strings"></div>
 
     <button class="primary" id="mic" type="button">Activer le micro</button>
+    <div class="level" id="level" hidden><span>Niveau du micro</span><div><i id="level-bar"></i></div></div>
     <p class="error" id="error" hidden></p>
   </section>
 
@@ -532,7 +536,7 @@ function detectPitch(buf, sr, fmin=55){
   const n = buf.length, W = n>>1;
   let rms = 0;
   for(let i=0;i<n;i++) rms += buf[i]*buf[i];
-  if(Math.sqrt(rms/n) < 0.008) return null;            // trop faible : silence
+  if(Math.sqrt(rms/n) < 0.0015) return null;           // trop faible : silence (une guitare électrique non branchée joue très doucement)
   const tauMin = Math.floor(sr/700), tauMax = Math.min(W-2, Math.ceil(sr/fmin));
   const d = new Float32Array(tauMax+2);
   let run = 0, best = -1;
@@ -552,7 +556,7 @@ function detectPitch(buf, sr, fmin=55){
   if(best<0){
     let m = 1;
     for(let tau=tauMin; tau<=tauMax; tau++) if(d[tau]<m){ m=d[tau]; best=tau; }
-    if(m > 0.3) return null;
+    if(m > 0.2) return null;
   }
   const a=d[best-1], b=d[best], c=d[best+1], den=a-2*b+c;
   const shift = den ? (a-c)/(2*den) : 0;
@@ -568,6 +572,12 @@ function audio(){
   if(ctx.state==='suspended') ctx.resume();
   return ctx;
 }
+/* Safari ne fait tourner l'écoute que si elle est reliée à la sortie : on la relie à un volume zéro. */
+let mute = null;
+function silentOut(){
+  if(!mute){ mute = ctx.createGain(); mute.gain.value = 0; mute.connect(ctx.destination); }
+  return mute;
+}
 async function startMic(){
   $('error').hidden = true;
   if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
@@ -576,14 +586,16 @@ async function startMic(){
   try{
     audio();
     stream = await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}});
+    if(ctx.state!=='running') await ctx.resume();      // l'iPhone met le son en pause pendant la demande d'accès
     source = ctx.createMediaStreamSource(stream);
     analyser = ctx.createAnalyser(); analyser.fftSize = 4096;
-    source.connect(analyser);
+    source.connect(analyser); analyser.connect(silentOut());
     buf = new Float32Array(analyser.fftSize);
     running = true; hist.length = 0;
     timer = setInterval(tick, 55);
     $('mic').classList.add('running');
     $('mic').innerHTML = '<i></i>Micro actif · toucher pour arrêter';
+    $('level').hidden = false;
     resetReadout();
     try{ wake = await navigator.wakeLock.request('screen'); }catch(e){}
   }catch(e){
@@ -600,6 +612,7 @@ function stopMic(){
   if(wake){ wake.release().catch(()=>{}); wake=null; }
   $('mic').classList.remove('running');
   $('mic').textContent = 'Activer le micro';
+  $('level').hidden = true;
   resetReadout();
 }
 function fail(msg){ $('error').textContent = msg; $('error').hidden = false; }
@@ -613,8 +626,12 @@ document.addEventListener('visibilitychange', async ()=>{
 
 function tick(){
   const now = performance.now();
-  if(now < muteUntil) return;
+  if(ctx.state!=='running') ctx.resume();
   analyser.getFloatTimeDomainData(buf);
+  let e = 0; for(let i=0;i<buf.length;i+=4) e += buf[i]*buf[i];
+  const db = 10*Math.log10(e/(buf.length/4)+1e-12);                 // niveau entendu, de -75 dB (rien) à -25 dB (fort)
+  $('level-bar').style.transform = `scaleX(${Math.max(0, Math.min(1, (db+75)/50)).toFixed(2)})`;
+  if(now < muteUntil) return;
   const f = detectPitch(buf, ctx.sampleRate);
   if(f){ hist.push(f); if(hist.length>5) hist.shift(); lastHeard = now; onPitch(median(hist), now); }
   else if(now-lastHeard > 1500 && $('dial').dataset.state!=='idle'){ hist.length=0; okSince=0; resetReadout(); }
@@ -970,10 +987,11 @@ async function startPlay(){
   }catch(e){
     $('play-error').textContent = "Impossible d'ouvrir le micro. Autorise-le pour cette page, puis réessaie."; $('play-error').hidden = false; return;
   }
+  if(ctx.state!=='running') await ctx.resume();
   P.src = ctx.createMediaStreamSource(P.stream);
   P.fast = ctx.createAnalyser(); P.fast.fftSize = 1024;
   P.big = ctx.createAnalyser(); P.big.fftSize = 8192;
-  P.src.connect(P.fast); P.src.connect(P.big);
+  P.src.connect(P.fast); P.src.connect(P.big); P.fast.connect(silentOut()); P.big.connect(silentOut());
   P.fb = new Float32Array(1024); P.bb = new Float32Array(8192);
   P.lat = (ctx.outputLatency || ctx.baseLatency || 0.02) + 0.045;      // retard du son et du micro, estimé
   beginRun(ctx.currentTime);
@@ -1008,6 +1026,7 @@ function click(time, strong){
 }
 function frame(){
   if(!P || !P.running) return;
+  if(ctx.state!=='running') ctx.resume();
   const now = ctx.currentTime;
   while(P.t0+P.nextClick*P.eighth < now+0.15){
     if(P.click) click(Math.max(now, P.t0+P.nextClick*P.eighth), ((P.nextClick%8)+8)%8===0);
@@ -1016,7 +1035,7 @@ function frame(){
   P.fast.getFloatTimeDomainData(P.fb);
   let rms = 0; for(let i=0;i<1024;i++) rms += P.fb[i]*P.fb[i];
   rms = Math.sqrt(rms/1024);
-  if(rms>0.015 && rms>P.env*1.6+0.008 && now-P.lastOnset>P.refr){ P.lastOnset = now; P.env = rms; onStrum(now-P.lat-0.01); }
+  if(rms>0.004 && rms>P.env*1.6+0.002 && now-P.lastOnset>P.refr){ P.lastOnset = now; P.env = rms; onStrum(now-P.lat-0.01); }
   else P.env += (rms-P.env)*0.12;
   tickPlay(now);
   P.raf = requestAnimationFrame(frame);
