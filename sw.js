@@ -1,5 +1,5 @@
 // Larsen : cache hors ligne. Changer VERSION à chaque mise à jour pour vider l'ancien cache.
-const VERSION = 'larsen-v7';
+const VERSION = 'larsen-v8';
 const SHELL = ['./', 'index.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
