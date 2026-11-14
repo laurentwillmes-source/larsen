@@ -192,7 +192,7 @@ nav.tabs a[aria-current="page"]::before{content:"";position:absolute;top:-1px;le
 .neck[data-j="warn"]{--dot:var(--accent);border-color:var(--accent)}
 .neck[data-j="bad"]{--dot:var(--bad);border-color:var(--bad)}
 .neck-top{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
-.now-chord{font-family:var(--display);font-size:72px;line-height:.8;font-weight:800}
+.now-chord{font-family:var(--display);font-size:62px;line-height:.8;font-weight:800}
 .neck-side{text-align:right;display:flex;flex-direction:column;gap:2px}
 .verdict{font-family:var(--display);font-size:32px;line-height:1;font-weight:800;text-transform:uppercase;letter-spacing:.03em;color:var(--dot);min-height:32px}
 .next{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
@@ -228,6 +228,90 @@ button.chord::after{content:"+";position:absolute;top:2px;right:8px;font-size:18
 .alt span{font-size:11px;line-height:1.25;color:var(--muted);font-weight:600;text-align:center;min-height:2.5em}
 .alt svg{width:100%;max-width:90px;height:auto;display:block}
 .sheet h3{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;border-top:2px solid var(--fg);padding-top:10px}
+
+/* Mode Apprendre */
+#view-learn{gap:16px;padding-bottom:28px}
+.mode-seg a{padding:8px 12px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-decoration:none}
+.mode-seg a + a{border-left:1px solid var(--line)}
+.mode-seg a[aria-selected="true"]{background:var(--btn);color:var(--btn-fg)}
+.tempo-seg{display:flex}
+.tempo-seg button{flex:1;display:flex;flex-direction:column;align-items:center;gap:1px;padding:6px 4px;line-height:1.1}
+.tempo-seg button span{font-size:10px;letter-spacing:.06em}
+.tempo-seg button b{font-family:var(--display);font-size:22px;line-height:1;font-weight:800;letter-spacing:.02em}
+.lprog{padding-top:2px}
+.pbar{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px}
+.pseg{height:10px;border-radius:2px;background:var(--lamp-off);border:0;padding:0}
+.pseg.done{background:var(--ok)}
+.pseg.cur{outline:2px solid var(--fg);outline-offset:2px}
+.h-step{font-family:var(--display);font-size:46px;font-weight:800;line-height:.9;text-transform:uppercase;text-wrap:balance}
+.lead{font-size:18px;line-height:1.4}
+.lsec{display:flex;flex-direction:column;gap:6px}
+.lsec h3{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;border-top:2px solid var(--fg);padding-top:8px}
+.lsec p{max-width:62ch}
+.facts-list{margin:0;display:flex;flex-direction:column}
+.facts-list div{display:grid;grid-template-columns:1fr;gap:2px;border-top:1px solid var(--line);padding:10px 0}
+.facts-list dt{font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.facts-list dd{margin:0}
+.diff{display:inline-flex;gap:4px;margin-right:8px;vertical-align:middle}
+.diff i{width:10px;height:10px;border-radius:50%;background:var(--lamp-off)}
+.diff i.on{background:var(--accent)}
+.sources{display:grid;grid-template-columns:1fr;gap:10px}
+.sources > div{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:10px 12px;box-shadow:var(--lift)}
+.sources h3{font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;margin-bottom:4px}
+.sources ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:14px}
+.drill{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:12px;box-shadow:var(--lift);display:flex;flex-direction:column;gap:10px}
+.drill.running{border-color:var(--fg)}
+.drill-head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.drill-head b{font-family:var(--display);font-size:26px;line-height:1;font-weight:800;text-transform:uppercase}
+.tag{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border-radius:3px;padding:3px 7px;border:1px solid var(--line);color:var(--muted)}
+.tag.morceau{border-color:var(--accent);color:var(--accent-text)}
+.drill-chord{display:flex;align-items:baseline;gap:12px;min-height:64px}
+.dc-now{font-family:var(--display);font-size:68px;line-height:.85;font-weight:800;font-variant-numeric:tabular-nums}
+.dc-next{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.drill-row{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;text-align:center}
+.cell{background:var(--bg);border-radius:4px;padding:6px 0 4px;display:flex;flex-direction:column;gap:2px;transition:background .05s}
+.cell .arr{font-size:22px;font-weight:900;line-height:1;height:22px;color:var(--accent);display:grid;place-items:center}
+.cell .arr small{font-size:9px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.cell.x .arr{color:var(--muted)}
+.cell .cnt{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase}
+.cell.on{background:var(--btn)}
+.cell.on .cnt,.cell.on .arr small{color:var(--btn-fg)}
+.drill-ctrl{display:flex;gap:8px;align-items:stretch}
+.drill-ctrl .seg{flex:1}
+.drill-go{flex:none;min-width:112px;background:var(--btn);color:var(--btn-fg);font-family:var(--display);font-size:22px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;border-radius:6px;padding:8px 14px}
+.drill.running .drill-go{background:var(--accent);color:var(--on-accent)}
+.mistakes{margin:0;display:flex;flex-direction:column}
+.mistakes div{border-top:1px solid var(--line);padding:8px 0}
+.mistakes div:first-child{border-top:0;padding-top:2px}
+.mistakes dt{font-weight:700}
+.mistakes dd{margin:2px 0 0;color:var(--muted)}
+.crit{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.crit label{display:flex;gap:12px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:12px;cursor:pointer}
+.crit input{appearance:none;-webkit-appearance:none;flex:none;width:24px;height:24px;margin:0;border:2px solid var(--fg);border-radius:50%;display:grid;place-items:center}
+.crit input:checked{background:var(--ok);border-color:var(--ok)}
+.crit input:checked::after{content:"";width:9px;height:5px;border:solid var(--surface);border-width:0 0 2.5px 2.5px;transform:translateY(-1px) rotate(-45deg)}
+.crit input:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.restart{align-self:flex-start;margin-top:4px}
+.lnav{display:flex;justify-content:space-between;gap:8px;border-top:2px solid var(--fg);padding-top:14px}
+.next-btn{background:var(--btn);color:var(--btn-fg);font-family:var(--display);font-size:26px;line-height:1;font-weight:800;text-transform:uppercase;letter-spacing:.04em;border-radius:6px;padding:12px 18px;margin-left:auto}
+.blocks{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px;counter-reset:b}
+.blocks li{border-left:4px solid var(--line);padding:4px 0 4px 12px}
+.blocks li.cur{border-color:var(--accent)}
+.blocks li.past{opacity:.55}
+.blocks .bh{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.blocks .bh b{font-family:var(--display);font-size:24px;font-weight:800;text-transform:uppercase;line-height:1}
+.blocks .bh span{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.06em;white-space:nowrap}
+.blocks p{font-size:14px;color:var(--muted)}
+.session-box{background:var(--surface);border:2px solid var(--fg);border-radius:6px;padding:12px;display:flex;flex-direction:column;gap:10px}
+.sb-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.sb-top span{font-family:var(--display);font-size:28px;font-weight:800;text-transform:uppercase;line-height:1}
+.sb-top b{font-family:var(--display);font-size:44px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
+.session-box .drill{box-shadow:none;border:0;padding:0}
+.sb-how{font-size:16px}
+.badge{border:2px dashed var(--line);border-radius:6px;padding:14px;font-family:var(--display);font-size:26px;font-weight:800;text-transform:uppercase;line-height:1.05;color:var(--muted);text-align:center}
+.badge.on{border-style:solid;border-color:var(--ok);color:var(--ok)}
+.btn-dark{background:var(--btn);color:var(--btn-fg)}
+.song .meta .lesson{color:var(--accent-text)}
 
 /* Feuilles */
 dialog{border:0;padding:0;background:var(--surface);color:var(--fg);width:100%;max-width:520px;margin:auto auto 0;border-radius:10px 10px 0 0;max-height:86%}
@@ -313,6 +397,7 @@ dialog::backdrop{background:rgba(10,10,9,.55)}
 
   <section class="view wrap" id="view-song" hidden></section>
   <section class="view wrap" id="view-play" hidden></section>
+  <section class="view wrap" id="view-learn" hidden></section>
 </main>
 
 <nav class="tabs" aria-label="Navigation"><div class="wrap">
@@ -391,6 +476,8 @@ const SONGS = [
       "Pose la paume de la main droite près du chevalet pour étouffer légèrement les cordes : le son devient plus sec et plus punk.",
       "Du refrain au couplet, A♭5 et G5 ne sont séparés que d'une case. Glisse sans relâcher la forme.",
       "Commence lentement, à moitié du tempo, puis accélère quand les changements passent sans y penser.",
+      "Pour que seules les deux cordes de l'accord sonnent : couche légèrement l'index qui appuie la note grave, sa pulpe étouffe les cordes aiguës juste en dessous. Le bout de l'index touche aussi la corde grave voisine (la 6 quand l'accord part de la corde 5).",
+      "Test : garde la forme et gratte les six cordes. Seules les deux notes de l'accord doivent sonner, le reste fait « tchk ».",
     ],
   },
   {
@@ -413,9 +500,223 @@ const SONGS = [
       "Compte à voix haute « un ET deux ET trois ET quatre ET » et ne joue que sur les ET.",
       "Le son doit être bref. Juste après le coup de médiator, desserre la main gauche sans quitter les cordes.",
       "C et D ont exactement la même forme, deux cases plus haut : fais glisser la main d'un bloc.",
+      "Pour que les trois cordes graves ne sonnent pas : en remontant, le médiator touche d'abord la corde aiguë, alors arrête ton geste après la 3e corde. Le doigt posé sur la corde 3 peut aussi effleurer la corde 4 avec sa pulpe pour l'étouffer.",
+      "Test : garde l'accord et gratte les six cordes. Seules les trois aiguës doivent sonner, le reste fait « tchk ».",
     ],
   },
 ];
+
+/* ---------- Leçons ----------
+   Une leçon = une intro, des étapes, une séance guidée et un checkpoint.
+   Pour en écrire une nouvelle, copier ce bloc : l'interface ne change pas.
+   Exercice (drill) :
+     pattern : 8 croches, '' rien · 'C' frappe des mains · 'X' coup vers le haut étouffé · 'U' vers le haut · 'D' vers le bas
+     bars    : une liste de mesures, chaque mesure = l'accord de chacun des 4 temps (absent = pas d'accord)
+     tempos  : les tempos proposés (bpm), tempo : celui de départ
+     cut     : affiche « coupe » sur les temps où l'on étouffe le son
+     source  : 'exercice' (outil d'apprentissage) ou 'morceau' (grille du morceau, simplifiée) */
+const SKANK = ['','U','','U','','U','','U'];
+const BAR = c => [c,c,c,c];
+const LESSONS = {
+  'monkey-man': {
+    title: "Le skank de Monkey Man",
+    goal: "Accompagner Monkey Man façon ska : la guitare ne joue que les contretemps, d'un coup court vers le haut.",
+    difficulty: 2,
+    difficultyText: "Débutant. Trois accords et un seul geste à maîtriser.",
+    skill: "Le skank : jouer sur les « et », avec un son bref et une main droite qui ne s'arrête jamais.",
+    duration: "Compte environ une semaine à 15 minutes par jour. Certains iront plus vite, d'autres plus lentement, et c'est très bien comme ça.",
+    how: "Neuf étapes courtes, une seule nouveauté à chaque fois. Coche les critères quand tu y arrives : c'est toi le juge, l'app ne t'écoute pas pendant la leçon. Ta progression reste sur ce téléphone.",
+    sources: {
+      fromSong: [
+        "Les accords Sol, Do, Ré et leur ordre viennent de tablatures publiées. Ils n'ont pas encore été vérifiés à l'oreille sur le disque : si un accord sonne faux quand tu joues avec, fie-toi au disque.",
+        "Le tempo du disque, environ 154 bpm, vient d'une analyse en ligne, à confirmer.",
+      ],
+      teaching: [
+        "Les formes d'accords sur trois cordes, les tempos lents, les exercices sur cordes étouffées et le comptage sont des outils d'apprentissage. Ce n'est pas un relevé de ce que joue le guitariste des Specials.",
+      ],
+    },
+    steps: [
+      {
+        id:'compter', title:"Compter les contretemps", novelty:"le comptage",
+        goal:"Sentir où tombent les « et » avant même de toucher la guitare.",
+        sections:[
+          {h:"Le principe", p:"Un temps, c'est là où ton pied tape tout seul : 1, 2, 3, 4. Le contretemps, c'est le « et » au milieu : 1 et 2 et 3 et 4 et. En ska, la guitare ne joue que les « et ». C'est tout le secret, et c'est aussi toute la difficulté : ton corps a très envie de jouer sur les chiffres."},
+          {h:"Le truc du pied", p:"Tape du pied sur chaque clic. Pied en bas : c'est le temps. Pied en haut : c'est le « et ». Retiens ça pour la suite : tu joueras toujours quand ton pied remonte."},
+        ],
+        drills:[{label:"Frappe les « et »", source:'exercice', pattern:['','C','','C','','C','','C'], tempos:[50,60,70], tempo:60,
+                 hint:"Guitare posée. Le pied sur les clics, les mains frappent sur les « et ». Dis « et » à voix haute si ça aide."}],
+        mistakes:[
+          {e:"Tu frappes en même temps que le pied.", fix:"Ta main suit ton pied, c'est un réflexe. Frappe au moment où le pied remonte, et dis le « et » à voix haute."},
+          {e:"Tu accélères sans t'en rendre compte.", fix:"Classique. Écoute le clic plutôt que tes mains, et descends à 50 si besoin."},
+          {e:"Tu perds le fil après quelques mesures.", fix:"Le clic aigu marque le 1 de chaque mesure. Repars de lui en recomptant « 1 et 2 et »."},
+        ],
+        criteria:["Je tape du pied sur les clics pendant une minute sans décrocher.", "Mes frappes tombent pile entre deux clics, sur les « et »."],
+      },
+      {
+        id:'etouffe', title:"Le coup vers le haut, cordes étouffées", novelty:"le geste de la main droite",
+        goal:"Trouver le mouvement du skank sans te soucier des accords.",
+        sections:[
+          {h:"Main gauche", p:"Pose les doigts à plat en travers des cordes, sans appuyer. Elles ne doivent plus sonner : on veut un « tchk », pas une note."},
+          {h:"Main droite, le balancier", p:"Ton poignet descend sur chaque chiffre et remonte sur chaque « et », sans jamais s'arrêter, comme un balancier d'horloge. En descendant, tu passes au-dessus des cordes sans les toucher. En remontant, tu frottes les cordes aiguës. C'est ce mouvement continu qui te garde en rythme."},
+          {h:"Le médiator", p:"Tiens-le entre le pouce et le côté de l'index, avec juste la pointe qui dépasse. Le coup est léger : le skank se joue avec le poignet, pas avec le bras."},
+        ],
+        drills:[{label:"Contretemps étouffés", source:'exercice', pattern:['','X','','X','','X','','X'], tempos:[60,70,80], tempo:60,
+                 hint:"Main gauche à plat sur les cordes, poignet en balancier. Tu ne frottes les cordes qu'en remontant."}],
+        mistakes:[
+          {e:"On entend des notes.", fix:"Ta main gauche appuie un peu, ou ne couvre pas toutes les cordes. Pose-la plus à plat et plus légère."},
+          {e:"Ton poignet s'arrête entre deux coups.", fix:"C'est le piège le plus courant. Garde le balancier même quand tu ne joues pas : c'est lui qui tient le tempo."},
+          {e:"L'avant-bras fatigue vite.", fix:"Tu joues avec le bras. Relâche l'épaule, laisse travailler le poignet et joue moins fort."},
+        ],
+        criteria:["Je joue une minute sur les « et » sans qu'aucune note ne sonne.", "Mon poignet ne s'arrête jamais, même sur les chiffres."],
+      },
+      {
+        id:'accords', title:"Les trois accords", novelty:"les positions de la main gauche",
+        goal:"Poser Sol, Do et Ré sur trois cordes. Pas de rythme pour l'instant.",
+        chords:['G','C','D'],
+        sections:[
+          {h:"Pourquoi trois cordes", p:"Le skank se joue sur les cordes aiguës : c'est sec, et ça laisse la place à la basse et à l'orgue. Ces petites formes sont plus faciles qu'un accord complet, et Do et Ré ont exactement la même forme : tu la fais glisser de deux cases."},
+          {h:"Le doigt pivot", p:"Entre Sol et Do, l'index reste à la case 3 sur la corde de Mi aiguë. Laisse-le posé et ne déplace que les autres doigts."},
+          {h:"Exercice pose-lève", p:"Pose l'accord et gratte chaque corde une par une : les trois doivent sonner clair. Lève la main, secoue-la, repose. Cinq fois par accord. Le but : que tes doigts trouvent la position tout seuls."},
+        ],
+        mistakes:[
+          {e:"Une corde frise ou sonne étouffée.", fix:"Appuie juste derrière la frette, pas au milieu de la case, et sur le bout du doigt pour ne pas toucher la corde voisine."},
+          {e:"Le barré de l'index sur Sol ne sonne pas bien.", fix:"Roule légèrement l'index sur le côté qui regarde ta tête : il est plus ferme et presse mieux."},
+          {e:"Les doigts font mal.", fix:"Normal la première semaine. Joue dix minutes, fais une pause : la corne va venir."},
+        ],
+        criteria:["Les trois cordes de chaque accord sonnent clairement.", "Je pose chaque accord en moins de deux secondes, sans chercher."],
+      },
+      {
+        id:'un-accord', title:"Un accord sur les contretemps", novelty:"l'accord dans le geste",
+        goal:"Jouer Sol en skank, en ne faisant sonner que les trois cordes aiguës.",
+        chords:['G'],
+        sections:[
+          {h:"Ce qui change", p:"Même balancier qu'à l'étape 2, mais ta main gauche tient Sol. Le coup vers le haut ne touche que les trois cordes aiguës : un petit geste, pas un grand balayage."},
+          {h:"Étouffer les cordes qui ne jouent pas", list:[
+            "<b>Vise.</b> En remontant, le médiator rencontre d'abord la corde de Mi aiguë. Arrête le geste après la 3e corde. C'est pour ça que le skank se joue si bien vers le haut.",
+            "<b>Couche un doigt.</b> Le doigt posé sur la corde 3 effleure la corde 4 avec sa pulpe : elle ne peut plus sonner.",
+            "<b>Le pouce.</b> S'il passe par-dessus le manche, il peut effleurer la corde 6. Sinon, ce n'est pas grave.",
+            "<b>Le test.</b> Garde l'accord et gratte les six cordes : seules les trois aiguës doivent sonner, les autres font « tchk ».",
+          ]},
+        ],
+        drills:[{label:"Sol en skank", source:'exercice', pattern:SKANK, bars:[BAR('G')], tempos:[60,70,80], tempo:60,
+                 hint:"Sol posé, petit coup vers le haut sur chaque « et »."}],
+        mistakes:[
+          {e:"Les cordes graves résonnent.", fix:"Ton geste est trop ample. Fais comme si les cordes 4, 5 et 6 n'existaient pas, et vérifie que la pulpe du doigt sur la corde 3 touche bien la corde 4."},
+          {e:"Tu repars sur les chiffres.", fix:"Reviens une minute à l'étape 2, cordes étouffées, puis réessaie. Ça arrive à tout le monde."},
+        ],
+        criteria:["Sol sonne sur trois cordes, les graves restent muettes.", "Je tiens une minute sur les « et »."],
+      },
+      {
+        id:'enchainer', title:"Enchaîner les accords", novelty:"les changements d'accord",
+        goal:"Passer de Sol à Do, puis enchaîner les trois accords, sans casser le rythme.",
+        chords:['G','C','D'],
+        sections:[
+          {h:"Le cadeau du ska", p:"Sur les chiffres, tu ne joues pas. Tu as donc un demi-temps gratuit pour changer d'accord : la main gauche bouge pendant le chiffre, l'accord est en place pour le « et »."},
+          {h:"Dans l'ordre", p:"D'abord Sol et Do, un accord par mesure. Quand c'est fluide, passe à la boucle des trois accords."},
+        ],
+        drills:[
+          {label:"Sol et Do", source:'exercice', pattern:SKANK, bars:[BAR('G'),BAR('C')], tempos:[60,70,80], tempo:60,
+           hint:"Une mesure chacun. L'index reste sur la case 3 de la corde aiguë."},
+          {label:"Sol, Do, Ré", source:'exercice', pattern:SKANK, bars:[BAR('G'),BAR('C'),BAR('D'),BAR('G')], tempos:[60,70,80], tempo:60,
+           hint:"Une mesure par accord. De Do à Ré, glisse la forme entière de deux cases."},
+        ],
+        mistakes:[
+          {e:"Tu t'arrêtes pour changer.", fix:"Laisse le poignet continuer même si l'accord n'est pas prêt : un coup raté vaut mieux qu'un arrêt. La main gauche finira par suivre."},
+          {e:"Tu changes trop tard.", fix:"Commence à bouger dès le 4 de la mesure, pas après le dernier « et »."},
+          {e:"Le passage de Do à Ré accroche.", fix:"Ne lève pas les doigts : relâche juste la pression et glisse la forme entière de deux cases."},
+        ],
+        criteria:["J'enchaîne Sol et Do une minute à 70 sans m'arrêter.", "Je joue la boucle Sol, Do, Ré à 60 sans m'arrêter."],
+      },
+      {
+        id:'couper', title:"Couper le son", novelty:"le son court du skank",
+        goal:"Passer de « tchaaang » à « tchak ».",
+        sections:[
+          {h:"Pourquoi", p:"Le skank est une percussion autant qu'un accord. Si l'accord résonne jusqu'au temps suivant, il bave sur la basse et le groove disparaît."},
+          {h:"Comment", p:"Juste après le coup, relâche la pression de la main gauche sans décoller les doigts des cordes : le son s'arrête net. La main gauche fait donc « appuie, relâche » à chaque « et », pendant que la droite continue son balancier."},
+          {h:"Variante", p:"Tu peux aussi poser la tranche de la main droite sur les cordes au moment du chiffre. Essaie les deux, garde celle qui te va."},
+        ],
+        drills:[{label:"Sol et Do, coupés", source:'exercice', pattern:SKANK, bars:[BAR('G'),BAR('C')], tempos:[60,70,80], tempo:60, cut:true,
+                 hint:"Coup sur le « et », relâche sur le chiffre."}],
+        mistakes:[
+          {e:"Le son ne coupe pas.", fix:"Tu relâches trop peu. Exagère au début, jusqu'à ce que la corde ne touche presque plus la frette."},
+          {e:"Ça siffle ou ça sonne des harmoniques.", fix:"Un doigt décolle trop. Les doigts restent en contact avec les cordes, ils arrêtent juste d'appuyer."},
+          {e:"La main gauche fatigue.", fix:"C'est un mouvement nouveau. Fais une pause toutes les trois minutes cette semaine."},
+        ],
+        criteria:["Chaque coup est court : j'entends un silence avant le suivant.", "Je coupe le son sur Sol et Do sans perdre le rythme."],
+      },
+      {
+        id:'grille', title:"La grille au métronome", novelty:"Do et Ré dans la même mesure",
+        goal:"Jouer la boucle du morceau en entier, lentement.",
+        sections:[
+          {h:"La grille", p:"Une mesure de Sol, puis Do et Ré se partagent la mesure suivante, deux temps chacun, puis deux mesures de Sol. Le passage de Do à Ré arrive vite : c'est la seule nouveauté."},
+          {h:"Ce que tu joues", p:"C'est la grille relevée dans les tablatures, simplifiée pour apprendre. Le disque peut avoir des variations, notamment dans l'intro."},
+        ],
+        drills:[{label:"La grille du morceau", source:'morceau', pattern:SKANK, bars:'song', tempos:[60,70,77], tempo:60, cut:true,
+                 hint:"Quatre mesures en boucle. Prépare Ré pendant les deux temps de Do."}],
+        mistakes:[
+          {e:"Tu rates Ré.", fix:"Prépare-le pendant les deux temps de Do : ta main sait qu'il arrive."},
+          {e:"Tu reviens trop tôt sur Do après les Sol.", fix:"Compte les mesures à voix basse : « un, deux, trois, quatre ». Le clic aigu marque chaque début de mesure."},
+        ],
+        criteria:["Je joue la grille quatre fois de suite à 60 sans m'arrêter.", "Puis quatre fois à 77."],
+      },
+      {
+        id:'vitesse', title:"Monter le tempo", novelty:"la vitesse",
+        goal:"Aller vers les 154 bpm du disque, palier par palier.",
+        sections:[
+          {h:"La règle des paliers", p:"Trois boucles propres de suite : tu montes d'un palier. Ça se crispe ou ça déraille : tu redescends d'un cran. Aucune honte, c'est exactement comme ça que travaillent les pros."},
+          {h:"Plus vite, plus petit", p:"Avec la vitesse, le balancier devient plus petit, pas plus fort. Plus c'est rapide, plus le geste doit être court et détendu."},
+        ],
+        drills:[{label:"La grille, par paliers", source:'morceau', pattern:SKANK, bars:'song', tempos:[77,92,108,124,140,154], tempo:77, cut:true,
+                 hint:"Choisis ton palier. Trois boucles propres, puis le suivant."}],
+        mistakes:[
+          {e:"Tu te crispes en montant.", fix:"Redescends d'un palier et joue moins fort. La vitesse vient de la détente, pas de l'effort."},
+          {e:"Les coups deviennent brouillons.", fix:"Tu es monté trop vite. Reste plusieurs jours au même palier s'il le faut."},
+        ],
+        criteria:["Palier 92", "Palier 108", "Palier 124", "Palier 140", "154, le tempo du disque"],
+        tempoLadder:[92,108,124,140,154],
+      },
+      {
+        id:'jouer', title:"Jouer pour de vrai", novelty:"jouer avec un retour",
+        goal:"Passer en mode Jouer, puis jouer avec le disque.",
+        sections:[
+          {h:"Le mode Jouer", p:"Les accords défilent, l'app écoute au micro et colore chaque coup : vert, orange ou rouge. Commence en Très lent, puis monte."},
+          {h:"À savoir", p:"Cette notation a été réglée sur des sons simulés et n'a pas encore été validée sur une vraie guitare. Prends-la comme un indice, pas comme un juge : ton oreille reste la référence."},
+          {h:"Avec le disque", p:"Lance Monkey Man et joue par-dessus. Si un accord sonne faux face au disque, c'est peut-être la grille qui se trompe, pas toi : note le passage pour corriger la fiche."},
+        ],
+        action:{label:"Passer en mode Jouer", href:'jouer'},
+        mistakes:[
+          {e:"Beaucoup de rouge alors que ça sonne bien.", fix:"Rapproche le téléphone de la guitare et joue un peu plus fort. Si ça continue, fais confiance à ton oreille."},
+          {e:"Avec le disque, tu décroches.", fix:"Normal, le disque ne t'attend pas. Joue seulement les refrains au début, et laisse passer le reste."},
+        ],
+        criteria:["J'ai joué une boucle complète en mode Jouer.", "J'ai joué au moins un couplet avec le disque."],
+      },
+    ],
+    session: {
+      title:"Séance guidée",
+      intro:"Douze minutes pour revoir tout ce qui compte. Lance la séance : les blocs s'enchaînent seuls, le métronome se règle tout seul.",
+      blocks:[
+        {min:2, title:"Échauffement", how:"Contretemps sur cordes étouffées. Poignet souple.",
+         drill:{pattern:['','X','','X','','X','','X'], tempo:70}},
+        {min:2, title:"Pose-lève", how:"Sol, Do, Ré, cinq fois chacun, sans rythme. Vérifie que les trois cordes sonnent.", drill:null},
+        {min:3, title:"Changements", how:"Sol et Do, une mesure chacun, en coupant le son.",
+         drill:{pattern:SKANK, bars:[BAR('G'),BAR('C')], tempo:70, cut:true}},
+        {min:3, title:"La grille", how:"La grille complète à ton palier du jour.",
+         drill:{pattern:SKANK, bars:'song', tempo:'palier', cut:true}},
+        {min:2, title:"Pour le plaisir", how:"Joue avec le disque ou en mode Jouer. Pas de métronome, juste la musique.", drill:null},
+      ],
+    },
+    checkpoint: {
+      intro:"Coche honnêtement. Quand tout est coché, la leçon est validée et tu peux passer à un autre morceau, ou viser les 154 bpm.",
+      criteria:[
+        "Je joue la grille quatre fois de suite à 108 bpm sans m'arrêter.",
+        "Les accords sonnent sur trois cordes et les cordes graves restent muettes.",
+        "Chaque coup est court : « tchak », pas « tchaaang ».",
+        "Mes coups tombent sur les « et », jamais sur les chiffres.",
+        "Je change d'accord en regardant le moins possible ma main gauche.",
+      ],
+    },
+  },
+};
 
 /* ---------- Outils notes ---------- */
 const SEMI = {C:0,D:2,E:4,F:5,G:7,A:9,B:11};
@@ -765,7 +1066,7 @@ function renderSongs(){
   $('songs').innerHTML = SONGS.map(s=>
     `<li><a class="song" href="#morceau-${s.id}"><span class="disc"></span>
       <div><div class="t">${s.title}</div><div class="a">${s.artist} · ${s.year}</div></div>
-      <span class="meta">${s.chords.length} accords<br>${s.level}</span></a></li>`).join('');
+      <span class="meta">${s.chords.length} accords<br>${s.level}${LESSONS[s.id]?`<br><span class="lesson">${lessonSummary(s)}</span>`:''}</span></a></li>`).join('');
 }
 function renderSong(s){
   const t = TUNINGS.find(x=>x.id===s.tuning);
@@ -775,7 +1076,7 @@ function renderSong(s){
     <div><p class="eyebrow">${s.artist} · ${s.year}</p><h1 class="h-page">${s.title}</h1></div>
     <div class="facts"><span>${s.level}</span><span>${s.feel}</span><span>Accordage ${t.name}</span></div>
     <p>${s.intro}</p>
-    <div class="actions">${s.play?`<a class="secondary" href="#jouer-${s.id}">Jouer le morceau</a>`:''}
+    <div class="actions">${LESSONS[s.id]?`<a class="secondary" href="#apprendre-${s.id}">Apprendre</a>`:''}${s.play?`<a class="secondary${LESSONS[s.id]?' btn-dark':''}" href="#jouer-${s.id}">Jouer le morceau</a>`:''}
       <button class="ghost" type="button" id="tune-for">Accorder en ${t.name}</button></div>
     <div class="block"><h3>Les accords</h3>
       <div class="chords">${s.chords.map((c,i)=>`<button type="button" class="chord" data-c="${i}" aria-label="Agrandir l'accord ${c.name}"><b>${c.name}</b>${chordSvg(c.frets)}</button>`).join('')}</div>
@@ -979,12 +1280,14 @@ function renderPlay(song){
   const chords = song.chords.map(c=>({name:c.name, frets:c.frets, pcs:chordPcs(c.frets), low:Math.min(...c.frets.map((f,i)=>f<0?99:OPEN[i]+f))}));
   const loop = [];
   song.play.bars.forEach((bar,b)=> song.strum.pattern.forEach((d,s)=>{ if(d) loop.push({slot:b*8+s, chord:bar[s>>1], dir:d}); }));
-  P = {song, chords, loop, L:song.play.bars.length*8, factor:0.5, click:true, running:false,
+  const slow = Math.round(6000/song.play.bpm)/100;          // environ 60 bpm
+  const TEMPOS = [[slow,'Très lent'],[.5,'Lent'],[.75,'Moyen'],[1,'Normal']];
+  P = {song, chords, loop, L:song.play.bars.length*8, factor:slow, click:true, running:false,
        t0:0, eighth:1, results:new Map(), tally:{ok:0,warn:0,bad:0}, judged:0, shown:null, flashUntil:0};
   const bpm = f => Math.round(song.play.bpm*f);
   $('view-play').innerHTML = `
-    <div class="play-head"><a class="back" href="#morceau-${song.id}">‹ Fiche</a>
-      <div class="seg" id="tempo">${[[.5,'Lent'],[.75,'Moyen'],[1,'Normal']].map(([f,l])=>`<button type="button" data-f="${f}" aria-pressed="${f===.5}">${l} ${bpm(f)}</button>`).join('')}</div></div>
+    <div class="play-head"><a class="back" href="#morceau-${song.id}">‹ Fiche</a>${modeSwitch(song, 'jouer')}</div>
+    <div class="seg tempo-seg" id="tempo">${TEMPOS.map(([f,l])=>`<button type="button" data-f="${f}" aria-pressed="${f===slow}"><span>${l}</span><b>${bpm(f)}</b></button>`).join('')}</div>
     <div class="neck" id="neck"><div class="neck-top"><div class="now-chord" id="now-chord"></div>
       <div class="neck-side"><div class="verdict" id="verdict" aria-live="polite"></div><div class="next" id="next-chord"></div></div></div>
       <div id="neck-svg"></div></div>
@@ -1153,6 +1456,287 @@ function drawLane(now){
   }
 }
 
+/* ---------- Mode Apprendre ---------- */
+function modeSwitch(song, cur){
+  if(!LESSONS[song.id]) return '';
+  return `<div class="seg mode-seg" role="tablist" aria-label="Mode">
+    <a href="#apprendre-${song.id}" role="tab" aria-selected="${cur==='apprendre'}">Apprendre</a>
+    <a href="#jouer-${song.id}" role="tab" aria-selected="${cur==='jouer'}">Jouer</a></div>`;
+}
+function lessonState(id){
+  try{ const v = JSON.parse(store.get('lesson.'+id, '') || '{}'); return v && typeof v==='object' ? v : {}; }catch(e){ return {}; }
+}
+function saveLesson(id, st){ store.set('lesson.'+id, JSON.stringify(st)); }
+/* Les écrans : intro, chaque étape, la séance, le checkpoint. */
+function lessonScreens(L){
+  return [{kind:'intro', key:'intro'}, ...L.steps.map((s,i)=>({kind:'step', key:s.id, step:s, n:i+1})),
+          {kind:'session', key:'seance'}, {kind:'check', key:'checkpoint'}];
+}
+const critOf = (L, sc) => sc.kind==='step' ? sc.step.criteria : sc.kind==='check' ? L.checkpoint.criteria : [];
+function screenDone(L, st, sc){
+  const c = critOf(L, sc), got = (st.checks||{})[sc.key] || [];
+  if(sc.kind==='step' && sc.step.tempoLadder) return !!got[0];      // les paliers : le premier suffit pour avancer
+  return c.length>0 && c.every((_,i)=>got[i]);
+}
+function lessonSummary(song){
+  const L = LESSONS[song.id]; if(!L) return '';
+  const st = LS && LS.song.id===song.id ? LS.st : lessonState(song.id);
+  if(st.doneAt) return 'Leçon validée';
+  const n = L.steps.filter(s=>screenDone(L, st, {kind:'step', key:s.id, step:s})).length;
+  return n ? `Leçon ${n}/${L.steps.length}` : 'Leçon à faire';
+}
+const ladderTempo = (L, st) => {
+  const step = L.steps.find(s=>s.tempoLadder); if(!step) return 77;
+  const got = (st.checks||{})[step.id] || [];
+  let t = 77; step.tempoLadder.forEach((b,i)=>{ if(got[i]) t = b; });
+  return t;
+};
+
+let LS = null;   // leçon affichée
+function renderLesson(song){
+  stopDrill(); stopSession();
+  const L = LESSONS[song.id], st = lessonState(song.id), screens = lessonScreens(L);
+  LS = {song, L, st, screens, at: Math.min(Math.max(0, st.at|0), screens.length-1)};
+  drawLesson();
+}
+function setScreen(i){
+  stopDrill(); stopSession();
+  LS.at = Math.max(0, Math.min(LS.screens.length-1, i));
+  LS.st.at = LS.at; saveLesson(LS.song.id, LS.st);
+  drawLesson();
+  document.querySelector('main').scrollTop = 0;
+}
+function drawLesson(){
+  const {song, L, st, screens, at} = LS, sc = screens[at];
+  const bar = screens.slice(1).map((x,i)=>`<button type="button" class="pseg${screenDone(L,st,x)?' done':''}${i+1===at?' cur':''}" data-go="${i+1}" aria-label="${x.kind==='step'?'Étape '+x.n:x.kind==='session'?'Séance guidée':'Checkpoint'}"></button>`).join('');
+  let body = '';
+  if(sc.kind==='intro') body = introHtml(L, st, screens);
+  else if(sc.kind==='step') body = stepHtml(song, L, st, sc);
+  else if(sc.kind==='session') body = sessionHtml(L, st);
+  else body = checkHtml(L, st);
+  const prev = at>0 ? `<button type="button" class="ghost" data-go="${at-1}">‹ Précédent</button>` : '<span></span>';
+  const next = at<screens.length-1 ? `<button type="button" class="next-btn" data-go="${at+1}">${at===0?'Commencer':'Suivant ›'}</button>` : '';
+  $('view-learn').innerHTML = `
+    <div class="play-head"><a class="back" href="#morceau-${song.id}">‹ Fiche</a>${modeSwitch(song,'apprendre')}</div>
+    <div class="lprog"><div class="pbar">${bar}</div></div>
+    ${body}
+    <div class="lnav">${prev}${next}</div>`;
+}
+/* Après une case cochée : on met à jour la barre et le badge sans redessiner (un exercice peut tourner). */
+function refreshMarks(){
+  const {L, st, screens} = LS;
+  document.querySelectorAll('#view-learn .pseg').forEach((b,i)=> b.classList.toggle('done', screenDone(L, st, screens[i+1])));
+  const badge = $('badge');
+  if(badge){ badge.classList.toggle('on', !!st.doneAt); badge.textContent = st.doneAt ? 'Leçon validée. Bravo, tu skankes.' : 'Encore un peu de travail, et ce sera validé.'; }
+}
+function introHtml(L, st, screens){
+  const resume = st.at>0 && st.at<screens.length ? `<button type="button" class="next-btn" data-go="${st.at}">Reprendre où j'en étais</button>` : '';
+  return `
+    <div><p class="eyebrow">Leçon · ${LS.song.title}</p><h1 class="h-step">${L.title}</h1></div>
+    <p class="lead">${L.goal}</p>
+    <dl class="facts-list">
+      <div><dt>Difficulté</dt><dd><span class="diff" aria-label="${L.difficulty} sur 5">${[1,2,3,4,5].map(k=>`<i${k<=L.difficulty?' class="on"':''}></i>`).join('')}</span>${L.difficultyText}</dd></div>
+      <div><dt>Ce que tu vas apprendre</dt><dd>${L.skill}</dd></div>
+      <div><dt>Durée</dt><dd>${L.duration}</dd></div>
+      <div><dt>Comment ça marche</dt><dd>${L.how}</dd></div>
+    </dl>
+    <div class="sources">
+      <div><h3>Vient du morceau</h3><ul>${L.sources.fromSong.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+      <div><h3>Arrangement pédagogique</h3><ul>${L.sources.teaching.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+    </div>
+    ${resume}`;
+}
+function chordCards(song, names){
+  return `<div class="chords">${names.map(n=>{ const i = song.chords.findIndex(c=>c.name===n);
+    return `<button type="button" class="chord" data-c="${i}" aria-label="Agrandir l'accord ${n}"><b>${n}</b>${chordSvg(song.chords[i].frets)}</button>`; }).join('')}</div>
+    <p class="note-small">Les chiffres sont les doigts : 1 index, 2 majeur, 3 annulaire, 4 auriculaire. Touche un accord pour l'agrandir et l'écouter.</p>`;
+}
+function stepHtml(song, L, st, sc){
+  const s = sc.step, got = (st.checks||{})[s.id] || [];
+  return `
+    <div><p class="eyebrow">Étape ${sc.n} sur ${L.steps.length} · Nouveau : ${s.novelty}</p><h1 class="h-step">${s.title}</h1></div>
+    <p class="lead">${s.goal}</p>
+    ${s.chords ? chordCards(song, s.chords) : ''}
+    ${s.sections.map(x=>`<div class="lsec"><h3>${x.h}</h3>${x.p?`<p>${x.p}</p>`:''}${x.list?`<ul class="tips">${x.list.map(li=>`<li>${li}</li>`).join('')}</ul>`:''}</div>`).join('')}
+    ${(s.drills||[]).map((d,i)=>drillHtml(d, s.id+'-'+i)).join('')}
+    ${s.action ? `<a class="secondary" href="#${s.action.href}-${song.id}">${s.action.label}</a>` : ''}
+    <div class="lsec"><h3>Erreurs fréquentes</h3><dl class="mistakes">${s.mistakes.map(m=>`<div><dt>${m.e}</dt><dd>${m.fix}</dd></div>`).join('')}</dl></div>
+    <div class="lsec"><h3>${s.tempoLadder?'Paliers atteints':'Pour valider l\'étape'}</h3>${critHtml(s.id, s.criteria, got)}
+      <button type="button" class="ghost restart" data-restart="${s.id}">Recommencer l'étape</button></div>`;
+}
+function critHtml(key, list, got){
+  return `<ul class="crit">${list.map((c,i)=>`<li><label><input type="checkbox" id="crit-${key}-${i}" data-key="${key}" data-i="${i}"${got[i]?' checked':''}><span>${c}</span></label></li>`).join('')}</ul>`;
+}
+function checkHtml(L, st){
+  const got = (st.checks||{}).checkpoint || [];
+  const done = L.checkpoint.criteria.every((_,i)=>got[i]);
+  return `
+    <div><p class="eyebrow">Fin de la leçon</p><h1 class="h-step">Checkpoint</h1></div>
+    <p class="lead">${L.checkpoint.intro}</p>
+    ${critHtml('checkpoint', L.checkpoint.criteria, got)}
+    <div class="badge${done?' on':''}" id="badge">${done?'Leçon validée. Bravo, tu skankes.':'Encore un peu de travail, et ce sera validé.'}</div>
+    <div class="actions"><a class="secondary" href="#jouer-${LS.song.id}">Passer en mode Jouer</a>
+      <button type="button" class="ghost" data-go="${LS.screens.length-2}">Refaire une séance</button></div>`;
+}
+
+/* Cases à cocher, navigation, recommencer */
+document.addEventListener('change', e=>{
+  const c = e.target.closest('#view-learn input[type=checkbox]'); if(!c || !LS) return;
+  const st = LS.st; st.checks = st.checks || {};
+  const arr = st.checks[c.dataset.key] = st.checks[c.dataset.key] || [];
+  arr[+c.dataset.i] = c.checked;
+  if(c.dataset.key==='checkpoint'){
+    const all = LS.L.checkpoint.criteria.every((_,i)=>arr[i]);
+    st.doneAt = all ? (st.doneAt || new Date().toISOString().slice(0,10)) : undefined;
+  }
+  saveLesson(LS.song.id, st);
+  refreshMarks();
+  if(c.dataset.key==='checkpoint' && st.doneAt && navigator.vibrate) navigator.vibrate([30,60,30]);
+});
+$('view-learn').addEventListener('click', e=>{
+  const g = e.target.closest('[data-go]'); if(g){ setScreen(+g.dataset.go); return; }
+  const r = e.target.closest('[data-restart]');
+  if(r){ LS.st.checks = LS.st.checks || {}; LS.st.checks[r.dataset.restart] = []; saveLesson(LS.song.id, LS.st); stopDrill(); drawLesson(); document.querySelector('main').scrollTop = 0; return; }
+  const ch = e.target.closest('button.chord'); if(ch){ openChord(LS.song, +ch.dataset.c); return; }
+  const dt = e.target.closest('.drill [data-bpm]');
+  if(dt){ const el = dt.closest('.drill'); el.querySelectorAll('[data-bpm]').forEach(b=>b.setAttribute('aria-pressed', String(b===dt)));
+    if(DR && DR.el===el) startDrill(el); return; }
+  const ds = e.target.closest('.drill .drill-go');
+  if(ds){ const el = ds.closest('.drill'); (DR && DR.el===el) ? stopDrill() : startDrill(el); return; }
+  const ss = e.target.closest('[data-session]'); if(ss){ sessionAction(ss.dataset.session); }
+});
+
+/* ---------- Exercice au métronome ---------- */
+const SYM = {D:'↓', U:'↑', X:'↑', C:'●', '':'·'};
+function drillHtml(d, key, opts={}){
+  const tempos = d.tempos || [d.tempo];
+  return `<div class="drill" id="drill-${key}" data-key="${key}" data-tempo="${d.tempo}">
+    ${opts.bare ? '' : `<div class="drill-head"><b>${d.label}</b><span class="tag ${d.source}">${d.source==='morceau'?'Grille du morceau, simplifiée':'Exercice'}</span></div>
+    <p class="note-small">${d.hint}</p>`}
+    <div class="drill-chord"${d.bars?'':' hidden'}><span class="dc-now">${d.bars?drillBars(d)[0][0]:''}</span><span class="dc-next"></span></div>
+    <div class="drill-row">${d.pattern.map((p,i)=>`<div class="cell${p==='X'?' x':''}" data-s="${i}"><span class="arr">${!p&&d.cut&&i%2===0?'<small>coupe</small>':SYM[p]}</span><span class="cnt">${COUNTS[i]}</span></div>`).join('')}</div>
+    <div class="drill-ctrl">${tempos.length>1?`<div class="seg tempo-seg">${tempos.map(t=>`<button type="button" data-bpm="${t}" aria-pressed="${t===d.tempo}"><b>${t}</b></button>`).join('')}</div>`:''}
+      <button type="button" class="drill-go">Démarrer</button></div>
+  </div>`;
+}
+const drillBars = d => d.bars==='song' ? LS.song.play.bars : d.bars;
+function findDrill(key){
+  if(key.startsWith('seance')) return LS.L.session.blocks[+key.split('-')[1]].drill;
+  const [, sid, i] = /^(.*)-(\d+)$/.exec(key);
+  return LS.L.steps.find(s=>s.id===sid).drills[+i];
+}
+let DR = null;
+function startDrill(el, bpmOverride){
+  stopDrill();
+  const d = findDrill(el.dataset.key);
+  const sel = el.querySelector('[data-bpm][aria-pressed="true"]');
+  const bpm = bpmOverride || (sel ? +sel.dataset.bpm : +el.dataset.tempo);
+  const ac = audio(), e8 = 60/bpm/2;
+  DR = {el, d, bars: d.bars ? drillBars(d) : null, e8, t0: ac.currentTime+0.15+8*e8, nextClick:-8, last:null};
+  el.classList.add('running');
+  el.querySelector('.drill-go').textContent = 'Arrêter';
+  try{ navigator.wakeLock.request('screen').then(w=>{ if(DR) DR.wake = w; else w.release(); }).catch(()=>{}); }catch(e){}
+  DR.raf = requestAnimationFrame(drillFrame);
+}
+function stopDrill(){
+  if(!DR) return;
+  cancelAnimationFrame(DR.raf);
+  if(DR.wake) DR.wake.release().catch(()=>{});
+  const el = DR.el; DR = null;
+  el.classList.remove('running');
+  el.querySelector('.drill-go').textContent = 'Démarrer';
+  el.querySelectorAll('.cell.on').forEach(c=>c.classList.remove('on'));
+  const d = findDrill(el.dataset.key);
+  if(d.bars){ el.querySelector('.dc-now').textContent = drillBars(d)[0][0]; el.querySelector('.dc-next').textContent = ''; }
+}
+function drillFrame(){
+  if(!DR || !DR.el.isConnected){ DR = null; return; }
+  const now = ctx.currentTime;
+  if(ctx.state!=='running') ctx.resume();
+  while(DR.t0+DR.nextClick*DR.e8 < now+0.15){
+    click(Math.max(now, DR.t0+DR.nextClick*DR.e8), ((DR.nextClick%8)+8)%8===0);
+    DR.nextClick += 2;
+  }
+  const lat = ctx.outputLatency || 0;
+  const n = Math.floor((now-lat-DR.t0)/DR.e8);
+  if(n!==DR.last){
+    DR.last = n;
+    const cells = DR.el.querySelectorAll('.cell');
+    cells.forEach(c=>c.classList.remove('on'));
+    const now$ = DR.el.querySelector('.dc-now'), next$ = DR.el.querySelector('.dc-next');
+    if(n<0){
+      if(DR.bars){ now$.textContent = String(Math.ceil(-n/2)); next$.textContent = 'puis '+DR.bars[0][0]; }
+    }else{
+      cells[n%8].classList.add('on');
+      if(DR.bars){
+        const L = DR.bars.length, bar = Math.floor(n/8)%L, beat = (n%8)>>1, cur = DR.bars[bar][beat];
+        let k = bar*4+beat+1, nx = cur;
+        for(let j=0;j<L*4 && nx===cur;j++,k++) nx = DR.bars[Math.floor(k/4)%L][k%4];
+        now$.textContent = cur; next$.textContent = nx!==cur ? 'puis '+nx : '';
+      }
+    }
+  }
+  DR.raf = requestAnimationFrame(drillFrame);
+}
+
+/* ---------- Séance guidée ---------- */
+let SS = null;
+function sessionHtml(L){
+  const S = L.session, total = S.blocks.reduce((a,b)=>a+b.min,0), palier = ladderTempo(L, LS.st);
+  return `
+    <div><p class="eyebrow">Entraînement · ${total} minutes</p><h1 class="h-step">${S.title}</h1></div>
+    <p class="lead">${S.intro}</p>
+    <ol class="blocks">${S.blocks.map((b,i)=>`<li data-b="${i}"><div class="bh"><b>${b.title}</b><span>${b.min} min${b.drill?` · ${b.drill.tempo==='palier'?palier:b.drill.tempo} bpm`:''}</span></div><p>${b.how}</p></li>`).join('')}</ol>
+    <div class="session-box" id="session-box">
+      <div class="sb-top"><span id="sb-title">Prêt ?</span><b id="sb-time">${String(total).padStart(2,'0')}:00</b></div>
+      <div id="sb-drill"></div>
+      <div class="actions"><button type="button" class="next-btn" data-session="start" id="sb-start">Lancer la séance</button>
+        <button type="button" class="ghost" data-session="skip" id="sb-skip" hidden>Bloc suivant</button></div>
+    </div>`;
+}
+function sessionAction(a){
+  if(a==='start'){ if(SS && SS.running) pauseSession(); else if(SS) resumeSession(); else beginBlock(0); }
+  else if(a==='skip' && SS) beginBlock(SS.i+1);
+}
+function beginBlock(i){
+  const blocks = LS.L.session.blocks;
+  stopDrill(); clearInterval(SS && SS.timer);
+  document.querySelectorAll('.blocks li').forEach((li,k)=>{ li.classList.toggle('cur', k===i); li.classList.toggle('past', k<i); });
+  if(i>=blocks.length){
+    SS = null; $('sb-title').textContent = 'Séance terminée. Beau travail.'; $('sb-time').textContent = '00:00';
+    $('sb-drill').innerHTML = ''; $('sb-start').textContent = 'Recommencer'; $('sb-skip').hidden = true;
+    chime(); return;
+  }
+  const b = blocks[i];
+  SS = {i, left: b.min*60, running: true};
+  $('sb-title').textContent = b.title; $('sb-skip').hidden = false; $('sb-start').textContent = 'Pause';
+  if(b.drill){
+    const d = Object.assign({}, b.drill, {tempo: b.drill.tempo==='palier' ? ladderTempo(LS.L, LS.st) : b.drill.tempo});
+    $('sb-drill').innerHTML = drillHtml(d, 'seance-'+i, {bare:true});
+    startDrill($('sb-drill').firstElementChild, d.tempo);
+  }else $('sb-drill').innerHTML = `<p class="sb-how">${b.how}</p>`;
+  if(i>0) chime();
+  tickSession(); SS.timer = setInterval(tickSession, 250); SS.last = performance.now();
+}
+function tickSession(){
+  if(!SS || !SS.running) return;
+  const now = performance.now(); SS.left -= (now-(SS.last||now))/1000; SS.last = now;
+  if(SS.left<=0){ beginBlock(SS.i+1); return; }
+  const s = Math.ceil(SS.left); $('sb-time').textContent = `${String(s/60|0).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+}
+function pauseSession(){ SS.running = false; stopDrill(); $('sb-start').textContent = 'Reprendre'; }
+function resumeSession(){
+  SS.running = true; SS.last = performance.now(); $('sb-start').textContent = 'Pause';
+  const el = $('sb-drill').querySelector('.drill'); if(el) startDrill(el);
+}
+function stopSession(){ if(SS){ clearInterval(SS.timer); SS = null; } }
+function chime(){
+  const ac = audio(), t = ac.currentTime+0.02;
+  [880, 1320].forEach((f,k)=>{ const o = ac.createOscillator(), g = ac.createGain();
+    o.frequency.value = f; g.gain.setValueAtTime(0.25, t+k*0.12); g.gain.exponentialRampToValueAtTime(0.001, t+k*0.12+0.35);
+    o.connect(g).connect(ac.destination); o.start(t+k*0.12); o.stop(t+k*0.12+0.4); });
+}
+
 /* ---------- Navigation ---------- */
 let page = location.hash.slice(1);
 function go(h){
@@ -1164,9 +1748,13 @@ function route(){
   const h = page;
   const song = h.startsWith('morceau-') ? SONGS.find(s=>s.id===h.slice(8)) : null;
   const jam = h.startsWith('jouer-') ? SONGS.find(s=>s.id===h.slice(6) && s.play) : null;
-  const view = jam ? 'play' : song ? 'song' : h==='morceaux' ? 'songs' : 'tuner';
+  const learn = h.startsWith('apprendre-') ? SONGS.find(s=>s.id===h.slice(10) && LESSONS[s.id]) : null;
+  const view = learn ? 'learn' : jam ? 'play' : song ? 'song' : h==='morceaux' ? 'songs' : 'tuner';
   $('view-play').hidden = view!=='play';
   if(jam) renderPlay(jam); else stopPlay();
+  $('view-learn').hidden = view!=='learn';
+  if(learn) renderLesson(learn); else { stopDrill(); stopSession(); }
+  if(view==='songs') renderSongs();
   $('view-tuner').hidden = view!=='tuner';
   $('view-songs').hidden = view!=='songs';
   $('view-song').hidden = view!=='song';
