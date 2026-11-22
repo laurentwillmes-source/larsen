@@ -335,6 +335,29 @@ button.chord::after{content:"+";position:absolute;top:2px;right:8px;font-size:18
 .synth .got li{display:flex;gap:8px;align-items:center}
 .synth .got li::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--ok);flex:none}
 .synth .todo li{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.hard-link{align-self:flex-start;font-size:13px;font-weight:600;color:var(--muted);text-decoration:underline;text-underline-offset:3px;padding:4px 0}
+.drill.helping{border-color:var(--accent)}
+.help{display:flex;flex-direction:column;gap:10px}
+.help-head{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.help-head b{font-family:var(--display);font-size:26px;font-weight:800;text-transform:uppercase;line-height:1}
+.help-intro{font-size:17px;line-height:1.4}
+.levels{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.levels button{width:36px;height:36px;border-radius:50%;border:2px solid var(--fg);font-family:var(--display);font-size:20px;font-weight:800;display:grid;place-items:center}
+.levels button[aria-selected="true"]{background:var(--btn);color:var(--btn-fg);border-color:var(--btn)}
+.levels button.ok{border-color:var(--ok);box-shadow:inset 0 -4px 0 var(--ok)}
+.levels span{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-left:4px}
+.hlevel{display:flex;flex-direction:column;gap:10px;border-top:2px solid var(--fg);padding-top:10px}
+.hlevel h4{margin:0;font-family:var(--display);font-size:24px;font-weight:800;text-transform:uppercase;line-height:1}
+.hlevel .drill{background:var(--bg);box-shadow:none}
+.minis{display:flex;gap:8px;flex-wrap:wrap}
+.minis div{display:flex;flex-direction:column;align-items:center;background:var(--bg);border-radius:6px;padding:4px 6px}
+.minis b{font-family:var(--display);font-size:20px;font-weight:800;line-height:1}
+.minis svg{width:64px;height:auto}
+.crit-inline{display:flex;gap:10px;align-items:center;font-weight:600;cursor:pointer}
+.crit-inline input{appearance:none;-webkit-appearance:none;width:22px;height:22px;margin:0;border:2px solid var(--fg);border-radius:50%;display:grid;place-items:center;flex:none}
+.crit-inline input:checked{background:var(--ok);border-color:var(--ok)}
+.crit-inline input:checked::after{content:"";width:8px;height:4px;border:solid var(--surface);border-width:0 0 2.5px 2.5px;transform:translateY(-1px) rotate(-45deg)}
+.help-actions{display:flex;justify-content:space-between;gap:8px;align-items:center}
 .btn-dark{background:var(--btn);color:var(--btn-fg)}
 .song .meta .lesson{color:var(--accent-text)}
 
@@ -588,6 +611,94 @@ const SONGS = [
      source  : 'exercice' (outil d'apprentissage) ou 'morceau' (grille du morceau, simplifiée) */
 const SKANK = ['','U','','U','','U','','U'];
 const BAR = c => [c,c,c,c];
+/* ---------- Aides « C'est trop difficile » ----------
+   Chaque exercice peut avoir une aide : `help` dans sa définition. Champs :
+     id              identifiant (la progression dans l'aide est gardée sous ce nom)
+     skill           la compétence travaillée
+     intro           ce que dit le prof en ouvrant l'aide
+     reason          pourquoi on simplifie (la difficulté identifiée)
+     levels          les niveaux, du plus simple au plus proche de l'exercice :
+                       { name, change (ce qui change par rapport au niveau précédent), drill, tip? }
+                       Un niveau n'ajoute qu'une seule chose à la fois, jamais tempo et complexité ensemble.
+     teacherTip      le conseil du prof
+     returnCondition quand revenir à l'exercice
+     returnTempo     le tempo sélectionné au retour dans l'exercice
+   Finir un niveau ne valide jamais l'exercice d'origine. */
+const Q4 = ['D','','D','','D','','D',''], E8 = ['D','D','D','D','D','D','D','D'], ACC13 = ['>','','','','>','','',''];
+const PROG_WDIG = [BAR('A5'),BAR('D5'),BAR('E5'),BAR('D5')];
+const PROG_TK = [BAR('G5'),BAR('A5'),BAR('D5'),BAR('G5')];
+const HELP = {
+  wdigChanges: {
+    id:'wdig-changes', skill:"Changer de power chord sans arrêter la main droite",
+    intro:"On va simplifier. Pas besoin de tout réussir en même temps !",
+    reason:"Cet exercice te demande trois choses d'un coup : trouver trois accords, tenir huit coups par mesure et suivre le tempo. On les sépare, puis on les remet une par une.",
+    levels:[
+      {name:"Deux accords", change:"Seulement La5 et Ré5, une attaque par accord, sans métronome. Tu prends le temps qu'il faut.",
+       drill:{manual:true, seq:['A5','D5','A5','D5','A5','D5','A5','D5'], hint:"Une attaque, puis « Suivant ». Les trois doigts bougent ensemble."}},
+      {name:"Le rythme", change:"Les mêmes deux accords, avec quatre coups vers le bas par mesure à 60 bpm.",
+       drill:{pattern:Q4, bars:[BAR('A5'),BAR('D5')], tempos:[50,60], tempo:60, hint:"Un coup par clic. Change pendant le 4."}},
+      {name:"Les quatre accords", change:"On ajoute Mi5 : la progression complète, toujours quatre coups à 60 bpm.",
+       drill:{pattern:Q4, bars:PROG_WDIG, tempos:[50,60], tempo:60, hint:"De Ré5 à Mi5, la forme glisse de deux cases sur les mêmes cordes."}},
+      {name:"Huit coups", change:"La progression avec huit coups par mesure, toujours à 60 bpm.",
+       drill:{pattern:E8, bars:PROG_WDIG, tempos:[50,60], tempo:60, hint:"Le dernier « et » peut sonner à vide pendant que tu changes."}},
+    ],
+    teacherTip:"Essaie de déplacer les trois doigts ensemble. Tu n'as pas besoin de reconstruire l'accord à chaque changement.",
+    returnCondition:"Quand le dernier niveau passe deux fois de suite sans que ta main droite s'arrête. L'exercice reprend alors à 80 bpm : seul le tempo change.",
+    returnTempo:80,
+  },
+  mmOffbeat: {
+    id:'mm-offbeat', skill:"Jouer sur les contretemps",
+    intro:"Le ska, c'est surtout une question de placement. On va oublier les accords pendant une minute.",
+    reason:"Si les « et » t'échappent, la main gauche n'y est pour rien : c'est le placement de la main droite. On l'isole d'abord, et l'accord revient ensuite.",
+    levels:[
+      {name:"Compter", change:"Guitare posée : le pied sur les clics, les mains frappent sur les « et », à 60 bpm.",
+       drill:{pattern:['','C','','C','','C','','C'], tempos:[50,60], tempo:60, hint:"Dis « 1 et 2 et 3 et 4 et » à voix haute, frappe seulement sur les « et »."}},
+      {name:"Cordes étouffées", change:"La même chose à la guitare : main gauche à plat sur les cordes, un coup vers le haut sur chaque « et ».",
+       drill:{pattern:['','X','','X','','X','','X'], tempos:[50,60], tempo:60, hint:"On veut un « tchk », pas une note."}},
+      {name:"Un accord", change:"On réintroduit Sol, toujours sur les « et », toujours à 60 bpm.",
+       drill:{pattern:SKANK, bars:[BAR('G')], tempos:[50,60], tempo:60, hint:"Petit coup vers le haut, seulement sur les trois cordes aiguës."}},
+    ],
+    teacherTip:"Pied en bas, c'est le chiffre. Pied en haut, c'est le « et » : tu joues quand ton pied remonte.",
+    returnCondition:"Quand tu tiens une minute sur Sol sans retomber sur les chiffres. L'exercice reprend à 60 bpm, comme ce dernier niveau.",
+    returnTempo:60,
+  },
+  ppStrum: {
+    id:'pp-strum', skill:"Le strumming bas-haut",
+    intro:"On garde Do du début à la fin et on construit le motif en deux temps. Le bras apprend le chemin, les cordes viendront.",
+    reason:"Le motif complet demande au bras de passer au-dessus des cordes sur le 3 sans s'arrêter. C'est ce « coup à vide » qui coince, alors on l'introduit en dernier.",
+    levels:[
+      {name:"Quatre coups", change:"Quatre coups vers le bas, un par temps. Le bras remonte entre deux coups sans toucher les cordes.",
+       drill:{pattern:Q4, bars:[BAR('C')], tempos:[50,60], tempo:60, hint:"Garde le balancier : le bras remonte même quand il ne joue pas."}},
+      {name:"Motif intermédiaire", change:"Bas, bas-haut, puis bas-haut : on ajoute deux coups vers le haut, sans le coup à vide du 3.",
+       drill:{pattern:['D','','D','U','','','D','U'], bars:[BAR('C')], tempos:[50,60], tempo:60, hint:"« Bas… bas-haut… … bas-haut »."}},
+    ],
+    teacherTip:"Le bras ne s'arrête jamais. Sur les points, il passe simplement au-dessus des cordes.",
+    returnCondition:"Quand le motif intermédiaire tient une minute sans que le bras s'arrête. Le motif complet reprend à 60 bpm, sur le même accord.",
+    returnTempo:60,
+  },
+};
+function tkChanges(withAccents){
+  return {
+    id: withAccents ? 'tk-changes-accents' : 'tk-changes', skill:"Changer de power chord sans arrêter la main droite",
+    intro:"On va simplifier. Ta main droite sait déjà faire son travail : c'est la gauche qui a besoin de temps pour trouver l'accord suivant. On lui laisse ce temps, puis on le reprend petit à petit.",
+    reason:"Cet exercice mélange trois accords, huit coups par mesure"+(withAccents?", des accents":"")+" et le tempo. On les ajoute un par un.",
+    levels:[
+      {name:"Une attaque", change:"Seulement Sol5 et La5, une attaque par accord, sans métronome.",
+       drill:{manual:true, seq:['G5','A5','G5','A5','G5','A5','G5','A5'], hint:"Une attaque, puis « Suivant ». La forme glisse de deux cases."}},
+      {name:"Quatre attaques", change:"Le même changement avec quatre coups vers le bas par mesure, à 60 bpm.",
+       drill:{pattern:Q4, bars:[BAR('G5'),BAR('A5')], tempos:[50,60], tempo:60, hint:"Un coup par clic, changement pendant le 4."}},
+      {name:"Ajouter Ré5", change:"La progression complète, toujours quatre coups à 60 bpm.",
+       drill:{pattern:Q4, bars:PROG_TK, tempos:[50,60], tempo:60, hint:"Vers Ré5, l'index passe de la corde 6 à la corde 5."}},
+      {name:"Huit attaques", change:"Huit coups par mesure, toujours à 60 bpm.",
+       drill:{pattern:E8, bars:PROG_TK, tempos:[50,60], tempo:60, hint:"Le dernier « et » peut sonner à vide pendant le changement."}},
+      ...(withAccents ? [{name:"Les accents", change:"On réintroduit les accents sur 1 et 3, toujours à 60 bpm.",
+       drill:{pattern:E8, marks:ACC13, bars:PROG_TK, tempos:[50,60], tempo:60, hint:"Plus fort sur les coups marqués >, sans accélérer."}}] : []),
+    ],
+    teacherTip:"Essaie de déplacer les trois doigts ensemble plutôt que de reconstruire l'accord à chaque fois.",
+    returnCondition:"Quand le dernier niveau passe deux fois de suite sans arrêt de la main droite. L'exercice reprend alors à 80 bpm : seul le tempo change.",
+    returnTempo:80,
+  };
+}
 const LESSONS = {
   'monkey-man': {
     title: "Le skank de Monkey Man",
@@ -669,7 +780,7 @@ const LESSONS = {
             "<b>Le test.</b> Garde l'accord et gratte les six cordes : seules les trois aiguës doivent sonner, les autres font « tchk ».",
           ]},
         ],
-        drills:[{label:"Sol en skank", source:'exercice', pattern:SKANK, bars:[BAR('G')], tempos:[60,70,80], tempo:60,
+        drills:[{label:"Sol en skank", help:HELP.mmOffbeat, source:'exercice', pattern:SKANK, bars:[BAR('G')], tempos:[60,70,80], tempo:60,
                  hint:"Sol posé, petit coup vers le haut sur chaque « et »."}],
         mistakes:[
           {e:"Les cordes graves résonnent.", fix:"Ton geste est trop ample. Fais comme si les cordes 4, 5 et 6 n'existaient pas, et vérifie que la pulpe du doigt sur la corde 3 touche bien la corde 4."},
@@ -880,7 +991,7 @@ const LESSONS = {
           {h:"La progression", p:"Une mesure par accord, huit coups vers le bas par mesure. Les changements tombent maintenant en rythme : c'est la seule nouveauté."},
           {h:"Monter par paliers", p:"80, puis 90, 100 et 110 bpm. Ne passe au palier suivant que lorsque le précédent est propre."},
         ],
-        drills:[{label:"La progression", source:'exercice', pattern:['D','D','D','D','D','D','D','D'], bars:[BAR('G5'),BAR('A5'),BAR('D5'),BAR('G5')], tempos:[80,90,100,110], tempo:80,
+        drills:[{label:"La progression", help:tkChanges(false), source:'exercice', pattern:['D','D','D','D','D','D','D','D'], bars:[BAR('G5'),BAR('A5'),BAR('D5'),BAR('G5')], tempos:[80,90,100,110], tempo:80,
                  hint:"Prépare l'accord suivant pendant le dernier « et » de la mesure."}],
         teacher:"Le dernier « et » de la mesure, tu as le droit de le sacrifier pour changer. Mieux vaut un coup à vide qu'un trou dans le rythme.",
         easier:"Reviens à l'étape 3 avec une attaque par accord, ou joue seulement quatre coups par mesure.",
@@ -903,7 +1014,7 @@ const LESSONS = {
            hint:"Tous les coups à la même force."},
           {label:"Accents sur 1 et 3", source:'exercice', pattern:['D','D','D','D','D','D','D','D'], marks:['>','','','','>','','',''], bars:[BAR('G5')], tempos:[70,80], tempo:80,
            hint:"Plus fort sur les coups marqués >."},
-          {label:"Sur la progression", source:'exercice', pattern:['D','D','D','D','D','D','D','D'], marks:['>','','','','>','','',''], bars:[BAR('G5'),BAR('A5'),BAR('D5'),BAR('G5')], tempos:[80,90,100], tempo:80,
+          {label:"Sur la progression", help:tkChanges(true), source:'exercice', pattern:['D','D','D','D','D','D','D','D'], marks:['>','','','','>','','',''], bars:[BAR('G5'),BAR('A5'),BAR('D5'),BAR('G5')], tempos:[80,90,100], tempo:80,
            hint:"Les accents restent sur 1 et 3, même pendant les changements."},
         ],
         teacher:"Le relief vient du contraste. Si tes coups faibles sont vraiment faibles, tes accents n'ont pas besoin d'être violents.",
@@ -1051,7 +1162,7 @@ const LESSONS = {
           {h:"Le balancier", p:"Le bras descend sur chaque chiffre et remonte sur chaque « et », tout le temps, comme s'il jouait huit coups. Sur les points, il passe simplement au-dessus des cordes. C'est ce mouvement continu qui garde le rythme."},
         ],
         drills:[
-          {label:"Le motif sur C", source:'exercice', pattern:['D','','D','U','','U','D','U'], bars:[BAR('C')], tempos:[50,60], tempo:60,
+          {label:"Le motif sur C", help:HELP.ppStrum, source:'exercice', pattern:['D','','D','U','','U','D','U'], bars:[BAR('C')], tempos:[50,60], tempo:60,
            hint:"Dis-le à voix haute : « bas… bas-haut… haut-bas-haut »."},
           {label:"Version plus facile", source:'exercice', pattern:['D','U','D','U','D','U','D','U'], bars:[BAR('C')], tempos:[50,60], tempo:50,
            hint:"Huit coups bas-haut réguliers. Quand c'est fluide, retire le coup du « et » du 1, puis celui du 3."},
@@ -1275,7 +1386,7 @@ const LESSONS = {
           {h:"Pourquoi couper la dernière attaque", p:"Le dernier « et » coupé te laisse le temps de changer d'accord sans trou dans le rythme. C'est un geste très utile, bien au-delà de ce morceau."},
         ],
         drills:[
-          {label:"1. Sans couper", pattern:['D','D','D','D','D','D','D','D'], bars:[BAR('A5'),BAR('D5'),BAR('E5'),BAR('D5')], tempos:[70,80], tempo:80,
+          {label:"1. Sans couper", help:HELP.wdigChanges, pattern:['D','D','D','D','D','D','D','D'], bars:[BAR('A5'),BAR('D5'),BAR('E5'),BAR('D5')], tempos:[70,80], tempo:80,
            hint:"Tous les accords sonnent."},
           {label:"2. Dernière attaque coupée", pattern:['D','D','D','D','D','D','D','D'], marks:['','','','','','','','chak'], bars:[BAR('A5'),BAR('D5'),BAR('E5'),BAR('D5')], tempos:[70,80], tempo:80,
            hint:"Coupe le dernier « et » et profites-en pour changer d'accord."},
@@ -2263,7 +2374,7 @@ function stepHtml(song, L, st, sc){
     ${(s.drills||[]).map((d,i)=>drillHtml(d, s.id+'-'+i)).join('')}
     ${s.action ? `<a class="secondary" href="#${s.action.href}-${song.id}">${s.action.label}</a>` : ''}
     ${s.teacher?`<div class="prof"><h3>Le conseil du prof</h3><p>${s.teacher}</p></div>`:''}
-    ${s.easier?`<button type="button" class="ghost too-hard" data-hard aria-expanded="false">C'est trop difficile</button>
+    ${s.easier && !(s.drills||[]).some(d=>d.help)?`<button type="button" class="ghost too-hard" data-hard aria-expanded="false">C'est trop difficile</button>
       <div class="easy" hidden><h3>Variante plus simple</h3><p>${s.easier}</p>${(s.easyDrills||[]).map((d,i)=>drillHtml(d, s.id+'-e'+i)).join('')}</div>`:''}
     <div class="lsec"><h3>Erreurs fréquentes</h3><dl class="mistakes">${s.mistakes.map(m=>`<div><dt>${m.e}</dt><dd>${m.fix}</dd></div>`).join('')}</dl></div>
     <div class="lsec"><h3>${s.tempoLadder?'Paliers atteints':'Pour valider l\'étape'}</h3>${critHtml(s.id, s.criteria, got)}
@@ -2287,7 +2398,7 @@ function checkHtml(L, st){
 
 /* Cases à cocher, navigation, recommencer */
 document.addEventListener('change', e=>{
-  const c = e.target.closest('#view-learn input[type=checkbox]'); if(!c || !LS) return;
+  const c = e.target.closest('#view-learn input[type=checkbox][data-key]'); if(!c || !LS) return;
   const st = LS.st; st.checks = st.checks || {};
   const arr = st.checks[c.dataset.key] = st.checks[c.dataset.key] || [];
   arr[+c.dataset.i] = c.checked;
@@ -2323,27 +2434,35 @@ $('view-learn').addEventListener('click', e=>{
 /* ---------- Exercice au métronome ---------- */
 const SYM = {D:'↓', U:'↑', X:'↑', C:'●', '':'·'};
 function drillHtml(d, key, opts={}){
-  if(d.manual) return manualHtml(d, key);
+  if(d.manual) return manualHtml(d, key, opts);
   const tempos = d.tempos || [d.tempo];
-  return `<div class="drill" id="drill-${key}" data-key="${key}" data-tempo="${d.tempo}">
-    ${opts.bare ? '' : `<div class="drill-head"><b>${d.label}</b><span class="tag ${d.source||'exercice'}">${d.source==='morceau'?'Grille du morceau, simplifiée':'Exercice'}</span></div>
+  return withHelp(d, key, opts, `<div class="drill${d.help&&!opts.inner?' has-help':''}" id="drill-${key}" data-key="${key}" data-tempo="${d.tempo}">
+    ${opts.inner ? `<p class="note-small">${d.hint||''}</p>` : opts.bare ? '' : `<div class="drill-head"><b>${d.label}</b><span class="tag ${d.source||'exercice'}">${d.source==='morceau'?'Grille du morceau, simplifiée':'Exercice'}</span></div>
     <p class="note-small">${d.hint}</p>`}
     <div class="drill-chord"${d.bars?'':' hidden'}><span class="dc-now">${d.bars?drillBars(d)[0][0]:''}</span><span class="dc-next"></span><span class="dc-note"></span></div>
     <div class="drill-row">${d.pattern.map((p,i)=>`<div class="cell${p==='X'?' x':''}" data-s="${i}">${d.marks?`<span class="mark${d.marks[i]==='>'?' acc':''}">${d.marks[i]||'&nbsp;'}</span>`:''}<span class="arr">${!p&&d.cut&&i%2===0?'<small>coupe</small>':SYM[p]}</span><span class="cnt">${COUNTS[i]}</span></div>`).join('')}</div>
     <div class="drill-ctrl">${tempos.length>1?`<div class="seg tempo-seg">${tempos.map(t=>`<button type="button" data-bpm="${t}" aria-pressed="${t===d.tempo}"><b>${t}</b></button>`).join('')}</div>`:''}
       <button type="button" class="drill-go">Démarrer</button></div>
-  </div>`;
+  </div>`);
+}
+/* Ajoute le bouton « C'est trop difficile » et la place de l'aide autour du contenu d'un exercice. */
+function withHelp(d, key, opts, html){
+  if(!d.help || opts.inner || opts.bare) return html;
+  const open = html.indexOf('>')+1, close = html.lastIndexOf('</div>');
+  return html.slice(0, open)+'<div class="drill-main">'+html.slice(open, close)+`</div>
+    <button type="button" class="hard-link" data-help>C'est trop difficile</button>
+    <div class="help" hidden></div>`+html.slice(close);
 }
 const drillBars = d => d.bars==='song' ? LS.song.play.bars : d.bars;
 /* Exercice pas à pas, sans métronome : un accord à la fois, on avance quand on est prêt. */
-function manualHtml(d, key){
-  return `<div class="drill manual" id="drill-${key}" data-key="${key}" data-i="0">
-    <div class="drill-head"><b>${d.label}</b><span class="tag exercice">Sans métronome</span></div>
+function manualHtml(d, key, opts={}){
+  return withHelp(d, key, opts, `<div class="drill manual${d.help&&!opts.inner?' has-help':''}" id="drill-${key}" data-key="${key}" data-i="0">
+    ${opts.inner ? '' : `<div class="drill-head"><b>${d.label}</b><span class="tag exercice">Sans métronome</span></div>`}
     <p class="note-small">${d.hint}</p>
     <div class="man">${manualView(d, 0)}</div>
     <div class="drill-ctrl"><button type="button" class="ghost" data-man="reset">Recommencer</button>
       <button type="button" class="drill-go" data-man="next">Suivant</button></div>
-  </div>`;
+  </div>`);
 }
 function manualView(d, i){
   const c = d.seq[i], nx = d.seq[i+1], ch = lessonChords().find(x=>x.name===c);
@@ -2361,6 +2480,7 @@ function manualStep(el, what){
   el.querySelector('[data-man="next"]').textContent = i===d.seq.length-1 ? 'Encore un tour' : 'Suivant';
 }
 function findDrill(key){
+  if(key.includes('~h')){ const [base, n] = key.split('~h'); return findDrill(base).help.levels[+n].drill; }
   if(key.startsWith('seance')) return LS.L.session.blocks[+key.split('-')[1]].drill;
   const [, sid, easy, i] = /^(.*)-(e?)(\d+)$/.exec(key);
   const step = LS.L.steps.find(s=>s.id===sid);
@@ -2481,6 +2601,78 @@ function chime(){
     o.frequency.value = f; g.gain.setValueAtTime(0.25, t+k*0.12); g.gain.exponentialRampToValueAtTime(0.001, t+k*0.12+0.35);
     o.connect(g).connect(ac.destination); o.start(t+k*0.12); o.stop(t+k*0.12+0.4); });
 }
+
+/* ---------- Aide « C'est trop difficile » dans un exercice ---------- */
+const LVL = 'ABCDEFGH';
+function helpState(h){
+  const st = LS.st; st.help = st.help || {};
+  return st.help[h.id] = st.help[h.id] || {level:0, ok:[]};
+}
+function openHelp(card){
+  stopDrill();
+  const h = findDrill(card.dataset.key).help;
+  card.classList.add('helping');
+  card.querySelector('.drill-main').hidden = true;
+  card.querySelector('[data-help]').hidden = true;
+  const box = card.querySelector('.help'); box.hidden = false;
+  drawHelp(card, helpState(h).level);
+  card.scrollIntoView({block:'start', behavior:'smooth'});
+}
+function closeHelp(card){
+  stopDrill();
+  const d = findDrill(card.dataset.key), h = d.help;
+  card.classList.remove('helping');
+  card.querySelector('.help').hidden = true; card.querySelector('.help').innerHTML = '';
+  card.querySelector('.drill-main').hidden = false;
+  card.querySelector('[data-help]').hidden = false;
+  const b = card.querySelector(`.drill-main [data-bpm="${h.returnTempo}"]`);       // le métronome reprend au tempo prévu
+  if(b) card.querySelectorAll('.drill-main [data-bpm]').forEach(x=>x.setAttribute('aria-pressed', String(x===b)));
+  card.scrollIntoView({block:'start', behavior:'smooth'});
+}
+function levelChords(d){
+  const names = d.seq ? d.seq : (d.bars||[]).flat();
+  return [...new Set(names)];
+}
+function drawHelp(card, i){
+  const h = findDrill(card.dataset.key).help, hs = helpState(h);
+  hs.level = i; saveLesson(LS.song.id, LS.st);
+  const l = h.levels[i], last = i===h.levels.length-1, key = card.dataset.key+'~h'+i;
+  const minis = l.drill.manual ? '' : `<div class="minis">${levelChords(l.drill).map(n=>{ const c = lessonChords().find(x=>x.name===n);
+    return c ? `<div><b>${n}</b>${chordSvg(c.frets)}</div>` : ''; }).join('')}</div>`;
+  card.querySelector('.help').innerHTML = `
+    <div class="help-head"><b>On simplifie</b><button type="button" class="ghost" data-help-back>Revenir à l'exercice</button></div>
+    <p class="help-intro">${h.intro}</p>
+    <p class="note-small"><b>Pourquoi :</b> ${h.reason}</p>
+    <div class="levels" role="tablist" aria-label="Niveaux">${h.levels.map((x,k)=>`<button type="button" role="tab" data-level="${k}" aria-selected="${k===i}" class="${hs.ok[k]?'ok':''}" aria-label="Niveau ${LVL[k]} : ${x.name}">${LVL[k]}</button>`).join('')}<span>puis l'exercice</span></div>
+    <div class="hlevel">
+      <h4>Niveau ${LVL[i]} · ${l.name}</h4>
+      <p><b>${i===0?'Le point de départ':'Ce qui change'} :</b> ${l.change}</p>
+      ${minis}
+      ${drillHtml(l.drill, key, {inner:true})}
+      ${l.tip?`<p class="note-small">${l.tip}</p>`:''}
+      <label class="crit-inline"><input type="checkbox" data-help-ok="${i}"${hs.ok[i]?' checked':''}><span>J'y arrive</span></label>
+      <div class="help-actions"><button type="button" class="ghost" data-help-retry>Réessayer</button>
+        ${last ? `<button type="button" class="next-btn" data-help-back>Revenir à l'exercice</button>` : `<button type="button" class="next-btn" data-level="${i+1}">Niveau ${LVL[i+1]} ›</button>`}</div>
+    </div>
+    <div class="prof"><h3>Le conseil du prof</h3><p>${h.teacherTip}</p></div>
+    <p class="note-small"><b>Quand revenir à l'exercice :</b> ${h.returnCondition}</p>`;
+}
+$('view-learn').addEventListener('click', e=>{
+  const card = e.target.closest('.drill.has-help'); if(!card) return;
+  if(e.target.closest('[data-help]')){ openHelp(card); return; }
+  if(e.target.closest('[data-help-back]')){ closeHelp(card); return; }
+  const lv = e.target.closest('[data-level]'); if(lv){ stopDrill(); drawHelp(card, +lv.dataset.level); return; }
+  if(e.target.closest('[data-help-retry]')){
+    const inner = card.querySelector('.help .drill');
+    if(inner.classList.contains('manual')) manualStep(inner, 'reset'); else startDrill(inner);
+  }
+});
+document.addEventListener('change', e=>{
+  const c = e.target.closest('#view-learn [data-help-ok]'); if(!c || !LS) return;
+  const card = c.closest('.drill.has-help'), h = findDrill(card.dataset.key).help, hs = helpState(h);
+  hs.ok[+c.dataset.helpOk] = c.checked; saveLesson(LS.song.id, LS.st);     // ne touche pas aux critères de l'étape
+  card.querySelector(`.levels [data-level="${c.dataset.helpOk}"]`).classList.toggle('ok', c.checked);
+});
 
 /* ---------- Navigation ---------- */
 let page = location.hash.slice(1);
