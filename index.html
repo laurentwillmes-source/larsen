@@ -220,6 +220,7 @@ button.chord::after{content:"+";position:absolute;top:2px;right:8px;font-size:18
 .r-T{background:var(--accent);color:var(--on-accent)}
 .r-3{background:var(--fg);color:var(--surface)}
 .r-5{background:var(--surface);color:var(--fg);box-shadow:0 0 0 2px var(--fg) inset}
+.r-7{background:var(--surface-2);color:var(--fg);box-shadow:0 0 0 2px var(--muted) inset;font-size:9px!important}
 .roles b{min-width:9ch}
 .roles span{color:var(--muted)}
 .alts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
@@ -310,6 +311,20 @@ button.chord::after{content:"+";position:absolute;top:2px;right:8px;font-size:18
 .sb-how{font-size:16px}
 .badge{border:2px dashed var(--line);border-radius:6px;padding:14px;font-family:var(--display);font-size:26px;font-weight:800;text-transform:uppercase;line-height:1.05;color:var(--muted);text-align:center}
 .badge.on{border-style:solid;border-color:var(--ok);color:var(--ok)}
+.prof{border-left:4px solid var(--accent);background:var(--surface);border-radius:0 6px 6px 0;padding:10px 12px;display:flex;flex-direction:column;gap:4px}
+.prof h3{font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--accent-text)}
+.prof-quote{margin:0;border-left:4px solid var(--accent);padding:4px 0 4px 14px;display:flex;flex-direction:column;gap:6px}
+.prof-quote p{font-size:19px;line-height:1.4}
+.prof-quote cite{font-style:normal;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--accent-text)}
+.cell .mark{font-size:9px;font-weight:700;letter-spacing:.02em;text-transform:uppercase;color:var(--muted);line-height:1;height:11px;overflow:hidden}
+.cell .mark.acc{font-size:15px;color:var(--accent-text);height:11px;line-height:.7}
+.cell.on .mark{color:var(--btn-fg)}
+.dc-note{margin-left:auto;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-text)}
+.man{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.man-txt{display:flex;flex-direction:column;gap:6px}
+.man-count{font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--muted);font-variant-numeric:tabular-nums}
+.man-svg svg{width:110px;height:auto;display:block}
+.drill.manual .drill-ctrl{justify-content:flex-end}
 .btn-dark{background:var(--btn);color:var(--btn-fg)}
 .song .meta .lesson{color:var(--accent-text)}
 
@@ -504,6 +519,52 @@ const SONGS = [
       "Test : garde l'accord et gratte les six cordes. Seules les trois aiguës doivent sonner, le reste fait « tchk ».",
     ],
   },
+  {
+    id:'teenage-kicks', title:'Teenage Kicks', artist:'The Undertones', year:1978,
+    tuning:'standard', level:'Débutant', feel:'Punk mélodique',
+    // progression d'entraînement de la leçon, pas la grille du disque
+    play:{bpm:110, tempos:[[60,'Très lent'],[80,'Lent'],[100,'Moyen'],[110,'Objectif']],
+          bars:['G5','A5','D5','G5'].map(c=>Array(4).fill(c))},
+    intro:"Du punk mélodique en power chords, joués tout en coups vers le bas. Ici, l'enjeu n'est pas la vitesse mais le relief : des accents, des sons longs et courts, des changements qui ne cassent pas le rythme.",
+    gridNote:"Progression d'entraînement de la leçon, pas la grille du disque.",
+    chords:[
+      {name:'G5', frets:[3,5,5,-1,-1,-1]},
+      {name:'A5', frets:[5,7,7,-1,-1,-1]},
+      {name:'D5', frets:[-1,5,7,7,-1,-1]},
+    ],
+    sections:[
+      {name:"Progression d'entraînement", note:'une mesure par accord', prog:['G5','A5','D5','G5']},
+    ],
+    strum:{label:'Huit coups vers le bas par mesure, poignet souple, paume près du chevalet.', pattern:['D','D','D','D','D','D','D','D']},
+    tips:[
+      "Les trois doigts bougent ensemble, comme un seul bloc : la forme ne change jamais, seule la case change.",
+      "Pour étouffer les cordes aiguës, couche légèrement l'index : sa pulpe les touche et les empêche de sonner. Sur Ré5, le bout de l'index touche aussi la corde 6.",
+      "Un accent, c'est un coup un peu plus fort, pas plus rapide.",
+    ],
+  },
+  {
+    id:'please-please-please', title:'Please, Please, Please, Let Me Get What I Want', artist:'The Smiths', year:1984,
+    tuning:'standard', level:'Débutant', feel:'Indie · jangle pop',
+    play:{bpm:80, tempos:[[50,'Très lent'],[60,'Lent'],[70,'Moyen'],[80,'Objectif']],
+          bars:['C','G','Am','Fmaj7'].map(c=>Array(4).fill(c))},
+    intro:"Quatre accords ouverts et un strumming souple, en balancier. Après les coups de boutoir du punk, on apprend à laisser respirer les accords.",
+    gridNote:"Progression d'entraînement de la leçon, pas la grille du disque. Fmaj7 remplace le Fa barré.",
+    chords:[
+      {name:'C', frets:[-1,3,2,0,1,0]},
+      {name:'G', frets:[3,2,0,0,0,3]},
+      {name:'Am', frets:[-1,0,2,2,1,0]},
+      {name:'Fmaj7', frets:[-1,-1,3,2,1,0]},
+    ],
+    sections:[
+      {name:"Progression d'entraînement", note:'une mesure par accord', prog:['C','G','Am','Fmaj7']},
+    ],
+    strum:{label:"Bas, bas-haut, haut-bas-haut. Le bras ne s'arrête jamais : sur les points, il passe sans toucher les cordes.", pattern:['D','','D','U','','U','D','U']},
+    tips:[
+      "L'index reste sur la case 1 de la corde de Si pour C, Am et Fmaj7 : c'est ton point d'appui.",
+      "Respecte les cordes à ne pas jouer : la 6 sur C et Am, la 6 et la 5 sur Fmaj7. Commence ton coup sur la bonne corde plutôt que de balayer tout le manche.",
+      "Jouer doux, c'est surtout toucher les cordes moins profondément, pas ralentir le bras.",
+    ],
+  },
 ];
 
 /* ---------- Leçons ----------
@@ -673,7 +734,7 @@ const LESSONS = {
           {e:"Les coups deviennent brouillons.", fix:"Tu es monté trop vite. Reste plusieurs jours au même palier s'il le faut."},
         ],
         criteria:["Palier 92", "Palier 108", "Palier 124", "Palier 140", "154, le tempo du disque"],
-        tempoLadder:[92,108,124,140,154],
+        tempoLadder:[92,108,124,140,154], ladderStart:77,
       },
       {
         id:'jouer', title:"Jouer pour de vrai", novelty:"jouer avec un retour",
@@ -714,6 +775,373 @@ const LESSONS = {
         "Mes coups tombent sur les « et », jamais sur les chiffres.",
         "Je change d'accord en regardant le moins possible ma main gauche.",
       ],
+    },
+  },
+  'teenage-kicks': {
+    title: "Le relief des power chords",
+    introStep: true,
+    teacherIntro: "Tu connais déjà les power chords des Ramones ? Parfait. Ici, on va utiliser la même technique, mais apprendre à donner davantage de relief au rythme. L'objectif n'est pas de jouer plus vite, mais de mieux contrôler tes attaques.",
+    goal: "Jouer des power chords avec du relief : des changements fluides, des accents, des sons longs et courts.",
+    difficulty: 2,
+    difficultyText: "Débutant. Trois accords, une seule forme à déplacer.",
+    skill: "Dynamique et fluidité des power chords : changer d'accord sans casser le rythme, accentuer certaines attaques sans accélérer, choisir la durée de chaque accord.",
+    duration: "Compte une à deux semaines à 15 minutes par jour.",
+    how: "Huit étapes après celle-ci, une seule nouveauté à chaque fois. Coche les critères quand tu y arrives : c'est toi le juge, l'app ne t'écoute pas pendant la leçon. Ta progression reste sur ce téléphone.",
+    sources: {
+      fromSong: [
+        "Le style : punk mélodique, power chords et coups vers le bas.",
+        "Rien d'autre ici n'est relevé sur l'enregistrement : ni la grille, ni le tempo du disque.",
+      ],
+      teaching: [
+        "Sol5, La5, Ré5 et la progression | Sol5 | La5 | Ré5 | Sol5 | sont des exercices d'entraînement, pas la grille de Teenage Kicks.",
+        "Les tempos de 80 à 110 bpm sont des paliers d'apprentissage.",
+      ],
+    },
+    steps: [
+      {
+        id:'accords', title:"Apprendre les accords", novelty:"la forme du power chord à trois doigts",
+        goal:"Poser Sol5, La5 et Ré5 proprement, sans rythme pour l'instant.",
+        chords:['G5','A5','D5'],
+        sections:[
+          {h:"Les positions", list:[
+            "<b>Sol5.</b> Mi grave case 3 avec l'index, La case 5 avec l'annulaire, Ré case 5 avec l'auriculaire.",
+            "<b>La5.</b> La même forme deux cases plus haut : Mi grave case 5, La case 7, Ré case 7.",
+            "<b>Ré5.</b> La forme descend d'une corde : La case 5 avec l'index, Ré case 7, Sol case 7.",
+          ]},
+          {h:"Les cordes qui ne jouent pas", p:"Couche légèrement l'index : sa pulpe touche les cordes aiguës et les empêche de sonner. Sur Ré5, le bout de l'index effleure aussi la corde 6."},
+        ],
+        drills:[{manual:true, label:"Quatre fois chaque accord", source:'exercice',
+                 seq:['G5','G5','G5','G5','A5','A5','A5','A5','D5','D5','D5','D5'],
+                 hint:"Une attaque lente, écoute les trois notes, puis touche « Suivant ». À ton rythme, sans métronome."}],
+        teacher:"Déplace les trois doigts ensemble, comme un seul bloc. La forme ne change jamais : seule la case change, ou la corde de départ pour Ré5.",
+        easier:"Joue seulement les deux notes graves, index et annulaire. C'est déjà un power chord, et tu ajouteras l'auriculaire ensuite.",
+        mistakes:[
+          {e:"Une note ne sonne pas.", fix:"Arrondis les doigts et appuie sur le bout, juste derrière la frette."},
+          {e:"Les cordes aiguës résonnent.", fix:"L'index est trop droit. Couche-le un peu pour qu'il les touche sans appuyer."},
+        ],
+        criteria:["Les trois notes de chaque accord sonnent, sans cordes parasites.", "Je pose chaque accord sans placer les doigts un par un."],
+      },
+      {
+        id:'changements', title:"Les changements", novelty:"passer d'un accord à l'autre",
+        goal:"Changer d'accord en déplaçant la forme d'un bloc. Toujours sans métronome.",
+        chords:['G5','A5','D5'],
+        sections:[
+          {h:"Le principe", p:"Une seule attaque par accord. Tu frappes, tu écoutes, tu changes, tu frappes à nouveau. Personne ne te presse : la vitesse viendra à l'étape suivante."},
+          {h:"Les trajets", p:"De Sol5 à La5, tout glisse de deux cases sur les mêmes cordes. Vers Ré5, la forme passe une corde plus bas : l'index quitte la corde 6 pour la corde 5."},
+        ],
+        drills:[
+          {manual:true, label:"Sol5 et La5", source:'exercice', seq:['G5','A5','G5','A5'],
+           hint:"Une attaque par accord, puis « Suivant »."},
+          {manual:true, label:"Ré5, Sol5, La5, Sol5", source:'exercice', seq:['D5','G5','A5','G5'],
+           hint:"Même chose avec le changement de corde."},
+        ],
+        teacher:"Garde un léger contact avec les cordes pendant le trajet, sans appuyer. Les doigts glissent au lieu de sauter, et la forme reste en place.",
+        easier:"Reste sur Sol5 et La5 jusqu'à ce que ça devienne automatique, puis ajoute Ré5.",
+        mistakes:[
+          {e:"Tu replaces chaque doigt un par un.", fix:"Pose les trois doigts en même temps, quitte à rater un peu au début. C'est ce réflexe qu'on construit."},
+          {e:"Tu te trompes de corde sur Ré5.", fix:"Repère la corde avec l'index d'abord : c'est lui qui guide la forme."},
+        ],
+        criteria:["Je change d'accord sans repositionner chaque doigt séparément."],
+      },
+      {
+        id:'croches', title:"Le strumming punk", novelty:"les croches vers le bas",
+        goal:"Tenir huit coups vers le bas par mesure, sur Sol5 seulement.",
+        sections:[
+          {h:"Le geste", p:"Huit croches, uniquement vers le bas : 1 et 2 et 3 et 4 et. Le geste vient du poignet, pas du bras, et reste petit. La tranche de la main peut frôler les cordes près du chevalet pour garder un son serré."},
+        ],
+        drills:[
+          {label:"Croches sur Sol5", source:'exercice', pattern:['D','D','D','D','D','D','D','D'], bars:[BAR('G5')], tempos:[70,80], tempo:80,
+           hint:"Un coup vers le bas sur chaque croche. Objectif : 30 secondes sans interruption."},
+          {label:"Version plus facile", source:'exercice', pattern:['D','','D','','D','','D',''], bars:[BAR('G5')], tempos:[70,80], tempo:70,
+           hint:"Seulement les chiffres, quatre coups par mesure. Ajoute les « et » quand c'est régulier."},
+        ],
+        teacher:"Petit geste, poignet souple. Les coups vers le bas fatiguent vite un bras crispé : si l'avant-bras chauffe, relâche l'épaule et joue moins fort.",
+        easier:"Commence par la version à quatre coups, à 70.",
+        mistakes:[
+          {e:"Tu accélères.", fix:"Écoute le clic plutôt que ta main. Les croches tombent pile entre deux clics et dessus."},
+          {e:"Le son devient brouillon.", fix:"Ton geste est trop grand. Vise seulement les trois cordes de l'accord."},
+        ],
+        criteria:["Je tiens 30 secondes à 80 bpm sans interruption."],
+      },
+      {
+        id:'progression', title:"Jouer une progression", novelty:"changer d'accord en rythme",
+        goal:"Enchaîner Sol5, La5, Ré5, Sol5 en croches, une mesure par accord.",
+        sections:[
+          {h:"La progression", p:"Une mesure par accord, huit coups vers le bas par mesure. Les changements tombent maintenant en rythme : c'est la seule nouveauté."},
+          {h:"Monter par paliers", p:"80, puis 90, 100 et 110 bpm. Ne passe au palier suivant que lorsque le précédent est propre."},
+        ],
+        drills:[{label:"La progression", source:'exercice', pattern:['D','D','D','D','D','D','D','D'], bars:[BAR('G5'),BAR('A5'),BAR('D5'),BAR('G5')], tempos:[80,90,100,110], tempo:80,
+                 hint:"Prépare l'accord suivant pendant le dernier « et » de la mesure."}],
+        teacher:"Le dernier « et » de la mesure, tu as le droit de le sacrifier pour changer. Mieux vaut un coup à vide qu'un trou dans le rythme.",
+        easier:"Reviens à l'étape 3 avec une attaque par accord, ou joue seulement quatre coups par mesure.",
+        mistakes:[
+          {e:"Tu t'arrêtes avant chaque changement.", fix:"Laisse la main droite continuer quoi qu'il arrive. La gauche apprendra à suivre."},
+          {e:"Tu montes trop vite.", fix:"Reste plusieurs jours sur un palier s'il le faut. Propre d'abord, rapide ensuite."},
+        ],
+        criteria:["Propre à 80 bpm", "à 90 bpm", "à 100 bpm", "à 110 bpm"],
+        tempoLadder:[80,90,100,110],
+      },
+      {
+        id:'accents', title:"Ajouter les accents", novelty:"les accents",
+        goal:"Jouer un peu plus fort sur les temps 1 et 3, sans accélérer.",
+        sections:[
+          {h:"Ce qu'est un accent", p:"Un accent, c'est un coup légèrement plus fort que les autres. Pas plus rapide, pas plus long : juste plus fort. Laisse tomber le poignet d'un peu plus haut sur le 1 et le 3."},
+          {h:"Comparer", p:"Joue une minute de mesures uniformes, puis une minute avec les accents. La différence doit s'entendre, le tempo ne doit pas bouger."},
+        ],
+        drills:[
+          {label:"Mesure uniforme", source:'exercice', pattern:['D','D','D','D','D','D','D','D'], bars:[BAR('G5')], tempos:[70,80], tempo:80,
+           hint:"Tous les coups à la même force."},
+          {label:"Accents sur 1 et 3", source:'exercice', pattern:['D','D','D','D','D','D','D','D'], marks:['>','','','','>','','',''], bars:[BAR('G5')], tempos:[70,80], tempo:80,
+           hint:"Plus fort sur les coups marqués >."},
+          {label:"Sur la progression", source:'exercice', pattern:['D','D','D','D','D','D','D','D'], marks:['>','','','','>','','',''], bars:[BAR('G5'),BAR('A5'),BAR('D5'),BAR('G5')], tempos:[80,90,100], tempo:80,
+           hint:"Les accents restent sur 1 et 3, même pendant les changements."},
+        ],
+        teacher:"Le relief vient du contraste. Si tes coups faibles sont vraiment faibles, tes accents n'ont pas besoin d'être violents.",
+        easier:"Accentue seulement le 1 de chaque mesure.",
+        mistakes:[
+          {e:"Tu accélères sur les accents.", fix:"Tu forces. Garde le même balancement et change seulement la hauteur d'où part le coup."},
+          {e:"Tout devient fort.", fix:"Joue les coups faibles plus doucement, au lieu de jouer les accents plus fort."},
+        ],
+        criteria:["On entend la différence entre la mesure uniforme et la mesure accentuée.", "Mes accents ne font pas accélérer le tempo."],
+      },
+      {
+        id:'couper', title:"Apprendre à couper le son", novelty:"la durée des accords",
+        goal:"Choisir si un accord sonne long ou court.",
+        sections:[
+          {h:"Le geste, sur Sol5", list:[
+            "Frappe l'accord.",
+            "Relâche légèrement la pression des doigts.",
+            "Garde les doigts au contact des cordes : le son s'arrête net.",
+            "Recommence.",
+          ]},
+          {h:"Long, court", p:"Alterne : une attaque que tu laisses sonner jusqu'au coup suivant, puis une attaque que tu coupes aussitôt."},
+        ],
+        drills:[{label:"Long, court", source:'exercice', pattern:['D','','D','','D','','D',''], marks:['long','','court','','long','','court',''], bars:[BAR('G5')], tempos:[60,70,80], tempo:60,
+                 hint:"Sur le 1 et le 3, laisse sonner. Sur le 2 et le 4, relâche juste après le coup."}],
+        teacher:"Les doigts ne quittent jamais les cordes : ils arrêtent seulement d'appuyer. S'ils décollent, tu entendras des notes parasites.",
+        easier:"Fais-le sans métronome : frappe, compte deux dans ta tête, relâche.",
+        mistakes:[
+          {e:"Le son ne coupe pas.", fix:"Tu relâches trop peu. Exagère au début, jusqu'à ce que la corde quitte presque la frette."},
+          {e:"Ça siffle quand tu coupes.", fix:"Un doigt décolle. Garde le contact, retire seulement la pression."},
+        ],
+        criteria:["J'alterne une attaque longue et une courte sans perdre la pulsation.", "Le son court s'arrête net, sans bruit parasite."],
+      },
+    ],
+    session: {
+      title:"Séance guidée",
+      intro:"Dix minutes, cinq blocs de deux minutes. Ils s'enchaînent seuls ; tu peux recommencer un bloc ou le marquer terminé à tout moment.",
+      blocks:[
+        {min:2, title:"Sol5 et La5", how:"Un coup par temps, changement à chaque mesure.",
+         drill:{pattern:['D','','D','','D','','D',''], bars:[BAR('G5'),BAR('A5')], tempo:80}},
+        {min:2, title:"Ré5 et Sol5", how:"Pareil, avec le changement de corde.",
+         drill:{pattern:['D','','D','','D','','D',''], bars:[BAR('D5'),BAR('G5')], tempo:80}},
+        {min:2, title:"Croches", how:"Huit coups vers le bas par mesure, sur Sol5.",
+         drill:{pattern:['D','D','D','D','D','D','D','D'], bars:[BAR('G5')], tempo:80}},
+        {min:2, title:"La progression", how:"Sol5, La5, Ré5, Sol5, à ton palier du jour.",
+         drill:{pattern:['D','D','D','D','D','D','D','D'], bars:'song', tempo:'palier'}},
+        {min:2, title:"Avec les accents", how:"La même progression, accents sur 1 et 3.",
+         drill:{pattern:['D','D','D','D','D','D','D','D'], marks:['>','','','','>','','',''], bars:'song', tempo:'palier'}},
+      ],
+    },
+    checkpoint: {
+      title:"Validation",
+      intro:"Coche seulement ce que tu fais vraiment sans y penser. Ce qui reste à cocher te dit quelle étape revoir.",
+      criteria:[
+        "Je joue trois power chords proprement.",
+        "Je change d'accord sans interrompre le rythme.",
+        "Je tiens une minute de croches à 100 bpm.",
+        "J'accentue certaines attaques sans accélérer.",
+      ],
+      doneText:"Leçon validée. Passe en mode Jouer pour tout mettre bout à bout.",
+    },
+  },
+  'please-please-please': {
+    title: "Accords ouverts et strumming souple",
+    introStep: true,
+    teacherIntro: "Avec les Ramones, tu apprenais à jouer comme une machine. Avec les Smiths, tu vas apprendre à être plus léger. La main droite devient un balancier et les accords doivent respirer.",
+    goal: "Comprendre la différence entre les coups vers le bas du punk et un accompagnement indie, souple et nuancé.",
+    difficulty: 2,
+    difficultyText: "Débutant, en accompagnement simplifié. Quatre accords ouverts.",
+    skill: "Les accords ouverts et un strumming en balancier, avec des graves, des aigus et des nuances.",
+    duration: "Compte deux semaines à 15 minutes par jour : les accords ouverts demandent un peu de patience aux doigts.",
+    how: "Neuf étapes après celle-ci, une seule nouveauté à chaque fois. Coche les critères quand tu y arrives : c'est toi le juge, l'app ne t'écoute pas pendant la leçon. Ta progression reste sur ce téléphone.",
+    sources: {
+      fromSong: [
+        "Le style : indie et jangle pop, un accompagnement léger qui laisse sonner les accords.",
+        "Rien d'autre ici n'est relevé sur l'enregistrement : ni la grille, ni la tonalité, ni le tempo du disque.",
+      ],
+      teaching: [
+        "C, G, Am, Fmaj7 et la progression | C | G | Am | Fmaj7 | sont une version pédagogique simplifiée.",
+        "Fmaj7 remplace le Fa barré pour faciliter l'apprentissage.",
+        "Le motif de strumming est un motif d'entraînement courant, pas un relevé du disque.",
+      ],
+    },
+    steps: [
+      {
+        id:'accords', title:"Quatre accords ouverts", novelty:"les accords ouverts",
+        goal:"Former C, G, Am et Fmaj7, en sachant quelles cordes ne pas jouer.",
+        chords:['C','G','Am','Fmaj7'],
+        sections:[
+          {h:"Les positions", list:[
+            "<b>C.</b> Index sur Si case 1, majeur sur Ré case 2, annulaire sur La case 3. On ne joue pas la corde 6.",
+            "<b>G.</b> Index sur La case 2, majeur sur Mi grave case 3, annulaire sur Mi aigu case 3. Les six cordes sonnent.",
+            "<b>Am.</b> Index sur Si case 1, majeur sur Ré case 2, annulaire sur Sol case 2. On ne joue pas la corde 6.",
+            "<b>Fmaj7.</b> Index sur Si case 1, majeur sur Sol case 2, annulaire sur Ré case 3. On ne joue pas les cordes 6 et 5.",
+          ]},
+          {h:"Pourquoi Fmaj7", p:"Le vrai Fa demande un barré, difficile au début. Fmaj7 se joue sans barré et garde une couleur proche, un peu rêveuse."},
+        ],
+        drills:[{manual:true, label:"Pose-lève", source:'exercice', seq:['C','C','G','G','Am','Am','Fmaj7','Fmaj7'],
+                 hint:"Pose l'accord, gratte les cordes une par une, lève la main, recommence. Touche « Suivant » à chaque fois."}],
+        teacher:"L'index reste sur la case 1 de la corde de Si pour C, Am et Fmaj7. Garde-le comme point d'appui : les autres doigts tournent autour.",
+        easier:"Commence par C et Am, qui ne diffèrent que d'un doigt : l'annulaire passe de la corde 5 à la corde 3.",
+        mistakes:[
+          {e:"Une corde frise.", fix:"Appuie sur le bout des doigts, bien arrondis, juste derrière la frette."},
+          {e:"Une corde à vide est étouffée.", fix:"Un doigt la touche par en dessous. Cambre davantage le poignet pour que les doigts arrivent à la verticale."},
+          {e:"Tu grattes la corde 6 sur C.", fix:"Regarde le × du schéma et commence ton coup sur la corde 5."},
+        ],
+        criteria:["Chaque corde jouée sonne clairement, sans frisement.", "Je sais quelles cordes ne pas jouer pour chaque accord."],
+      },
+      {
+        id:'changer', title:"Changer les accords", novelty:"les enchaînements",
+        goal:"Trouver les positions de C, G, Am, Fmaj7 sans précipitation.",
+        chords:['C','G','Am','Fmaj7'],
+        sections:[
+          {h:"Une attaque par accord", p:"Frappe l'accord une fois, écoute, change, recommence. Aucun métronome : l'objectif est de trouver chaque position calmement, pas vite."},
+        ],
+        drills:[{manual:true, label:"C, G, Am, Fmaj7", source:'exercice', seq:['C','G','Am','Fmaj7','C','G','Am','Fmaj7'],
+                 hint:"Une attaque, puis « Suivant ». Deux tours."}],
+        teacher:"Avant de bouger, regarde où va chaque doigt. De Am à Fmaj7, l'index reste, le majeur et l'annulaire échangent presque leurs places.",
+        easier:"Fais seulement C, Am, C, Am, puis ajoute G, puis Fmaj7.",
+        mistakes:[
+          {e:"G est toujours en retard.", fix:"C'est le seul accord où l'index quitte la corde de Si. Pose d'abord le majeur sur la corde 6, les autres suivent."},
+          {e:"Tu lèves tous les doigts entre deux accords.", fix:"Garde l'index posé dès que l'accord suivant le permet."},
+        ],
+        criteria:["Je fais le tour C, G, Am, Fmaj7 sans précipitation, chaque accord propre."],
+      },
+      {
+        id:'quatre-coups', title:"Premier strumming", novelty:"la pulsation",
+        goal:"Quatre coups vers le bas par mesure, en changeant d'accord sans perdre la pulsation.",
+        sections:[
+          {h:"Le geste", p:"Un coup vers le bas sur chaque chiffre : 1, 2, 3, 4. Un accord par mesure. Lâche l'accord juste après le coup du 4 et vise le suivant pour le 1."},
+        ],
+        drills:[{label:"Quatre coups par accord", source:'exercice', pattern:['D','','D','','D','','D',''], bars:[BAR('C'),BAR('G'),BAR('Am'),BAR('Fmaj7')], tempos:[50,60], tempo:60,
+                 hint:"Un coup par clic. L'accord suivant s'affiche à côté du nom."}],
+        teacher:"Si un accord n'est pas prêt, joue quand même, même faux. La pulsation d'abord : les doigts rattraperont.",
+        easier:"Deux coups par mesure, sur le 1 et le 3, à 50.",
+        mistakes:[
+          {e:"Tu t'arrêtes pour changer.", fix:"Commence à changer pendant le 4, et accepte que le 4 sonne un peu à vide au début."},
+        ],
+        criteria:["Je change d'accord sans perdre la pulsation à 60 bpm."],
+      },
+      {
+        id:'balancier', title:"Le mouvement de balancier", novelty:"le motif bas-haut",
+        goal:"Jouer le motif bas, bas-haut, haut-bas-haut sur C.",
+        sections:[
+          {h:"Le motif", p:"1 et 2 et 3 et 4 et : bas, rien, bas, haut, rien, haut, bas, haut. Sur les points, le médiator ne touche pas les cordes."},
+          {h:"Le balancier", p:"Le bras descend sur chaque chiffre et remonte sur chaque « et », tout le temps, comme s'il jouait huit coups. Sur les points, il passe simplement au-dessus des cordes. C'est ce mouvement continu qui garde le rythme."},
+        ],
+        drills:[
+          {label:"Le motif sur C", source:'exercice', pattern:['D','','D','U','','U','D','U'], bars:[BAR('C')], tempos:[50,60], tempo:60,
+           hint:"Dis-le à voix haute : « bas… bas-haut… haut-bas-haut »."},
+          {label:"Version plus facile", source:'exercice', pattern:['D','U','D','U','D','U','D','U'], bars:[BAR('C')], tempos:[50,60], tempo:50,
+           hint:"Huit coups bas-haut réguliers. Quand c'est fluide, retire le coup du « et » du 1, puis celui du 3."},
+        ],
+        teacher:"Le bras ne s'arrête jamais. Si tu sens qu'il hésite sur les points, c'est qu'il essaie de s'arrêter : laisse-le passer au-dessus des cordes.",
+        easier:"Commence par la version à huit coups bas-haut, puis retire les coups un par un.",
+        mistakes:[
+          {e:"Tu joues un coup sur le 3.", fix:"Ton bras descend bien sur le 3, mais au-dessus des cordes. Éloigne un peu la main à ce moment-là."},
+          {e:"Le motif se décale.", fix:"Repars de la version à huit coups, puis retire les coups lentement."},
+        ],
+        criteria:["Mon bras ne s'arrête jamais, même sur les coups à vide.", "Je joue le motif sur C pendant une minute à 60 bpm."],
+      },
+      {
+        id:'graves-aigus', title:"Jouer les graves et les aigus", novelty:"viser les cordes",
+        goal:"Donner du relief en ne frappant pas toujours toutes les cordes.",
+        sections:[
+          {h:"Sur C", list:[
+            "<b>Premier coup :</b> vise plutôt les cordes graves autorisées, la 5 et la 4. Jamais la 6.",
+            "<b>Coups suivants :</b> privilégie les cordes aiguës, la 3, la 2 et la 1.",
+          ]},
+          {h:"Pourquoi", p:"La basse sur le premier coup pose l'accord, les aigus font respirer le reste. Frapper toutes les cordes à chaque fois rend l'accompagnement plat."},
+        ],
+        drills:[{label:"Graves puis aigus, sur C", source:'exercice', pattern:['D','','D','U','','U','D','U'], marks:['grave','','aigu','aigu','','aigu','aigu','aigu'], bars:[BAR('C')], tempos:[50,60], tempo:60,
+                 hint:"Le premier coup sur les graves, les autres sur les aigus."}],
+        teacher:"Sur C, la basse est la corde 5. Commence ton premier coup sur elle, comme si tu pinçais une note avant de laisser filer le médiator.",
+        easier:"Sans motif : quatre coups vers le bas, le premier sur les graves, les trois autres sur les aigus.",
+        mistakes:[
+          {e:"Tu touches la corde 6.", fix:"Pose le médiator sur la corde 5 avant de jouer, pour sentir où elle est."},
+          {e:"Graves et aigus sonnent pareil.", fix:"Exagère : le premier coup ne touche que deux cordes graves, les autres seulement deux cordes aiguës."},
+        ],
+        criteria:["Je distingue à l'oreille l'attaque grave des attaques aiguës.", "Je ne touche pas les cordes à ne pas jouer."],
+      },
+      {
+        id:'enchainer', title:"Enchaîner avec le nouveau strumming", novelty:"le motif sur la progression",
+        goal:"Jouer C, G, Am, Fmaj7 avec le motif bas-haut, une mesure par accord.",
+        sections:[
+          {h:"Par paliers", p:"60, puis 70, puis 80 bpm. Ne monte que quand le palier précédent est propre."},
+        ],
+        drills:[
+          {label:"La progression avec le motif", source:'exercice', pattern:['D','','D','U','','U','D','U'], bars:[BAR('C'),BAR('G'),BAR('Am'),BAR('Fmaj7')], tempos:[60,70,80], tempo:60,
+           hint:"Le dernier « haut » de la mesure peut se jouer à vide pendant que tu changes."},
+          {label:"Version plus facile", source:'exercice', pattern:['D','','D','','D','','D',''], bars:[BAR('C'),BAR('G'),BAR('Am'),BAR('Fmaj7')], tempos:[50,60,70], tempo:60,
+           hint:"Quatre coups vers le bas, comme à l'étape 4."},
+        ],
+        teacher:"Si les changements deviennent difficiles, reviens à quatre coups vers le bas. Ce n'est pas un retour en arrière, c'est la bonne méthode.",
+        easier:"La version à quatre coups vers le bas, puis le motif seulement sur C et Am.",
+        mistakes:[
+          {e:"Le motif se casse au changement.", fix:"Le dernier « haut » est souvent à vide : profites-en pour bouger la main gauche."},
+        ],
+        criteria:["Propre à 60 bpm", "à 70 bpm", "à 80 bpm"],
+        tempoLadder:[60,70,80],
+      },
+      {
+        id:'nuances', title:"Ajouter les nuances", novelty:"l'intensité",
+        goal:"Obtenir un accompagnement souple et expressif.",
+        sections:[
+          {h:"Deux passages", p:"Joue la progression deux fois : la première doucement, la deuxième un peu plus fort. Le tempo ne bouge pas."},
+          {h:"Dans la mesure", p:"Ensuite, essaie de faire varier l'intensité à l'intérieur d'une même mesure : doux au début, plus présent sur la fin."},
+        ],
+        drills:[
+          {label:"Doux, puis plus fort", source:'exercice', pattern:['D','','D','U','','U','D','U'], bars:[BAR('C'),BAR('G'),BAR('Am'),BAR('Fmaj7'),BAR('C'),BAR('G'),BAR('Am'),BAR('Fmaj7')],
+           barNotes:['Doux','Doux','Doux','Doux','Plus fort','Plus fort','Plus fort','Plus fort'], tempos:[60,70], tempo:60,
+           hint:"La consigne s'affiche à côté de l'accord."},
+          {label:"Dans la mesure", source:'exercice', pattern:['D','','D','U','','U','D','U'], marks:['doux','','doux','doux','','fort','fort','fort'], bars:[BAR('C'),BAR('G'),BAR('Am'),BAR('Fmaj7')], tempos:[60,70], tempo:60,
+           hint:"Doux sur la première moitié, plus présent sur la seconde."},
+        ],
+        teacher:"Jouer doux, c'est surtout toucher les cordes moins profondément, pas ralentir le bras. Le balancier garde la même vitesse.",
+        easier:"Varie seulement d'un passage à l'autre, pas dans la mesure.",
+        mistakes:[
+          {e:"Tu ralentis en jouant doux.", fix:"Garde l'amplitude du balancier, éloigne seulement un peu le médiator des cordes."},
+          {e:"Tu accélères en jouant fort.", fix:"Le clic décide du tempo, pas l'énergie. Écoute-le davantage sur le passage fort."},
+        ],
+        criteria:["Le deuxième passage sonne plus fort que le premier, au même tempo.", "Je fais varier l'intensité dans une mesure."],
+      },
+    ],
+    session: {
+      title:"Séance guidée",
+      intro:"Dix minutes en quatre blocs. Ils s'enchaînent seuls ; tu peux recommencer un bloc ou le marquer terminé à tout moment.",
+      blocks:[
+        {min:2, title:"Changements", how:"C, G, Am, Fmaj7, un coup par mesure.",
+         drill:{pattern:['D','','','','','','',''], bars:'song', tempo:60}},
+        {min:2, title:"Quatre coups vers le bas", how:"Un coup par temps, un accord par mesure.",
+         drill:{pattern:['D','','D','','D','','D',''], bars:'song', tempo:60}},
+        {min:3, title:"Le motif sur C", how:"Bas, bas-haut, haut-bas-haut.",
+         drill:{pattern:['D','','D','U','','U','D','U'], bars:[BAR('C')], tempo:60}},
+        {min:3, title:"La progression complète", how:"Le motif sur les quatre accords, à ton palier du jour.",
+         drill:{pattern:['D','','D','U','','U','D','U'], bars:'song', tempo:'palier'}},
+      ],
+    },
+    checkpoint: {
+      title:"Validation",
+      intro:"Coche seulement ce que tu fais vraiment sans y penser. Ce qui reste à cocher te dit quelle étape revoir.",
+      criteria:[
+        "Je forme les quatre accords.",
+        "Je change d'accord sans perdre la pulsation.",
+        "Je joue le motif bas-haut à 70 bpm.",
+        "Je distingue les attaques graves et aiguës.",
+        "Je fais varier légèrement l'intensité.",
+      ],
+      doneText:"Leçon validée. Passe en mode Jouer pour tout mettre bout à bout.",
     },
   },
 };
@@ -1088,7 +1516,7 @@ function renderSong(s){
       <div class="strum">${s.strum.pattern.map((p,i)=>`<div><span class="arr">${p==='D'?'↓':p==='U'?'↑':'·'}</span><span class="cnt">${counts[i]}</span></div>`).join('')}</div>
       <p>${s.strum.label}</p></div>
     <div class="block"><h3>Conseils</h3><ul class="tips">${s.tips.map(x=>`<li>${x}</li>`).join('')}</ul></div>
-    <p class="note-small">Grille simplifiée pour débuter. Joue par-dessus le disque pour caler les changements à l'oreille.</p>`;
+    <p class="note-small">${s.gridNote || "Grille simplifiée pour débuter. Joue par-dessus le disque pour caler les changements à l'oreille."}</p>`;
   $('view-song').querySelectorAll('button.chord').forEach(b=>b.addEventListener('click', ()=>openChord(s, +b.dataset.c)));
   $('tune-for').addEventListener('click', ()=>{ setTuning(s.tuning); go('accordeur'); });
 }
@@ -1096,23 +1524,27 @@ function renderSong(s){
 /* ---------- Zoom sur un accord : construction et autres positions ---------- */
 const PC_SHARP = ['Do','Do♯','Ré','Ré♯','Mi','Fa','Fa♯','Sol','Sol♯','La','La♯','Si'];
 const PC_FLAT  = ['Do','Ré♭','Ré','Mi♭','Mi','Fa','Sol♭','Sol','La♭','La','Si♭','Si'];
-const ROLES = {0:{k:'T',t:'T',name:'Tonique'}, 3:{k:'3',t:'3m',name:'Tierce mineure'}, 4:{k:'3',t:'3',name:'Tierce majeure'}, 7:{k:'5',t:'5',name:'Quinte'}};
+const ROLES = {11:{k:'7',t:'7M',name:'Septième majeure'}, 0:{k:'T',t:'T',name:'Tonique'}, 3:{k:'3',t:'3m',name:'Tierce mineure'}, 4:{k:'3',t:'3',name:'Tierce majeure'}, 7:{k:'5',t:'5',name:'Quinte'}};
 const OPEN_SHAPES = {C:[-1,3,2,0,1,0], G:[3,2,0,0,0,3], D:[-1,-1,0,2,3,2], A:[-1,0,2,2,2,0], E:[0,2,2,1,0,0],
-                     Am:[-1,0,2,2,1,0], Em:[0,2,2,0,0,0], Dm:[-1,-1,0,2,3,1]};
+                     Am:[-1,0,2,2,1,0], Em:[0,2,2,0,0,0], Dm:[-1,-1,0,2,3,1], Fmaj7:[-1,-1,3,2,1,0], Cmaj7:[-1,3,2,0,0,0]};
 function parseChord(name){
-  const m = /^([A-G])([♭♯]?)(m|5)?$/.exec(name);
+  const m = /^([A-G])([♭♯]?)(maj7|m|5)?$/.exec(name);
   const root = (SEMI[m[1]] + (m[2]==='♯' ? 1 : m[2]==='♭' ? -1 : 0) + 12) % 12, q = m[3] || '';
   const names = (m[2]==='♭' || m[1]==='F' || (q==='m' && 'DGC'.includes(m[1]))) ? PC_FLAT : PC_SHARP;
-  return {root, q, names, key:m[1]+m[2]+(q==='m'?'m':''),
-          full: names[root] + (q==='m' ? ' mineur' : q==='5' ? ', accord de puissance' : ' majeur'),
-          tones: q==='5' ? [0,7] : q==='m' ? [0,3,7] : [0,4,7]};
+  return {root, q, names, key:m[1]+m[2]+(q==='m'||q==='maj7'?q:''),
+          full: names[root] + (q==='m' ? ' mineur' : q==='5' ? ', accord de puissance' : q==='maj7' ? ' septième majeure' : ' majeur'),
+          tones: q==='5' ? [0,7] : q==='m' ? [0,3,7] : q==='maj7' ? [0,4,7,11] : [0,4,7]};
 }
 const roleOf = (ch, s, f) => ROLES[(OPEN[s]+f-ch.root+120)%12];
 
 /* Toutes les façons courantes de jouer l'accord, de la plus grave à la plus aiguë. */
 function shapesFor(ch){
   const e = (ch.root-4+12)%12, a = (ch.root-9+12)%12, d = (ch.root-2+12)%12, out = [];
-  if(ch.q==='5'){
+  if(ch.q==='maj7'){
+    if(OPEN_SHAPES[ch.key]) out.push({label:'Accord ouvert', frets:OPEN_SHAPES[ch.key]});
+    out.push({label:'Tonique corde 6, sans barré', frets:[e,-1,e+1,e+1,e,-1]});
+    out.push({label:'Tonique corde 5', frets:[-1,a,a+2,a+1,a+2,a]});
+  }else if(ch.q==='5'){
     out.push({label:'Tonique corde 6, deux doigts', frets:[e,e+2,-1,-1,-1,-1]});
     out.push({label:'Tonique corde 6, avec l\'octave', frets:[e,e+2,e+2,-1,-1,-1]});
     out.push({label:'Tonique corde 5, deux doigts', frets:[-1,a,a+2,-1,-1,-1]});
@@ -1138,7 +1570,7 @@ function shapesFor(ch){
 function chordBig(fr, ch, labels){
   const pos = fr.filter(f=>f>0), max = Math.max(0,...pos), base = max<=5 ? 1 : Math.min(...pos);
   const X = i=>42+i*28, Y0 = 40, RH = 36, F = 'font-family="var(--font)" font-weight="700" text-anchor="middle"';
-  const col = r => r.k==='T' ? ['var(--accent)','var(--accent)','var(--on-accent)'] : r.k==='3' ? ['var(--fg)','var(--fg)','var(--surface)'] : ['var(--surface)','var(--fg)','var(--fg)'];
+  const col = r => r.k==='T' ? ['var(--accent)','var(--accent)','var(--on-accent)'] : r.k==='3' ? ['var(--fg)','var(--fg)','var(--surface)'] : r.k==='7' ? ['var(--surface-2)','var(--muted)','var(--fg)'] : ['var(--surface)','var(--fg)','var(--fg)'];
   const fg = fingering(fr), ROW = Y0+5*RH+19;
   let s = `<svg viewBox="0 0 200 ${labels?250:230}" aria-hidden="true">`;
   for(let k=0;k<=5;k++) s += `<line x1="${X(0)}" y1="${Y0+k*RH}" x2="${X(5)}" y2="${Y0+k*RH}" stroke="${k===0&&base===1?'var(--fg)':'var(--line)'}" stroke-width="${k===0&&base===1?6:2}"/>`;
@@ -1170,7 +1602,9 @@ function openChord(song, idx){
 }
 function renderChordSheet(){
   const {name, ch, shapes, cur} = zoom, shape = shapes[cur];
-  const why = ch.q==='5'
+  const why = ch.q==='maj7'
+    ? "Quatre notes : l'accord majeur, plus la septième majeure, une note juste un demi-ton sous la tonique. C'est elle qui donne cette couleur rêveuse, très indie."
+    : ch.q==='5'
     ? "Deux notes seulement, la tonique et sa quinte. Sans tierce, l'accord n'est ni majeur ni mineur : c'est ce qui le garde net avec de la saturation."
     : `Trois notes empilées. La tonique donne son nom à l'accord, la tierce ${ch.q==='m'?'mineure lui donne sa couleur sombre':'majeure lui donne sa couleur claire'}, la quinte l'épaissit.`;
   $('chord-body').innerHTML = `
@@ -1216,11 +1650,11 @@ const COUNTS = ['1','et','2','et','3','et','4','et'];
 let P = null;
 let FIT_OK = 0.35, FIT_WARN = 0.45;
 
-/* Force de chacune des 12 notes dans un extrait sonore (Sol3 à Mi6). */
+/* Force de chacune des 12 notes dans un extrait sonore (Mi2 à Mi6). */
 function chroma(buf, sr){
   const N = buf.length, w = new Float32Array(N), c = new Float32Array(12);
   for(let i=0;i<N;i++) w[i] = buf[i]*(0.5-0.5*Math.cos(2*Math.PI*i/(N-1)));
-  for(let m=55;m<=88;m++){
+  for(let m=40;m<=88;m++){
     const k = 2*Math.cos(2*Math.PI*midiFreq(m)/sr);
     let s1 = 0, s2 = 0;
     for(let i=0;i<N;i++){ const s0 = w[i]+k*s1-s2; s2 = s1; s1 = s0; }
@@ -1230,7 +1664,12 @@ function chroma(buf, sr){
 }
 function matchChord(c, chords){
   let total = 0; for(const v of c) total += v;
-  return chords.map(ch=>({name:ch.name, n:ch.pcs.length, score: total ? ch.pcs.reduce((a,pc)=>a+c[pc],0)/total : 0}))
+  const top = Math.max(...c);
+  return chords.map(ch=>{
+    const cover = total ? ch.pcs.reduce((a,pc)=>a+c[pc],0)/total : 0;
+    const full = ch.pcs.filter(pc=>c[pc] > 0.15*top).length/ch.pcs.length;     // part des notes de l'accord réellement entendues
+    return {name:ch.name, n:ch.pcs.length, score: cover*(0.6+0.4*full)};
+  })
                .sort((a,b)=>b.score-a.score);
 }
 /* Note d'un coup : justesse de l'accord + précision du tempo. */
@@ -1281,13 +1720,13 @@ function renderPlay(song){
   const loop = [];
   song.play.bars.forEach((bar,b)=> song.strum.pattern.forEach((d,s)=>{ if(d) loop.push({slot:b*8+s, chord:bar[s>>1], dir:d}); }));
   const slow = Math.round(6000/song.play.bpm)/100;          // environ 60 bpm
-  const TEMPOS = [[slow,'Très lent'],[.5,'Lent'],[.75,'Moyen'],[1,'Normal']];
-  P = {song, chords, loop, L:song.play.bars.length*8, factor:slow, click:true, running:false,
+  const TEMPOS = song.play.tempos ? song.play.tempos.map(([b,l])=>[b/song.play.bpm, l]) : [[slow,'Très lent'],[.5,'Lent'],[.75,'Moyen'],[1,'Normal']];
+  P = {song, chords, loop, L:song.play.bars.length*8, factor:TEMPOS[0][0], click:true, running:false,
        t0:0, eighth:1, results:new Map(), tally:{ok:0,warn:0,bad:0}, judged:0, shown:null, flashUntil:0};
   const bpm = f => Math.round(song.play.bpm*f);
   $('view-play').innerHTML = `
     <div class="play-head"><a class="back" href="#morceau-${song.id}">‹ Fiche</a>${modeSwitch(song, 'jouer')}</div>
-    <div class="seg tempo-seg" id="tempo">${TEMPOS.map(([f,l])=>`<button type="button" data-f="${f}" aria-pressed="${f===slow}"><span>${l}</span><b>${bpm(f)}</b></button>`).join('')}</div>
+    <div class="seg tempo-seg" id="tempo">${TEMPOS.map(([f,l])=>`<button type="button" data-f="${f}" aria-pressed="${f===TEMPOS[0][0]}"><span>${l}</span><b>${bpm(f)}</b></button>`).join('')}</div>
     <div class="neck" id="neck"><div class="neck-top"><div class="now-chord" id="now-chord"></div>
       <div class="neck-side"><div class="verdict" id="verdict" aria-live="polite"></div><div class="next" id="next-chord"></div></div></div>
       <div id="neck-svg"></div></div>
@@ -1488,7 +1927,7 @@ function lessonSummary(song){
 const ladderTempo = (L, st) => {
   const step = L.steps.find(s=>s.tempoLadder); if(!step) return 77;
   const got = (st.checks||{})[step.id] || [];
-  let t = 77; step.tempoLadder.forEach((b,i)=>{ if(got[i]) t = b; });
+  let t = step.ladderStart || step.tempoLadder[0]; step.tempoLadder.forEach((b,i)=>{ if(got[i]) t = b; });
   return t;
 };
 
@@ -1522,17 +1961,19 @@ function drawLesson(){
     ${body}
     <div class="lnav">${prev}${next}</div>`;
 }
+const badgeText = (L, done) => done ? (L.checkpoint.doneText || 'Leçon validée. Bravo, tu skankes.') : 'Pas encore validée. Ce qui reste à cocher te dit quoi revoir.';
 /* Après une case cochée : on met à jour la barre et le badge sans redessiner (un exercice peut tourner). */
 function refreshMarks(){
   const {L, st, screens} = LS;
   document.querySelectorAll('#view-learn .pseg').forEach((b,i)=> b.classList.toggle('done', screenDone(L, st, screens[i+1])));
   const badge = $('badge');
-  if(badge){ badge.classList.toggle('on', !!st.doneAt); badge.textContent = st.doneAt ? 'Leçon validée. Bravo, tu skankes.' : 'Encore un peu de travail, et ce sera validé.'; }
+  if(badge){ badge.classList.toggle('on', !!st.doneAt); badge.textContent = badgeText(L, st.doneAt); }
 }
 function introHtml(L, st, screens){
   const resume = st.at>0 && st.at<screens.length ? `<button type="button" class="next-btn" data-go="${st.at}">Reprendre où j'en étais</button>` : '';
   return `
-    <div><p class="eyebrow">Leçon · ${LS.song.title}</p><h1 class="h-step">${L.title}</h1></div>
+    <div><p class="eyebrow">${L.introStep?`Étape 1 sur ${L.steps.length+3} · `:''}Leçon · ${LS.song.title}</p><h1 class="h-step">${L.title}</h1></div>
+    ${L.teacherIntro?`<blockquote class="prof-quote"><p>${L.teacherIntro}</p><cite>Le prof</cite></blockquote>`:''}
     <p class="lead">${L.goal}</p>
     <dl class="facts-list">
       <div><dt>Difficulté</dt><dd><span class="diff" aria-label="${L.difficulty} sur 5">${[1,2,3,4,5].map(k=>`<i${k<=L.difficulty?' class="on"':''}></i>`).join('')}</span>${L.difficultyText}</dd></div>
@@ -1554,12 +1995,14 @@ function chordCards(song, names){
 function stepHtml(song, L, st, sc){
   const s = sc.step, got = (st.checks||{})[s.id] || [];
   return `
-    <div><p class="eyebrow">Étape ${sc.n} sur ${L.steps.length} · Nouveau : ${s.novelty}</p><h1 class="h-step">${s.title}</h1></div>
+    <div><p class="eyebrow">Étape ${sc.n+(L.introStep?1:0)} sur ${L.introStep?L.steps.length+3:L.steps.length} · Nouveau : ${s.novelty}</p><h1 class="h-step">${s.title}</h1></div>
     <p class="lead">${s.goal}</p>
     ${s.chords ? chordCards(song, s.chords) : ''}
     ${s.sections.map(x=>`<div class="lsec"><h3>${x.h}</h3>${x.p?`<p>${x.p}</p>`:''}${x.list?`<ul class="tips">${x.list.map(li=>`<li>${li}</li>`).join('')}</ul>`:''}</div>`).join('')}
     ${(s.drills||[]).map((d,i)=>drillHtml(d, s.id+'-'+i)).join('')}
     ${s.action ? `<a class="secondary" href="#${s.action.href}-${song.id}">${s.action.label}</a>` : ''}
+    ${s.teacher?`<div class="prof"><h3>Le conseil du prof</h3><p>${s.teacher}</p></div>`:''}
+    ${s.easier?`<div class="lsec"><h3>Si ça bloque</h3><p>${s.easier}</p></div>`:''}
     <div class="lsec"><h3>Erreurs fréquentes</h3><dl class="mistakes">${s.mistakes.map(m=>`<div><dt>${m.e}</dt><dd>${m.fix}</dd></div>`).join('')}</dl></div>
     <div class="lsec"><h3>${s.tempoLadder?'Paliers atteints':'Pour valider l\'étape'}</h3>${critHtml(s.id, s.criteria, got)}
       <button type="button" class="ghost restart" data-restart="${s.id}">Recommencer l'étape</button></div>`;
@@ -1571,10 +2014,10 @@ function checkHtml(L, st){
   const got = (st.checks||{}).checkpoint || [];
   const done = L.checkpoint.criteria.every((_,i)=>got[i]);
   return `
-    <div><p class="eyebrow">Fin de la leçon</p><h1 class="h-step">Checkpoint</h1></div>
+    <div><p class="eyebrow">${L.introStep?`Étape ${L.steps.length+3} sur ${L.steps.length+3}`:'Fin de la leçon'}</p><h1 class="h-step">${L.checkpoint.title||'Checkpoint'}</h1></div>
     <p class="lead">${L.checkpoint.intro}</p>
     ${critHtml('checkpoint', L.checkpoint.criteria, got)}
-    <div class="badge${done?' on':''}" id="badge">${done?'Leçon validée. Bravo, tu skankes.':'Encore un peu de travail, et ce sera validé.'}</div>
+    <div class="badge${done?' on':''}" id="badge">${badgeText(L, done)}</div>
     <div class="actions"><a class="secondary" href="#jouer-${LS.song.id}">Passer en mode Jouer</a>
       <button type="button" class="ghost" data-go="${LS.screens.length-2}">Refaire une séance</button></div>`;
 }
@@ -1601,6 +2044,8 @@ $('view-learn').addEventListener('click', e=>{
   const dt = e.target.closest('.drill [data-bpm]');
   if(dt){ const el = dt.closest('.drill'); el.querySelectorAll('[data-bpm]').forEach(b=>b.setAttribute('aria-pressed', String(b===dt)));
     if(DR && DR.el===el) startDrill(el); return; }
+  const mn = e.target.closest('.drill.manual [data-man]');
+  if(mn){ manualStep(mn.closest('.drill'), mn.dataset.man); return; }
   const ds = e.target.closest('.drill .drill-go');
   if(ds){ const el = ds.closest('.drill'); (DR && DR.el===el) ? stopDrill() : startDrill(el); return; }
   const ss = e.target.closest('[data-session]'); if(ss){ sessionAction(ss.dataset.session); }
@@ -1609,17 +2054,43 @@ $('view-learn').addEventListener('click', e=>{
 /* ---------- Exercice au métronome ---------- */
 const SYM = {D:'↓', U:'↑', X:'↑', C:'●', '':'·'};
 function drillHtml(d, key, opts={}){
+  if(d.manual) return manualHtml(d, key);
   const tempos = d.tempos || [d.tempo];
   return `<div class="drill" id="drill-${key}" data-key="${key}" data-tempo="${d.tempo}">
     ${opts.bare ? '' : `<div class="drill-head"><b>${d.label}</b><span class="tag ${d.source}">${d.source==='morceau'?'Grille du morceau, simplifiée':'Exercice'}</span></div>
     <p class="note-small">${d.hint}</p>`}
-    <div class="drill-chord"${d.bars?'':' hidden'}><span class="dc-now">${d.bars?drillBars(d)[0][0]:''}</span><span class="dc-next"></span></div>
-    <div class="drill-row">${d.pattern.map((p,i)=>`<div class="cell${p==='X'?' x':''}" data-s="${i}"><span class="arr">${!p&&d.cut&&i%2===0?'<small>coupe</small>':SYM[p]}</span><span class="cnt">${COUNTS[i]}</span></div>`).join('')}</div>
+    <div class="drill-chord"${d.bars?'':' hidden'}><span class="dc-now">${d.bars?drillBars(d)[0][0]:''}</span><span class="dc-next"></span><span class="dc-note"></span></div>
+    <div class="drill-row">${d.pattern.map((p,i)=>`<div class="cell${p==='X'?' x':''}" data-s="${i}">${d.marks?`<span class="mark${d.marks[i]==='>'?' acc':''}">${d.marks[i]||'&nbsp;'}</span>`:''}<span class="arr">${!p&&d.cut&&i%2===0?'<small>coupe</small>':SYM[p]}</span><span class="cnt">${COUNTS[i]}</span></div>`).join('')}</div>
     <div class="drill-ctrl">${tempos.length>1?`<div class="seg tempo-seg">${tempos.map(t=>`<button type="button" data-bpm="${t}" aria-pressed="${t===d.tempo}"><b>${t}</b></button>`).join('')}</div>`:''}
       <button type="button" class="drill-go">Démarrer</button></div>
   </div>`;
 }
 const drillBars = d => d.bars==='song' ? LS.song.play.bars : d.bars;
+/* Exercice pas à pas, sans métronome : un accord à la fois, on avance quand on est prêt. */
+function manualHtml(d, key){
+  return `<div class="drill manual" id="drill-${key}" data-key="${key}" data-i="0">
+    <div class="drill-head"><b>${d.label}</b><span class="tag exercice">Sans métronome</span></div>
+    <p class="note-small">${d.hint}</p>
+    <div class="man">${manualView(d, 0)}</div>
+    <div class="drill-ctrl"><button type="button" class="ghost" data-man="reset">Recommencer</button>
+      <button type="button" class="drill-go" data-man="next">Suivant</button></div>
+  </div>`;
+}
+function manualView(d, i){
+  const c = d.seq[i], nx = d.seq[i+1], ch = LS.song.chords.find(x=>x.name===c);
+  return `<div class="man-txt"><span class="dc-now">${c}</span><span class="dc-next">${nx ? 'puis '+nx : 'Dernier'}</span>
+      <span class="man-count">${i+1} / ${d.seq.length}</span></div><div class="man-svg">${chordSvg(ch.frets)}</div>`;
+}
+function manualStep(el, what){
+  const d = findDrill(el.dataset.key);
+  let i = +el.dataset.i;
+  if(what==='reset') i = 0;
+  else if(i < d.seq.length-1) i++;
+  else i = 0;
+  el.dataset.i = i;
+  el.querySelector('.man').innerHTML = manualView(d, i);
+  el.querySelector('[data-man="next"]').textContent = i===d.seq.length-1 ? 'Encore un tour' : 'Suivant';
+}
 function findDrill(key){
   if(key.startsWith('seance')) return LS.L.session.blocks[+key.split('-')[1]].drill;
   const [, sid, i] = /^(.*)-(\d+)$/.exec(key);
@@ -1673,6 +2144,7 @@ function drillFrame(){
         let k = bar*4+beat+1, nx = cur;
         for(let j=0;j<L*4 && nx===cur;j++,k++) nx = DR.bars[Math.floor(k/4)%L][k%4];
         now$.textContent = cur; next$.textContent = nx!==cur ? 'puis '+nx : '';
+        if(DR.d.barNotes) DR.el.querySelector('.dc-note').textContent = DR.d.barNotes[bar] || '';
       }
     }
   }
@@ -1684,19 +2156,21 @@ let SS = null;
 function sessionHtml(L){
   const S = L.session, total = S.blocks.reduce((a,b)=>a+b.min,0), palier = ladderTempo(L, LS.st);
   return `
-    <div><p class="eyebrow">Entraînement · ${total} minutes</p><h1 class="h-step">${S.title}</h1></div>
+    <div><p class="eyebrow">${L.introStep?`Étape ${L.steps.length+2} sur ${L.steps.length+3} · `:''}Entraînement · ${total} minutes</p><h1 class="h-step">${S.title}</h1></div>
     <p class="lead">${S.intro}</p>
     <ol class="blocks">${S.blocks.map((b,i)=>`<li data-b="${i}"><div class="bh"><b>${b.title}</b><span>${b.min} min${b.drill?` · ${b.drill.tempo==='palier'?palier:b.drill.tempo} bpm`:''}</span></div><p>${b.how}</p></li>`).join('')}</ol>
     <div class="session-box" id="session-box">
       <div class="sb-top"><span id="sb-title">Prêt ?</span><b id="sb-time">${String(total).padStart(2,'0')}:00</b></div>
       <div id="sb-drill"></div>
       <div class="actions"><button type="button" class="next-btn" data-session="start" id="sb-start">Lancer la séance</button>
-        <button type="button" class="ghost" data-session="skip" id="sb-skip" hidden>Bloc suivant</button></div>
+        <button type="button" class="ghost" data-session="redo" id="sb-redo" hidden>Recommencer</button>
+        <button type="button" class="ghost" data-session="skip" id="sb-skip" hidden>Terminé</button></div>
     </div>`;
 }
 function sessionAction(a){
   if(a==='start'){ if(SS && SS.running) pauseSession(); else if(SS) resumeSession(); else beginBlock(0); }
   else if(a==='skip' && SS) beginBlock(SS.i+1);
+  else if(a==='redo' && SS) beginBlock(SS.i);
 }
 function beginBlock(i){
   const blocks = LS.L.session.blocks;
@@ -1704,12 +2178,12 @@ function beginBlock(i){
   document.querySelectorAll('.blocks li').forEach((li,k)=>{ li.classList.toggle('cur', k===i); li.classList.toggle('past', k<i); });
   if(i>=blocks.length){
     SS = null; $('sb-title').textContent = 'Séance terminée. Beau travail.'; $('sb-time').textContent = '00:00';
-    $('sb-drill').innerHTML = ''; $('sb-start').textContent = 'Recommencer'; $('sb-skip').hidden = true;
+    $('sb-drill').innerHTML = ''; $('sb-start').textContent = 'Recommencer'; $('sb-skip').hidden = true; $('sb-redo').hidden = true;
     chime(); return;
   }
   const b = blocks[i];
   SS = {i, left: b.min*60, running: true};
-  $('sb-title').textContent = b.title; $('sb-skip').hidden = false; $('sb-start').textContent = 'Pause';
+  $('sb-title').textContent = b.title; $('sb-skip').hidden = false; $('sb-redo').hidden = false; $('sb-start').textContent = 'Pause';
   if(b.drill){
     const d = Object.assign({}, b.drill, {tempo: b.drill.tempo==='palier' ? ladderTempo(LS.L, LS.st) : b.drill.tempo});
     $('sb-drill').innerHTML = drillHtml(d, 'seance-'+i, {bare:true});
