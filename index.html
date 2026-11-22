@@ -325,6 +325,16 @@ button.chord::after{content:"+";position:absolute;top:2px;right:8px;font-size:18
 .man-count{font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--muted);font-variant-numeric:tabular-nums}
 .man-svg svg{width:110px;height:auto;display:block}
 .drill.manual .drill-ctrl{justify-content:flex-end}
+.too-hard{align-self:flex-start}
+.easy{border:2px dashed var(--line);border-radius:6px;padding:12px;display:flex;flex-direction:column;gap:10px}
+.easy h3{font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700}
+.demos{display:flex;flex-wrap:wrap;gap:8px}
+.synth{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:12px;display:flex;flex-direction:column;gap:8px}
+.synth h3{font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700}
+.synth ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.synth .got li{display:flex;gap:8px;align-items:center}
+.synth .got li::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--ok);flex:none}
+.synth .todo li{display:flex;justify-content:space-between;align-items:center;gap:8px}
 .btn-dark{background:var(--btn);color:var(--btn-fg)}
 .song .meta .lesson{color:var(--accent-text)}
 
@@ -1144,6 +1154,239 @@ const LESSONS = {
       doneText:"Leçon validée. Passe en mode Jouer pour tout mettre bout à bout.",
     },
   },
+  'what-do-i-get': {
+    title: "Des attaques précises",
+    introStep: true,
+    teacherIntro: "Avec Teenage Kicks, tu as appris à enchaîner les power chords sans t'arrêter. Maintenant, on va apprendre à mieux contrôler chaque attaque. Chez les Buzzcocks, il faut de l'énergie, mais aussi de la précision.",
+    introSections: [
+      {h:"Jouer fort ou jouer proprement", p:"Jouer fort, c'est frapper les cordes avec énergie. Jouer proprement, c'est décider combien de temps l'accord sonne et ne faire sonner que ses notes. Un accord peut être très énergique et pourtant s'arrêter net : c'est ce contraste qui donne au punk des Buzzcocks son côté tendu."},
+    ],
+    goal: "Comprendre qu'un accord peut être énergique sans résonner trop longtemps, et apprendre à le contrôler.",
+    difficulty: 2,
+    difficultyText: "Débutant. Trois power chords, une forme que tu connais déjà.",
+    skill: "La précision des attaques et le contrôle de la durée des accords : sons longs, sons courts, accents et palm mute léger.",
+    duration: "Compte une à deux semaines à 15 minutes par jour.",
+    how: "Neuf étapes après celle-ci, une seule nouveauté à chaque fois. Si une étape résiste, le bouton « C'est trop difficile » te propose une variante. Coche les critères quand tu y arrives : c'est toi le juge, l'app ne t'écoute pas pendant la leçon.",
+    chords: [
+      {name:'A5', frets:[5,7,7,-1,-1,-1]},
+      {name:'D5', frets:[-1,5,7,7,-1,-1]},
+      {name:'E5', frets:[-1,7,9,9,-1,-1]},
+    ],
+    sources: {
+      fromSong: [
+        "Le style : punk mélodique, power chords et coups vers le bas.",
+        "La grille du mode Jouer (Do5, Fa5, Sol5, La♭5, Si♭5) vient de tablatures publiées. Elle n'a pas été vérifiée à l'oreille sur le disque.",
+      ],
+      teaching: [
+        "La5, Ré5, Mi5 et la progression | La5 | Ré5 | Mi5 | Ré5 | sont un exercice. Ce n'est pas la grille de What Do I Get?.",
+        "Les paliers de 80 à 120 bpm sont pédagogiques, pas le tempo du disque.",
+      ],
+    },
+    steps: [
+      {
+        id:'reviser', title:"Réviser les power chords", novelty:"La5, Ré5 et Mi5",
+        goal:"Poser trois power chords proprement, sans rythme pour l'instant.",
+        chords:['A5','D5','E5'],
+        sections:[
+          {h:"Les positions", list:[
+            "<b>La5.</b> Index sur Mi grave case 5, annulaire sur La case 7, auriculaire sur Ré case 7.",
+            "<b>Ré5.</b> La même forme une corde plus bas : index sur La case 5, annulaire sur Ré case 7, auriculaire sur Sol case 7.",
+            "<b>Mi5.</b> Ré5 deux cases plus haut : index sur La case 7, annulaire sur Ré case 9, auriculaire sur Sol case 9.",
+          ]},
+          {h:"Pas de cordes parasites", p:"Couche légèrement l'index : sa pulpe touche les cordes aiguës et les empêche de sonner. Sur Ré5 et Mi5, le bout de l'index effleure aussi la corde 6."},
+        ],
+        drills:[{manual:true, label:"Quatre fois chaque accord", seq:['A5','A5','A5','A5','D5','D5','D5','D5','E5','E5','E5','E5'],
+                 hint:"Une attaque, écoute les trois notes, puis « Suivant ». À ton rythme."}],
+        teacher:"Essaie de déplacer les trois doigts ensemble. Tu n'as pas besoin de reconstruire l'accord à chaque changement.",
+        easier:"Travaille seulement La5 et Ré5, avec deux doigts : l'index et l'annulaire.",
+        easyDrills:[{manual:true, label:"Deux accords, deux doigts", seq:['A5','A5','D5','D5','A5','A5','D5','D5'],
+                     hint:"Index et annulaire seulement. L'auriculaire viendra ensuite."}],
+        mistakes:[
+          {e:"Les cordes aiguës résonnent.", fix:"L'index est trop droit. Couche-le un peu pour qu'il les touche sans appuyer."},
+          {e:"Tu replaces chaque doigt un par un.", fix:"Pose les trois doigts en même temps, quitte à rater au début. C'est ce réflexe qu'on construit."},
+        ],
+        criteria:["Les trois accords sonnent sans cordes parasites."],
+      },
+      {
+        id:'couper', title:"Apprendre à couper le son", novelty:"le son court",
+        goal:"Arrêter un accord juste après l'avoir frappé. C'est la compétence centrale de la leçon.",
+        chords:['A5'],
+        sections:[
+          {h:"Le geste, sur La5", list:[
+            "Appuie sur les trois cordes.",
+            "Donne un coup de médiator vers le bas.",
+            "Relâche aussitôt la pression de la main gauche.",
+            "Garde les doigts au contact des cordes : ils étouffent le son.",
+          ]},
+          {h:"Chang ou chak", p:"Un accord qui résonne fait « chang ». Un accord coupé fait « chak ». Écoute la différence ci-dessous, puis reproduis le « chak »."},
+        ],
+        demos:[{label:"Écouter chang", chord:'A5', dur:1.6}, {label:"Écouter chak", chord:'A5', dur:0.12}],
+        drills:[{label:"Quatre chak espacés", pattern:['D','','D','','D','','D',''], marks:['chak','','chak','','chak','','chak',''], bars:[BAR('A5')], tempos:[50,60], tempo:60,
+                 hint:"Un coup sur chaque temps, coupé tout de suite. Le silence entre deux coups doit s'entendre."}],
+        teacher:"Pense « appuie, frappe, relâche » comme un seul mouvement. La main gauche ne bouge presque pas : elle desserre, c'est tout.",
+        easier:"Fais-le sans métronome : frappe, compte un dans ta tête, relâche. Puis recommence quand tu veux.",
+        mistakes:[
+          {e:"Tu retires complètement les doigts des cordes.", fix:"Les cordes à vide sonnent alors et ça fait des bruits parasites. Les doigts restent posés, ils arrêtent seulement d'appuyer."},
+          {e:"Le son ne coupe pas.", fix:"Tu relâches trop peu. Exagère au début, jusqu'à ce que la corde quitte presque la frette."},
+        ],
+        criteria:["Mes quatre attaques sont courtes, avec un vrai silence entre elles, à 60 bpm."],
+      },
+      {
+        id:'croches', title:"Retrouver la régularité punk", novelty:"les croches vers le bas",
+        goal:"Huit coups vers le bas par mesure, réguliers, sur La5.",
+        sections:[
+          {h:"Le geste", p:"1 et 2 et 3 et 4 et : un coup vers le bas sur chaque croche. Le poignet fait le travail, le geste reste petit. Commence par 30 secondes, puis une minute."},
+        ],
+        drills:[{label:"Croches sur La5", pattern:['D','D','D','D','D','D','D','D'], bars:[BAR('A5')], tempos:[70,80], tempo:80,
+                 hint:"30 secondes sans t'arrêter, puis une minute."}],
+        teacher:"La main droite reste régulière. C'est la main gauche qui va contrôler la durée des accords.",
+        easier:"Quatre attaques par mesure au lieu de huit, à 70 bpm.",
+        easyDrills:[{label:"Quatre attaques par mesure", pattern:['D','','D','','D','','D',''], bars:[BAR('A5')], tempos:[60,70], tempo:70,
+                     hint:"Un coup par temps. Ajoute les « et » quand c'est régulier."}],
+        mistakes:[
+          {e:"Tu accélères.", fix:"Écoute le clic plutôt que ta main. Si ça s'emballe, redescends à 70."},
+          {e:"L'avant-bras chauffe.", fix:"Tu joues avec le bras. Relâche l'épaule, laisse travailler le poignet, joue un peu moins fort."},
+        ],
+        criteria:["Je tiens 30 secondes à 80 bpm sans interruption.", "Puis une minute."],
+      },
+      {
+        id:'long-court', title:"Alterner accords longs et courts", novelty:"choisir la durée",
+        goal:"Décider volontairement si un accord sonne long ou court.",
+        sections:[
+          {h:"Le motif, sur La5", p:"Quatre noires : 1, 2, 3, 4. Le 1 et le 3 sonnent longtemps, jusqu'au coup suivant : chang. Le 2 et le 4 sont coupés aussitôt : chak."},
+          {h:"Court ne veut pas dire faible", p:"Un chak peut être frappé avec autant d'énergie qu'un chang. La différence est dans la main gauche, pas dans la force de la main droite."},
+        ],
+        demos:[{label:"Écouter chang", chord:'A5', dur:1.6}, {label:"Écouter chak", chord:'A5', dur:0.12}],
+        drills:[{label:"Chang, chak", pattern:['D','','D','','D','','D',''], marks:['chang','','chak','','chang','','chak',''], bars:[BAR('A5')], tempos:[60,70], tempo:70,
+                 hint:"Long sur 1 et 3, court sur 2 et 4. Même énergie partout."}],
+        teacher:"Si ton chak devient timide, c'est que ta main droite essaie d'aider. Laisse-la frapper pareil et confie la durée à la main gauche.",
+        easier:"Ralentis à 60, ou fais seulement un chak toutes les deux mesures.",
+        mistakes:[
+          {e:"Le chak est plus faible que le chang.", fix:"La main droite ralentit son geste. Garde la même force, seule la main gauche change."},
+          {e:"Le chang est coupé trop tôt.", fix:"Garde la pression jusqu'au coup suivant. Le relâchement, c'est seulement pour le chak."},
+        ],
+        criteria:["J'alterne chang et chak à 70 bpm sans perdre la pulsation.", "Mes chak ont la même énergie que mes chang."],
+      },
+      {
+        id:'changements', title:"Les changements d'accords", novelty:"la progression en croches",
+        goal:"Enchaîner La5, Ré5, Mi5, Ré5 en croches, une mesure par accord.",
+        sections:[
+          {h:"La progression", p:"| La5 | Ré5 | Mi5 | Ré5 |, huit coups vers le bas par mesure, à 80 bpm. Trois exercices, dans l'ordre : sans couper, puis en coupant la dernière attaque de chaque mesure, puis en alternant long et court."},
+          {h:"Pourquoi couper la dernière attaque", p:"Le dernier « et » coupé te laisse le temps de changer d'accord sans trou dans le rythme. C'est un geste très utile, bien au-delà de ce morceau."},
+        ],
+        drills:[
+          {label:"1. Sans couper", pattern:['D','D','D','D','D','D','D','D'], bars:[BAR('A5'),BAR('D5'),BAR('E5'),BAR('D5')], tempos:[70,80], tempo:80,
+           hint:"Tous les accords sonnent."},
+          {label:"2. Dernière attaque coupée", pattern:['D','D','D','D','D','D','D','D'], marks:['','','','','','','','chak'], bars:[BAR('A5'),BAR('D5'),BAR('E5'),BAR('D5')], tempos:[70,80], tempo:80,
+           hint:"Coupe le dernier « et » et profites-en pour changer d'accord."},
+          {label:"3. Long et court", pattern:['D','D','D','D','D','D','D','D'], marks:['chang','chak','chang','chak','chang','chak','chang','chak'], bars:[BAR('A5'),BAR('D5'),BAR('E5'),BAR('D5')], tempos:[60,70,80], tempo:70,
+           hint:"Un coup qui sonne, un coup coupé, et ainsi de suite."},
+        ],
+        teacher:"La main droite ne s'arrête jamais, même si l'accord n'est pas prêt. Un coup à vide vaut mieux qu'un trou.",
+        easier:"Travaille seulement deux accords, La5 et Ré5, avec quatre attaques par mesure.",
+        easyDrills:[{label:"La5 et Ré5, quatre attaques", pattern:['D','','D','','D','','D',''], bars:[BAR('A5'),BAR('D5')], tempos:[60,70,80], tempo:70,
+                     hint:"Un coup par temps, un accord par mesure."}],
+        mistakes:[
+          {e:"Tu t'arrêtes avant chaque changement.", fix:"Fais l'exercice 2 : la dernière attaque coupée te donne le temps de bouger."},
+          {e:"Tu te trompes de corde entre La5 et Ré5.", fix:"L'index guide la forme : repère sa corde avant le reste."},
+        ],
+        criteria:["Je change d'accord sans interrompre la main droite, à 80 bpm."],
+      },
+      {
+        id:'accents', title:"Les accents", novelty:"les accents",
+        goal:"Faire ressortir les temps 1 et 3, sans accélérer.",
+        sections:[
+          {h:"À quoi servent les accents", p:"Les accents donnent de la structure au rythme : l'oreille entend où commence la mesure. Un accent, c'est un coup légèrement plus fort, pas plus rapide."},
+        ],
+        drills:[{label:"Accents sur 1 et 3", pattern:['D','D','D','D','D','D','D','D'], marks:['>','','','','>','','',''], bars:[BAR('A5'),BAR('D5'),BAR('E5'),BAR('D5')], tempos:[70,80,90], tempo:80,
+                 hint:"Plus fort sur les coups marqués >, les autres restent légers."}],
+        teacher:"Un accent, ce n'est pas frapper comme un fou. C'est simplement faire ressortir une attaque.",
+        easier:"Retire temporairement les accents du 3 : accentue seulement le 1, sur La5 uniquement.",
+        easyDrills:[{label:"Accent sur le 1, La5 seul", pattern:['D','D','D','D','D','D','D','D'], marks:['>','','','','','','',''], bars:[BAR('A5')], tempos:[60,70,80], tempo:70,
+                     hint:"Un seul accent par mesure."}],
+        mistakes:[
+          {e:"Tu accélères sur les accents.", fix:"Tu forces. Garde le même geste, laisse seulement tomber le poignet d'un peu plus haut."},
+          {e:"Tout devient fort.", fix:"Joue les coups sans accent plus doucement, au lieu de jouer les accents plus fort."},
+        ],
+        criteria:["Mes accents s'entendent sur 1 et 3.", "Ils ne font pas accélérer le tempo."],
+      },
+      {
+        id:'palm-mute', title:"Ajouter un palm mute léger", novelty:"le palm mute",
+        goal:"Étouffer légèrement les cordes pendant l'attaque, et savoir quand le faire.",
+        sections:[
+          {h:"Deux façons d'étouffer", list:[
+            "<b>Le muting main gauche</b>, que tu connais : il coupe le son après l'attaque.",
+            "<b>Le palm mute</b> : la main droite étouffe partiellement les cordes pendant l'attaque. Le son devient plus sourd et plus serré.",
+          ]},
+          {h:"Le geste", p:"Pose légèrement la tranche de la main droite sur les cordes, tout près du chevalet. Trop loin du chevalet, les notes disparaissent ; trop près, rien ne change. Joue quatre attaques sur La5, puis retire la main et compare."},
+          {h:"Avec modération", p:"Le palm mute est un effet, pas une règle. Garde-le pour certains passages, pas pour tout le morceau."},
+        ],
+        demos:[{label:"Écouter ouvert", chord:'A5', dur:1.2}, {label:"Écouter palm mute", chord:'A5', dur:0.5, muted:true}],
+        drills:[{label:"Quatre attaques étouffées, puis ouvertes", pattern:['D','','D','','D','','D',''], bars:[BAR('A5'),BAR('A5')], barNotes:['Palm mute','Ouvert'], tempos:[60,70,80], tempo:70,
+                 hint:"Une mesure avec la main posée, une mesure sans."}],
+        teacher:"Cherche le point où les notes restent présentes mais sourdes. Déplace la main d'un ou deux millimètres jusqu'à le trouver.",
+        easier:"Sans métronome : une attaque avec la main posée, une sans, et écoute la différence.",
+        mistakes:[
+          {e:"On n'entend plus les notes, juste un bruit.", fix:"Ta main est trop loin du chevalet ou appuie trop. Recule-la vers le chevalet et pose-la plus légèrement."},
+          {e:"Le palm mute ne change rien.", fix:"Ta main est sur le chevalet lui-même. Avance-la juste un peu sur les cordes."},
+        ],
+        criteria:["J'entends la différence entre un La5 étouffé et un La5 ouvert.", "Je passe de l'un à l'autre sans perdre la pulsation."],
+      },
+      {
+        id:'tempo', title:"Progression du tempo", novelty:"la vitesse",
+        goal:"Monter de 80 à 120 bpm, palier par palier, sans perdre en précision.",
+        sections:[
+          {h:"Les paliers", list:[
+            "<b>80</b> : apprendre les gestes.",
+            "<b>90</b> : fluidifier les changements.",
+            "<b>100</b> : travailler la précision.",
+            "<b>110</b> : améliorer l'endurance.",
+            "<b>120</b> : consolider les acquis.",
+          ]},
+          {h:"La règle", p:"Répète un palier autant que tu veux. Monte seulement quand il est propre ; redescends dès que les accords deviennent brouillons. Ces tempos sont des paliers d'apprentissage, pas le tempo du disque."},
+        ],
+        drills:[{label:"La progression, par paliers", pattern:['D','D','D','D','D','D','D','D'], marks:['>','','','','>','','','chak'], bars:[BAR('A5'),BAR('D5'),BAR('E5'),BAR('D5')], tempos:[80,90,100,110,120], tempo:80,
+                 hint:"Accents sur 1 et 3, dernière attaque coupée."}],
+        teacher:"Plus tu vas vite, plus le geste doit être petit et détendu. Si tu te crispes, tu as monté trop tôt.",
+        easier:"Redescends d'un palier, ou retire temporairement les accents.",
+        mistakes:[
+          {e:"Les chak disparaissent avec la vitesse.", fix:"Normal au début. Redescends d'un palier et garde-les bien nets."},
+          {e:"Tu montes chaque jour.", fix:"Reste plusieurs jours sur un palier si nécessaire. Propre d'abord, rapide ensuite."},
+        ],
+        criteria:["80 bpm", "90 bpm", "100 bpm", "110 bpm", "120 bpm"],
+        tempoLadder:[80,90,100,110,120],
+      },
+    ],
+    session: {
+      title:"Séance guidée",
+      intro:"Dix minutes en cinq blocs. Ils s'enchaînent seuls ; tu peux recommencer un bloc ou le marquer terminé à tout moment.",
+      blocks:[
+        {min:2, title:"Révision des accords", how:"La5, Ré5, Mi5, sans métronome.",
+         drill:{manual:true, label:"La5, Ré5, Mi5", seq:['A5','D5','E5','A5','D5','E5'], hint:"Une attaque par accord, à ton rythme."}},
+        {min:2, title:"Accords courts", how:"Sur La5, alterne chang et chak.",
+         drill:{pattern:['D','','D','','D','','D',''], marks:['chang','','chak','','chang','','chak',''], bars:[BAR('A5')], tempo:70}},
+        {min:2, title:"Coups vers le bas", how:"Huit croches régulières sur La5.",
+         drill:{pattern:['D','D','D','D','D','D','D','D'], bars:[BAR('A5')], tempo:80}},
+        {min:2, title:"Progression", how:"La5, Ré5, Mi5, Ré5, à ton palier du jour.",
+         drill:{pattern:['D','D','D','D','D','D','D','D'], bars:[BAR('A5'),BAR('D5'),BAR('E5'),BAR('D5')], tempo:'palier'}},
+        {min:2, title:"Précision", how:"La même progression avec accents et dernière attaque coupée.",
+         drill:{pattern:['D','D','D','D','D','D','D','D'], marks:['>','','','','>','','','chak'], bars:[BAR('A5'),BAR('D5'),BAR('E5'),BAR('D5')], tempo:'palier'}},
+      ],
+    },
+    checkpoint: {
+      title:"Checkpoint final",
+      intro:"Coche seulement ce que tu fais vraiment sans y penser. La synthèse en dessous te dit ce qui est acquis et quelle étape revoir pour le reste.",
+      criteria:[
+        {t:"Je forme La5, Ré5 et Mi5 proprement.", step:'reviser', skill:"Les trois power chords"},
+        {t:"Je coupe volontairement la résonance d'un accord.", step:'couper', skill:"Couper le son"},
+        {t:"J'alterne accords longs et courts.", step:'long-court', skill:"Choisir la durée"},
+        {t:"Je tiens une minute de coups vers le bas à 100 bpm.", step:'tempo', skill:"Régularité à 100 bpm"},
+        {t:"Je change d'accord sans interrompre le tempo.", step:'changements', skill:"Les changements"},
+        {t:"J'ajoute des accents sans accélérer.", step:'accents', skill:"Les accents"},
+      ],
+      doneText:"Leçon validée. Le mode Jouer utilise la grille relevée sur les tablatures : mêmes formes, d'autres cases.",
+    },
+  },
 };
 
 /* ---------- Outils notes ---------- */
@@ -1593,7 +1836,7 @@ function chordBig(fr, ch, labels){
 let zoom = null;
 function openChord(song, idx){
   const c = song.chords[idx], ch = parseChord(c.name);
-  const own = {label:'Dans le morceau', frets:c.frets};
+  const own = {label:song.ownLabel || 'Dans le morceau', frets:c.frets};
   const shapes = [own, ...shapesFor(ch).filter(s=>s.frets.join()!==c.frets.join())];
   zoom = {name:c.name, ch, shapes, cur:0};
   renderChordSheet();
@@ -1624,19 +1867,22 @@ function renderChordSheet(){
     zoom.cur = +b.dataset.i; renderChordSheet(); $('chord-sheet').scrollTop = 0;
   });
 }
-function playChord(fr){
-  const ac = audio(), t = ac.currentTime+0.02;
+function playChord(fr, opts={}){
+  const ac = audio(), t = ac.currentTime+0.02, dur = opts.dur || 1.9, fade = Math.min(0.5, dur*0.3);
   let n = 0;
+  let out = ac.destination;
+  if(opts.muted){ out = ac.createBiquadFilter(); out.type = 'lowpass'; out.frequency.value = 650; out.connect(ac.destination); }   // palm mute : aigus étouffés
   fr.forEach((f,s)=>{
     if(f<0) return;
     const p = pluck(midiFreq(OPEN[s]+f), ac.sampleRate, 2), src = ac.createBufferSource(), g = ac.createGain();
     src.buffer = ac.createBuffer(1, p.data.length, ac.sampleRate);
     src.buffer.getChannelData(0).set(p.data);
     src.playbackRate.value = p.rate;
-    g.gain.setValueAtTime(0.35, t); g.gain.setValueAtTime(0.35, t+1.4); g.gain.linearRampToValueAtTime(0, t+1.9);
-    src.connect(g).connect(ac.destination); src.start(t+n*0.035); n++;
+    const t1 = t+n*0.02;
+    g.gain.setValueAtTime(0.35, t1); g.gain.setValueAtTime(0.35, t1+dur-fade); g.gain.linearRampToValueAtTime(0, t1+dur);
+    src.connect(g).connect(out); src.start(t1); src.stop(t1+dur+0.05); n++;
   });
-  muteUntil = performance.now()+2200;
+  muteUntil = performance.now()+dur*1000+300;
 }
 
 /* ---------- Jouer un morceau ---------- */
@@ -1961,6 +2207,15 @@ function drawLesson(){
     ${body}
     <div class="lnav">${prev}${next}</div>`;
 }
+/* Synthèse : ce qui est acquis, et l'étape à revoir pour le reste. */
+function summaryHtml(L, got){
+  const cr = L.checkpoint.criteria.filter(c=>typeof c!=='string'); if(!cr.length) return '';
+  const all = L.checkpoint.criteria, ok = cr.filter(c=>got[all.indexOf(c)]), todo = cr.filter(c=>!got[all.indexOf(c)]);
+  const at = id => LS.screens.findIndex(x=>x.key===id);
+  return `<div class="synth"><h3>Compétences acquises · ${ok.length} sur ${cr.length}</h3>
+    ${ok.length?`<ul class="got">${ok.map(c=>`<li>${c.skill}</li>`).join('')}</ul>`:''}
+    ${todo.length?`<h3>À revoir</h3><ul class="todo">${todo.map(c=>`<li><span>${c.skill}</span><button type="button" class="ghost" data-go="${at(c.step)}">Étape ${at(c.step)+(L.introStep?1:0)}</button></li>`).join('')}</ul>`:''}</div>`;
+}
 const badgeText = (L, done) => done ? (L.checkpoint.doneText || 'Leçon validée. Bravo, tu skankes.') : 'Pas encore validée. Ce qui reste à cocher te dit quoi revoir.';
 /* Après une case cochée : on met à jour la barre et le badge sans redessiner (un exercice peut tourner). */
 function refreshMarks(){
@@ -1968,6 +2223,7 @@ function refreshMarks(){
   document.querySelectorAll('#view-learn .pseg').forEach((b,i)=> b.classList.toggle('done', screenDone(L, st, screens[i+1])));
   const badge = $('badge');
   if(badge){ badge.classList.toggle('on', !!st.doneAt); badge.textContent = badgeText(L, st.doneAt); }
+  if($('summary')) $('summary').innerHTML = summaryHtml(L, (st.checks||{}).checkpoint || []);
 }
 function introHtml(L, st, screens){
   const resume = st.at>0 && st.at<screens.length ? `<button type="button" class="next-btn" data-go="${st.at}">Reprendre où j'en étais</button>` : '';
@@ -1975,6 +2231,7 @@ function introHtml(L, st, screens){
     <div><p class="eyebrow">${L.introStep?`Étape 1 sur ${L.steps.length+3} · `:''}Leçon · ${LS.song.title}</p><h1 class="h-step">${L.title}</h1></div>
     ${L.teacherIntro?`<blockquote class="prof-quote"><p>${L.teacherIntro}</p><cite>Le prof</cite></blockquote>`:''}
     <p class="lead">${L.goal}</p>
+    ${(L.introSections||[]).map(x=>`<div class="lsec"><h3>${x.h}</h3><p>${x.p}</p></div>`).join('')}
     <dl class="facts-list">
       <div><dt>Difficulté</dt><dd><span class="diff" aria-label="${L.difficulty} sur 5">${[1,2,3,4,5].map(k=>`<i${k<=L.difficulty?' class="on"':''}></i>`).join('')}</span>${L.difficultyText}</dd></div>
       <div><dt>Ce que tu vas apprendre</dt><dd>${L.skill}</dd></div>
@@ -1987,9 +2244,12 @@ function introHtml(L, st, screens){
     </div>
     ${resume}`;
 }
+/* Les accords d'une leçon : ceux de ses exercices s'il y en a, sinon ceux du morceau. */
+const lessonChords = () => LS.L.chords || LS.song.chords;
 function chordCards(song, names){
-  return `<div class="chords">${names.map(n=>{ const i = song.chords.findIndex(c=>c.name===n);
-    return `<button type="button" class="chord" data-c="${i}" aria-label="Agrandir l'accord ${n}"><b>${n}</b>${chordSvg(song.chords[i].frets)}</button>`; }).join('')}</div>
+  const list = lessonChords();
+  return `<div class="chords">${names.map(n=>{ const i = list.findIndex(c=>c.name===n);
+    return `<button type="button" class="chord" data-c="${i}" aria-label="Agrandir l'accord ${n}"><b>${n}</b>${chordSvg(list[i].frets)}</button>`; }).join('')}</div>
     <p class="note-small">Les chiffres sont les doigts : 1 index, 2 majeur, 3 annulaire, 4 auriculaire. Touche un accord pour l'agrandir et l'écouter.</p>`;
 }
 function stepHtml(song, L, st, sc){
@@ -1999,16 +2259,18 @@ function stepHtml(song, L, st, sc){
     <p class="lead">${s.goal}</p>
     ${s.chords ? chordCards(song, s.chords) : ''}
     ${s.sections.map(x=>`<div class="lsec"><h3>${x.h}</h3>${x.p?`<p>${x.p}</p>`:''}${x.list?`<ul class="tips">${x.list.map(li=>`<li>${li}</li>`).join('')}</ul>`:''}</div>`).join('')}
+    ${s.demos?`<div class="demos">${s.demos.map((d,i)=>`<button type="button" class="ghost" data-demo="${i}">${d.label}</button>`).join('')}</div>`:''}
     ${(s.drills||[]).map((d,i)=>drillHtml(d, s.id+'-'+i)).join('')}
     ${s.action ? `<a class="secondary" href="#${s.action.href}-${song.id}">${s.action.label}</a>` : ''}
     ${s.teacher?`<div class="prof"><h3>Le conseil du prof</h3><p>${s.teacher}</p></div>`:''}
-    ${s.easier?`<div class="lsec"><h3>Si ça bloque</h3><p>${s.easier}</p></div>`:''}
+    ${s.easier?`<button type="button" class="ghost too-hard" data-hard aria-expanded="false">C'est trop difficile</button>
+      <div class="easy" hidden><h3>Variante plus simple</h3><p>${s.easier}</p>${(s.easyDrills||[]).map((d,i)=>drillHtml(d, s.id+'-e'+i)).join('')}</div>`:''}
     <div class="lsec"><h3>Erreurs fréquentes</h3><dl class="mistakes">${s.mistakes.map(m=>`<div><dt>${m.e}</dt><dd>${m.fix}</dd></div>`).join('')}</dl></div>
     <div class="lsec"><h3>${s.tempoLadder?'Paliers atteints':'Pour valider l\'étape'}</h3>${critHtml(s.id, s.criteria, got)}
       <button type="button" class="ghost restart" data-restart="${s.id}">Recommencer l'étape</button></div>`;
 }
 function critHtml(key, list, got){
-  return `<ul class="crit">${list.map((c,i)=>`<li><label><input type="checkbox" id="crit-${key}-${i}" data-key="${key}" data-i="${i}"${got[i]?' checked':''}><span>${c}</span></label></li>`).join('')}</ul>`;
+  return `<ul class="crit">${list.map((c,i)=>`<li><label><input type="checkbox" id="crit-${key}-${i}" data-key="${key}" data-i="${i}"${got[i]?' checked':''}><span>${typeof c==='string'?c:c.t}</span></label></li>`).join('')}</ul>`;
 }
 function checkHtml(L, st){
   const got = (st.checks||{}).checkpoint || [];
@@ -2018,6 +2280,7 @@ function checkHtml(L, st){
     <p class="lead">${L.checkpoint.intro}</p>
     ${critHtml('checkpoint', L.checkpoint.criteria, got)}
     <div class="badge${done?' on':''}" id="badge">${badgeText(L, done)}</div>
+    <div id="summary">${summaryHtml(L, got)}</div>
     <div class="actions"><a class="secondary" href="#jouer-${LS.song.id}">Passer en mode Jouer</a>
       <button type="button" class="ghost" data-go="${LS.screens.length-2}">Refaire une séance</button></div>`;
 }
@@ -2040,7 +2303,13 @@ $('view-learn').addEventListener('click', e=>{
   const g = e.target.closest('[data-go]'); if(g){ setScreen(+g.dataset.go); return; }
   const r = e.target.closest('[data-restart]');
   if(r){ LS.st.checks = LS.st.checks || {}; LS.st.checks[r.dataset.restart] = []; saveLesson(LS.song.id, LS.st); stopDrill(); drawLesson(); document.querySelector('main').scrollTop = 0; return; }
-  const ch = e.target.closest('button.chord'); if(ch){ openChord(LS.song, +ch.dataset.c); return; }
+  const ch = e.target.closest('button.chord'); if(ch){ openChord({chords:lessonChords(), ownLabel: LS.L.chords ? "Dans l'exercice" : 'Dans le morceau'}, +ch.dataset.c); return; }
+  const hard = e.target.closest('[data-hard]');
+  if(hard){ const box = hard.nextElementSibling, open = box.hidden; box.hidden = !open; hard.setAttribute('aria-expanded', String(open));
+    hard.textContent = open ? 'Masquer la variante' : "C'est trop difficile"; if(!open) stopDrill(); return; }
+  const demo = e.target.closest('[data-demo]');
+  if(demo){ const sc = LS.screens[LS.at], dm = sc.step.demos[+demo.dataset.demo];
+    playChord(lessonChords().find(c=>c.name===dm.chord).frets, {dur:dm.dur, muted:dm.muted}); return; }
   const dt = e.target.closest('.drill [data-bpm]');
   if(dt){ const el = dt.closest('.drill'); el.querySelectorAll('[data-bpm]').forEach(b=>b.setAttribute('aria-pressed', String(b===dt)));
     if(DR && DR.el===el) startDrill(el); return; }
@@ -2057,7 +2326,7 @@ function drillHtml(d, key, opts={}){
   if(d.manual) return manualHtml(d, key);
   const tempos = d.tempos || [d.tempo];
   return `<div class="drill" id="drill-${key}" data-key="${key}" data-tempo="${d.tempo}">
-    ${opts.bare ? '' : `<div class="drill-head"><b>${d.label}</b><span class="tag ${d.source}">${d.source==='morceau'?'Grille du morceau, simplifiée':'Exercice'}</span></div>
+    ${opts.bare ? '' : `<div class="drill-head"><b>${d.label}</b><span class="tag ${d.source||'exercice'}">${d.source==='morceau'?'Grille du morceau, simplifiée':'Exercice'}</span></div>
     <p class="note-small">${d.hint}</p>`}
     <div class="drill-chord"${d.bars?'':' hidden'}><span class="dc-now">${d.bars?drillBars(d)[0][0]:''}</span><span class="dc-next"></span><span class="dc-note"></span></div>
     <div class="drill-row">${d.pattern.map((p,i)=>`<div class="cell${p==='X'?' x':''}" data-s="${i}">${d.marks?`<span class="mark${d.marks[i]==='>'?' acc':''}">${d.marks[i]||'&nbsp;'}</span>`:''}<span class="arr">${!p&&d.cut&&i%2===0?'<small>coupe</small>':SYM[p]}</span><span class="cnt">${COUNTS[i]}</span></div>`).join('')}</div>
@@ -2077,7 +2346,7 @@ function manualHtml(d, key){
   </div>`;
 }
 function manualView(d, i){
-  const c = d.seq[i], nx = d.seq[i+1], ch = LS.song.chords.find(x=>x.name===c);
+  const c = d.seq[i], nx = d.seq[i+1], ch = lessonChords().find(x=>x.name===c);
   return `<div class="man-txt"><span class="dc-now">${c}</span><span class="dc-next">${nx ? 'puis '+nx : 'Dernier'}</span>
       <span class="man-count">${i+1} / ${d.seq.length}</span></div><div class="man-svg">${chordSvg(ch.frets)}</div>`;
 }
@@ -2093,12 +2362,14 @@ function manualStep(el, what){
 }
 function findDrill(key){
   if(key.startsWith('seance')) return LS.L.session.blocks[+key.split('-')[1]].drill;
-  const [, sid, i] = /^(.*)-(\d+)$/.exec(key);
-  return LS.L.steps.find(s=>s.id===sid).drills[+i];
+  const [, sid, easy, i] = /^(.*)-(e?)(\d+)$/.exec(key);
+  const step = LS.L.steps.find(s=>s.id===sid);
+  return (easy ? step.easyDrills : step.drills)[+i];
 }
 let DR = null;
 function startDrill(el, bpmOverride){
   stopDrill();
+  if(el.classList.contains('manual')) return;
   const d = findDrill(el.dataset.key);
   const sel = el.querySelector('[data-bpm][aria-pressed="true"]');
   const bpm = bpmOverride || (sel ? +sel.dataset.bpm : +el.dataset.tempo);
@@ -2187,7 +2458,7 @@ function beginBlock(i){
   if(b.drill){
     const d = Object.assign({}, b.drill, {tempo: b.drill.tempo==='palier' ? ladderTempo(LS.L, LS.st) : b.drill.tempo});
     $('sb-drill').innerHTML = drillHtml(d, 'seance-'+i, {bare:true});
-    startDrill($('sb-drill').firstElementChild, d.tempo);
+    if(!d.manual) startDrill($('sb-drill').firstElementChild, d.tempo);
   }else $('sb-drill').innerHTML = `<p class="sb-how">${b.how}</p>`;
   if(i>0) chime();
   tickSession(); SS.timer = setInterval(tickSession, 250); SS.last = performance.now();
