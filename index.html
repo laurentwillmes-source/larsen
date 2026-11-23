@@ -359,6 +359,17 @@ button.chord::after{content:"+";position:absolute;top:2px;right:8px;font-size:18
 .crit-inline input:checked{background:var(--ok);border-color:var(--ok)}
 .crit-inline input:checked::after{content:"";width:8px;height:4px;border:solid var(--surface);border-width:0 0 2.5px 2.5px;transform:translateY(-1px) rotate(-45deg)}
 .help-actions{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.tab-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-inline:-2px}
+.tab{display:block;height:auto;min-width:100%}
+.tab .ev rect{fill:var(--surface);stroke:var(--fg);stroke-width:1.2}
+.tab .ev text{fill:var(--fg)}
+.tab .ev.on rect{fill:var(--accent);stroke:var(--accent)}
+.tab .ev.on text{fill:var(--on-accent)}
+.man.riff{flex-direction:column;align-items:stretch}
+.man.riff .man-txt{flex-direction:row;align-items:baseline;flex-wrap:wrap;gap:4px 12px}
+.voice{flex:none;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--line);border-radius:4px;padding:6px 8px;color:var(--muted);background:var(--surface)}
+.voice[aria-pressed="true"]{background:var(--btn);color:var(--btn-fg);border-color:var(--btn)}
+.drill-ctrl{flex-wrap:wrap}
 .btn-dark{background:var(--btn);color:var(--btn-fg)}
 .song .meta .lesson{color:var(--accent-text)}
 
@@ -599,6 +610,18 @@ const SONGS = [
       "Jouer doux, c'est surtout toucher les cordes moins profondément, pas ralentir le bras.",
     ],
   },
+  {
+    id:'goo-goo-muck', title:'Goo Goo Muck', artist:'The Cramps', year:1981,
+    tuning:'standard', level:'Débutant', feel:'Garage rock · psychobilly',
+    intro:"Un riff à notes isolées, dans l'esprit garage et psychobilly des Cramps. Peu de notes, mais placées au bon moment, avec des silences qui comptent autant qu'elles.",
+    get riffPreview(){ return GG_RIFF; },
+    gridNote:"Le mini-riff est un exercice préparatoire original de la leçon, pas le riff de l'enregistrement. Pas de mode Jouer tant qu'il n'y a pas de tablature vérifiée.",
+    tips:[
+      "Un petit geste du médiator suffit : il traverse la corde et s'arrête avant la suivante.",
+      "Le silence fait partie du riff. Étouffe la corde avec la paume pour qu'il soit vrai.",
+      "En son saturé, chaque bruit parasite s'entend : commence en son clair.",
+    ],
+  },
 ];
 
 /* ---------- Leçons ----------
@@ -700,6 +723,132 @@ function tkChanges(withAccents){
     returnTempo:80,
   };
 }
+/* ---------- Riffs : notes isolées ----------
+   Un riff = { len : longueur en croches (8 = une mesure), events : [...] }.
+   Chaque note : s corde (0 = Mi grave … 5 = Mi aigu), f case, t début et d durée en croches,
+   finger doigt conseillé (1 index … 4 auriculaire, absent = corde à vide), acc accent, dyn ou lab petite consigne au-dessus.
+   Le rythme est toujours écrit ici, jamais déduit d'une tablature en texte. */
+const N = (s,f,t,d,o={}) => Object.assign({s,f,t,d}, o);
+const seqRiff = notes => ({len: notes.length*2, events: notes.map(([s,f,finger],i)=>N(s,f,i*2,2,finger?{finger}:{}))});
+// Le mini-riff de la leçon : exercice original, pas le riff des Cramps.
+const GG_NOTES = [[0,0],[0,0],[1,2,1],[0,0],[1,2,1],[1,4,3],[1,2,1],[0,3,2],[0,0]];
+const GG_FRAG_A = [[0,0],[0,0],[1,2,1]], GG_FRAG_B = [[1,2,1],[1,4,3],[1,2,1]], GG_FRAG_C = [[0,3,2],[0,0]];
+const GG_TIMES = [[0,1],[1,1],[2,2],[4,2],[6,1],[7,1],[8,2],[10,2],[12,2]];          // début, durée (en croches)
+const ggRiff = (extra=()=>({})) => ({len:16, events: GG_NOTES.map(([s,f,finger],i)=>N(s,f,GG_TIMES[i][0],GG_TIMES[i][1], Object.assign(finger?{finger}:{}, extra(i))))});
+const GG_RIFF = ggRiff();
+const GG_STACCATO = {len:16, events: GG_RIFF.events.map(e=>Object.assign({}, e, {d:1}))};
+const GG_QUARTERS = {len:24, events: GG_NOTES.map(([s,f,finger],i)=>N(s,f,i*2,2,finger?{finger}:{}))};
+const E_QUARTERS = {len:8, events:[0,2,4,6].map(t=>N(0,0,t,2))};
+const A_EXERCISE = [[1,2,1],[1,2,1],[1,4,3],[1,2,1]];
+const A_QUARTERS = {len:8, events: A_EXERCISE.map(([s,f,finger],i)=>N(s,f,i*2,2,{finger}))};
+const E_SILENCES = {len:8, events:[N(0,0,0,1),N(0,0,2,1),N(0,0,5,1)]};
+const E_RESONANCE = {len:8, events:[N(0,0,0,4,{lab:'sonne'}),N(0,0,4,1,{lab:'coupe'})]};
+Object.assign(HELP, {
+  ggOneString: {
+    id:'gg-one-string', skill:"Jouer une seule corde, proprement",
+    intro:"On va ralentir le geste. Pour l'instant, une seule chose compte : que le médiator ne touche que la corde de Mi grave.",
+    reason:"Quand on touche les cordes voisines, c'est presque toujours un geste trop ample ou trop rapide. On le réduit, puis on remet le tempo.",
+    levels:[
+      {name:"Une note à la fois", change:"Une note sur Mi grave, sans métronome. Tu joues, tu écoutes, puis « Suivant ».",
+       drill:{manual:true, riff:seqRiff([[0,0],[0,0],[0,0],[0,0]]), hint:"Pose le médiator sur la corde avant de jouer : tu sens où elle est."}},
+      {name:"Deux notes par mesure", change:"Deux notes longues par mesure, à 50 bpm.",
+       drill:{riff:{len:8, events:[N(0,0,0,4),N(0,0,4,4)]}, tempos:[50], tempo:50, hint:"Un coup sur le 1, un coup sur le 3."}},
+      {name:"Quatre notes", change:"Quatre notes par mesure, toujours à 50 bpm.",
+       drill:{riff:E_QUARTERS, tempos:[50], tempo:50, hint:"Un coup par clic, petit geste du poignet."}},
+    ],
+    teacherTip:"Le médiator descend juste assez pour traverser la corde et s'arrête avant la suivante. C'est un tout petit mouvement.",
+    returnCondition:"Quand les quatre notes à 50 bpm sonnent pareil, sans corde parasite. L'exercice reprend à 70 bpm : seul le tempo change.",
+    returnTempo:70,
+  },
+  ggFrets: {
+    id:'gg-frets', skill:"Placer les doigts sur la corde de La",
+    intro:"On sépare les doigts. D'abord l'index seul, puis l'annulaire, et seulement ensuite le rythme.",
+    reason:"Passer de la case 2 à la case 4 demande d'écarter la main sans la déplacer. On s'occupe d'un doigt à la fois.",
+    levels:[
+      {name:"L'index", change:"Case 2 seulement, avec l'index, sans métronome.",
+       drill:{manual:true, riff:seqRiff([[1,2,1],[1,2,1],[1,2,1],[1,2,1]]), hint:"Appuie juste derrière la frette, sans écraser."}},
+      {name:"L'annulaire", change:"Case 2 puis case 4, en alternance. L'index reste posé quand l'annulaire joue.",
+       drill:{manual:true, riff:seqRiff([[1,2,1],[1,4,3],[1,2,1],[1,4,3]]), hint:"La main ne bouge pas : seul l'annulaire s'ajoute."}},
+      {name:"L'exercice sans tempo", change:"Les quatre notes de l'exercice, à ton rythme.",
+       drill:{manual:true, riff:seqRiff(A_EXERCISE), hint:"2, 2, 4, 2."}},
+    ],
+    teacherTip:"Garde l'index posé sur la case 2 quand l'annulaire joue la case 4 : tu retrouves la position sans chercher.",
+    returnCondition:"Quand les quatre notes s'enchaînent sans hésitation. L'exercice reprend à 60 bpm : on ajoute seulement le métronome.",
+    returnTempo:60,
+  },
+  ggNotes: {
+    id:'gg-notes', skill:"Mémoriser la suite de notes",
+    intro:"On réduit le riff, puis on le reconstruit morceau par morceau. Les autres fragments sont masqués pour l'instant.",
+    reason:"Neuf notes sur deux cordes, c'est beaucoup à retenir d'un coup. On commence par deux notes, et on en ajoute à chaque niveau.",
+    levels:[
+      {name:"Deux notes", change:"Mi grave à vide et La case 2, en alternance. C'est le changement de corde du riff.",
+       drill:{manual:true, riff:seqRiff([[0,0],[1,2,1],[0,0],[1,2,1]]), hint:"Le médiator saute d'une corde, pas plus."}},
+      {name:"Le début", change:"Le fragment A suivi d'un Mi grave : les quatre premières notes du riff.",
+       drill:{manual:true, riff:seqRiff([[0,0],[0,0],[1,2,1],[0,0]]), hint:"0, 0, 2, 0."}},
+      {name:"Le milieu", change:"On ajoute le fragment B : les sept premières notes.",
+       drill:{manual:true, riff:seqRiff(GG_NOTES.slice(0,7)), hint:"Le fragment B, c'est 2, 4, 2 sur la corde de La."}},
+    ],
+    teacherTip:"Dis les notes à voix haute en les jouant : « zéro, zéro, deux, zéro… ». La voix aide la mémoire.",
+    returnCondition:"Quand les sept premières notes viennent sans regarder l'écran. L'exercice complet n'ajoute que le fragment C.",
+  },
+  ggRhythm: {
+    id:'gg-rhythm', skill:"Donner un rythme au riff",
+    intro:"On revient à une pulsation simple. Le rythme du riff viendra quand les notes tomberont toutes seules sur les clics.",
+    reason:"Le riff mélange des notes courtes, des notes longues et un silence. Avant ça, chaque note sur un temps, lentement.",
+    levels:[
+      {name:"Une note par temps", change:"Les notes du riff, une par clic, à 50 bpm. Pas de notes courtes, pas de silence au milieu.",
+       drill:{riff:GG_QUARTERS, tempos:[50], tempo:50, hint:"Une note par clic. La fin de la boucle laisse un silence pour souffler."}},
+      {name:"Le vrai rythme, lentement", change:"Le rythme de l'exercice, avec ses notes courtes et son silence, à 50 bpm.",
+       drill:{riff:GG_RIFF, tempos:[50], tempo:50, hint:"Les deux premières notes sont rapides, la fin est plus posée."}},
+    ],
+    teacherTip:"Une note jouée au bon moment vaut mieux que trois notes jouées trop vite.",
+    returnCondition:"Quand le vrai rythme passe quatre fois de suite à 50 bpm. L'exercice reprend à 60 : seul le tempo change.",
+    returnTempo:60,
+  },
+  ggSilence: {
+    id:'gg-silence', skill:"Garder la pulsation pendant les silences",
+    intro:"On remet une note sur chaque temps, avec un arrêt après chacune. Le silence irrégulier viendra ensuite.",
+    reason:"Dans ce motif, le silence n'arrive pas toujours au même endroit, et c'est ça qui perd la pulsation. On l'apprivoise d'abord régulier.",
+    levels:[
+      {name:"Arrêt régulier", change:"Une note courte sur chaque temps, à 50 bpm. Après chaque note, tu l'arrêtes.",
+       drill:{riff:{len:8, events:[0,2,4,6].map(t=>N(0,0,t,1))}, tempos:[50], tempo:50, hint:"Attaque, arrêt, silence, et ainsi de suite."}},
+      {name:"Le motif, lentement", change:"Le motif de l'exercice, à 50 bpm.",
+       drill:{riff:E_SILENCES, tempos:[50], tempo:50, hint:"1, 2, puis le « et » du 3."}},
+    ],
+    teacherTip:"Pendant les silences, continue de compter dans ta tête, ou de taper du pied. Le silence a sa place dans la mesure.",
+    returnCondition:"Quand le motif tient une minute à 50 bpm. L'exercice reprend à 60 : seul le tempo change.",
+    returnTempo:60,
+  },
+  ggResonance: {
+    id:'gg-resonance', skill:"Contrôler la durée des notes",
+    intro:"On sépare les deux sons. D'abord une note qu'on laisse sonner, puis une note qu'on arrête, et seulement après les deux à la suite.",
+    reason:"Alterner long et court demande de changer de geste à chaque note. On travaille chaque geste seul.",
+    levels:[
+      {name:"Laisser sonner", change:"Deux notes longues par mesure, à 50 bpm. Écoute jusqu'où elles résonnent.",
+       drill:{riff:{len:8, events:[N(0,0,0,4,{lab:'sonne'}),N(0,0,4,4,{lab:'sonne'})]}, tempos:[50], tempo:50, hint:"Ne touche à rien après le coup."}},
+      {name:"Arrêter", change:"Deux notes courtes, arrêtées tout de suite, à 50 bpm.",
+       drill:{riff:{len:8, events:[N(0,0,0,1,{lab:'coupe'}),N(0,0,4,1,{lab:'coupe'})]}, tempos:[50], tempo:50, hint:"La paume se pose sur la corde juste après le coup."}},
+    ],
+    teacherTip:"Sur une corde à vide, c'est la paume de la main droite qui arrête le son. Pose-la doucement, sans frapper.",
+    returnCondition:"Quand tes notes longues sonnent bien et que tes notes courtes s'arrêtent net. L'exercice les alterne à 60 bpm.",
+    returnTempo:60,
+  },
+  ggCharacter: {
+    id:'gg-character', skill:"Donner du caractère au riff",
+    intro:"On repart du riff tout simple, sans nuance. Si ça ne sonne pas encore bien, ce ne sont pas les accents qui vont le sauver.",
+    reason:"Le caractère vient d'abord de notes propres et de silences nets. Les accents s'ajoutent en dernier.",
+    levels:[
+      {name:"Le riff neutre", change:"Le riff, toutes les notes à la même force, à 60 bpm. Écoute la différence entre notes longues et courtes.",
+       drill:{riff:GG_RIFF, tempos:[60], tempo:60, hint:"Même force partout."}},
+      {name:"Les silences nets", change:"Toutes les notes courtes, à 60 bpm : on entend chaque silence.",
+       drill:{riff:GG_STACCATO, tempos:[60], tempo:60, hint:"Chaque note s'arrête net."}},
+    ],
+    teacherTip:"Les Cramps, ce n'est pas une course de vitesse. Cherche plutôt ce côté un peu traînant, presque insolent.",
+    returnCondition:"Quand le riff sonne propre, avec des silences nets. L'exercice ajoute alors les accents, à 60 bpm.",
+    returnTempo:60,
+  },
+});
+
 const LESSONS = {
   'monkey-man': {
     title: "Le skank de Monkey Man",
@@ -1499,6 +1648,221 @@ const LESSONS = {
       doneText:"Leçon validée. Le mode Jouer utilise la grille relevée sur les tablatures : mêmes formes, d'autres cases.",
     },
   },
+  'goo-goo-muck': {
+    title: "Faire parler quelques notes",
+    numberAll: true,
+    goal: "Apprendre les bases du jeu en riff : des notes isolées, placées au bon moment, avec des silences qui comptent autant que les notes.",
+    difficulty: 2,
+    difficultyText: "Débutant, en adaptation simplifiée. Deux cordes, trois doigts.",
+    skill: "Jouer une note sans toucher les autres cordes, passer d'une corde à l'autre, retenir une courte phrase, la jouer en rythme et contrôler la durée de chaque note.",
+    duration: "Compte deux semaines à 15 minutes par jour.",
+    how: "Neuf étapes, une seule nouveauté à chaque fois, puis une séance guidée et une validation. Sous chaque exercice, « C'est trop difficile » te propose une variante. Coche les critères quand tu y arrives : c'est toi le juge, l'app ne t'écoute pas pendant la leçon.",
+    sources: {
+      fromSong: [
+        "Le morceau, l'artiste, l'album Psychedelic Jungle (1981) et le style : garage rock, psychobilly.",
+        "Aucune note ni aucun rythme de l'enregistrement n'est utilisé ici. Sans tablature vérifiée, ce morceau n'a pas encore de mode Jouer.",
+      ],
+      teaching: [
+        "Le mini-riff et tous les exercices sont des préparations originales dans l'esprit du morceau. Ce n'est pas le riff des Cramps.",
+        "Les réglages de son de l'étape 9 sont des suggestions, pas le matériel du groupe.",
+      ],
+    },
+    steps: [
+      {
+        id:'decouvrir', title:"Découvrir le riff", novelty:"l'idée de riff",
+        goal:"Comprendre ce qu'est un riff, et reconnaître quand la phrase principale du morceau recommence.",
+        sections:[
+          {h:"Trois notions", list:[
+            "<b>Une note isolée :</b> on ne frappe qu'une seule corde, pas un accord.",
+            "<b>Un riff :</b> une petite phrase musicale, répétée en boucle.",
+            "<b>Un silence :</b> un moment où l'on ne joue pas. Il fait partie du rythme, au même titre que les notes.",
+          ]},
+          {h:"L'exercice", p:"Lance Goo Goo Muck sur ton service de musique, guitare posée. Tape du pied sur la pulsation, et repère le moment où la phrase principale revient. Fais-le sur deux ou trois écoutes."},
+        ],
+        teacher:"Avec les Buzzcocks et les Undertones, tu frappais des accords. Avec les Cramps, on va apprendre à faire parler quelques notes. Le secret, ce n'est pas d'en jouer beaucoup : c'est de les placer au bon moment.",
+        easier:"Écoute seulement le début du morceau, jusqu'au premier retour de la phrase. Tape du pied d'abord, cherche la phrase ensuite.",
+        mistakes:[
+          {e:"Tu ne sais pas où commence la phrase.", fix:"Écoute la basse et la guitare plutôt que la voix : c'est souvent elles qui répètent le motif."},
+        ],
+        criteria:["Je reconnais quand la phrase principale recommence.", "Je tape du pied sur la pulsation pendant tout un couplet."],
+      },
+      {
+        id:'une-corde', title:"Jouer une seule corde", novelty:"la note isolée",
+        goal:"Quatre notes propres sur la corde de Mi grave, sans toucher les autres cordes.",
+        sections:[
+          {h:"La main droite", list:[
+            "Médiator vers le bas.",
+            "Petit mouvement du poignet : le médiator traverse la corde et s'arrête avant la suivante.",
+            "Évite de toucher la corde de La, juste en dessous.",
+          ]},
+        ],
+        drills:[{label:"Quatre noires sur Mi grave", riff:E_QUARTERS, tempos:[60,70], tempo:70, help:HELP.ggOneString,
+                 hint:"Une note par clic. Coupe le son de l'app avec « Entendre le riff » si tu préfères t'écouter."}],
+        teacher:"Pas besoin de frapper fort. Essaie surtout d'obtenir quatre notes qui sonnent de la même manière.",
+        mistakes:[
+          {e:"La corde de La sonne aussi.", fix:"Ton geste est trop ample. Imagine que le médiator rebondit sur la corde de La sans la traverser."},
+          {e:"Les notes n'ont pas la même force.", fix:"Garde la même hauteur de départ pour chaque coup."},
+        ],
+        criteria:["Je joue quatre notes propres à 70 bpm, sans bruit parasite."],
+      },
+      {
+        id:'main-gauche', title:"Ajouter la main gauche", novelty:"les cases 2 et 4",
+        goal:"Sur la corde de La, passer de la case 2 à la case 4 sans perdre la position de la main.",
+        sections:[
+          {h:"Les doigts", list:[
+            "<b>Case 2 :</b> l'index.",
+            "<b>Case 4 :</b> l'annulaire. La main reste au même endroit, seul l'annulaire s'étire.",
+          ]},
+          {h:"Appuyer juste", p:"Appuie juste derrière la frette, pas au milieu de la case. Il suffit d'appuyer assez pour que la note sonne clair : écraser la corde fatigue la main et fait monter la note."},
+        ],
+        drills:[
+          {manual:true, label:"Sans métronome", riff:seqRiff(A_EXERCISE), hint:"Une note, puis « Suivant ». 2, 2, 4, 2."},
+          {label:"À 60 bpm", riff:A_QUARTERS, tempos:[50,60], tempo:60, help:HELP.ggFrets, hint:"Une note par clic."},
+        ],
+        teacher:"Garde l'index posé sur la case 2 quand l'annulaire joue la case 4. Tu retrouves la position sans chercher.",
+        mistakes:[
+          {e:"La note frise.", fix:"Rapproche le doigt de la frette, côté corps de la guitare."},
+          {e:"Toute la main se déplace pour la case 4.", fix:"Écarte seulement les doigts. L'index ne quitte pas la case 2."},
+        ],
+        criteria:["Je passe de la case 2 à la case 4 sans perdre la position de la main."],
+      },
+      {
+        id:'mini-riff', title:"Premier mini-riff", novelty:"enchaîner deux cordes",
+        goal:"Jouer la suite de notes du mini-riff sans hésiter. Pas encore de rythme imposé.",
+        sections:[
+          {h:"Trois fragments", p:"Le mini-riff tient sur deux cordes. On le découpe en trois fragments, qu'on travaille séparément avant de les assembler. Pour la case 3 sur Mi grave, utilise le majeur."},
+          {h:"Ce que tu joues", p:"C'est un exercice original, préparatoire. Ce n'est pas le riff officiel de Goo Goo Muck."},
+        ],
+        drills:[
+          {manual:true, label:"Fragment A", riff:seqRiff(GG_FRAG_A), hint:"Mi grave à vide deux fois, puis La case 2 avec l'index."},
+          {manual:true, label:"Fragment B", riff:seqRiff(GG_FRAG_B), hint:"Sur la corde de La : 2, 4, 2. Index, annulaire, index."},
+          {manual:true, label:"Fragment C", riff:seqRiff(GG_FRAG_C), hint:"Mi grave case 3 avec le majeur, puis à vide."},
+          {manual:true, label:"Le mini-riff entier", riff:seqRiff(GG_NOTES), help:HELP.ggNotes, hint:"A, un Mi grave à vide, B, puis C."},
+        ],
+        teacher:"Ne cherche pas encore de rythme. Une note juste, puis la suivante : le rythme viendra à l'étape d'après, sur des notes déjà sûres.",
+        mistakes:[
+          {e:"Tu oublies le Mi grave entre les fragments A et B.", fix:"C'est la note qui relie les deux. Dis-le à voix haute : « A, zéro, B, C »."},
+          {e:"Le médiator accroche en changeant de corde.", fix:"Ralentis : le geste vers la corde de La doit rester aussi petit que sur Mi grave."},
+        ],
+        criteria:["Je joue la succession de notes sans hésiter."],
+      },
+      {
+        id:'rythme', title:"Donner un rythme au riff", novelty:"le rythme du riff",
+        goal:"Jouer le mini-riff en rythme, quatre fois de suite, en montant de 60 à 80 bpm.",
+        sections:[
+          {h:"Le rythme de l'exercice", p:"Deux notes rapides, puis des notes plus posées, et un silence à la fin de la boucle. La tablature montre la durée de chaque note : la ligne qui suit un chiffre indique qu'il sonne plus longtemps."},
+          {h:"La progression", p:"Lentement à 60, quatre répétitions. Puis 70, puis 80. Ne monte que si le palier précédent est régulier."},
+        ],
+        drills:[{label:"Le mini-riff en rythme", riff:GG_RIFF, tempos:[60,70,80], tempo:60, help:HELP.ggRhythm, hint:"Le clic aigu marque le début de chaque mesure. La boucle dure deux mesures."}],
+        teacher:"Une note jouée au bon moment vaut mieux que trois notes jouées trop vite.",
+        mistakes:[
+          {e:"Tu accélères sur les deux premières notes.", fix:"Elles sont rapides, pas précipitées : elles tombent sur le 1 et son « et »."},
+          {e:"Tu oublies le silence de la fin.", fix:"Compte-le : la boucle ne recommence qu'au clic aigu suivant."},
+        ],
+        criteria:["Quatre répétitions régulières à 60 bpm", "à 70 bpm", "à 80 bpm"],
+        tempoLadder:[60,70,80],
+      },
+      {
+        id:'silences', title:"Apprendre les silences", novelty:"les silences",
+        goal:"Garder la pulsation même quand on ne joue pas.",
+        sections:[
+          {h:"Le motif, sur Mi grave", p:"1 et 2 et 3 et 4 et : une note sur le 1, une sur le 2, une sur le « et » du 3. Partout ailleurs, aucune note ne doit être attaquée, et la corde doit être étouffée pour que le silence soit vrai."},
+          {h:"En quatre temps", list:["Une attaque.", "Un arrêt net : la paume de la main droite se pose sur la corde.", "Un silence.", "Une nouvelle attaque."]},
+        ],
+        drills:[{label:"Notes et silences", riff:E_SILENCES, tempos:[50,60,70], tempo:60, help:HELP.ggSilence, hint:"Chaque note est courte. Compte les silences."}],
+        teacher:"Le silence fait partie du riff. Il ne faut pas chercher à remplir tous les espaces.",
+        mistakes:[
+          {e:"La corde continue de sonner pendant le silence.", fix:"Pose la paume de la main droite sur la corde juste après la note."},
+          {e:"Tu rejoues trop tôt après le 2.", fix:"Le silence dure un temps et demi. Tape du pied pour le sentir."},
+        ],
+        criteria:["Je garde la pulsation même pendant les silences, à 60 bpm."],
+      },
+      {
+        id:'resonance', title:"Contrôler la résonance", novelty:"la durée des notes",
+        goal:"Choisir si une note sonne longtemps ou s'arrête net.",
+        sections:[
+          {h:"Deux façons d'arrêter une note", list:[
+            "<b>Main gauche :</b> sur une note appuyée, relâche la pression sans quitter complètement la corde.",
+            "<b>Main droite :</b> pour une corde à vide, pose doucement la paume sur la corde.",
+          ]},
+          {h:"L'exercice", p:"Une note qu'on laisse résonner, puis la même note qu'on arrête aussitôt. Écoute d'abord la différence."},
+        ],
+        demos:[{label:"Écouter : elle sonne", frets:[0,-1,-1,-1,-1,-1], dur:1.6}, {label:"Écouter : arrêtée", frets:[0,-1,-1,-1,-1,-1], dur:0.15}],
+        drills:[{label:"Longue, puis courte", riff:E_RESONANCE, tempos:[50,60,70], tempo:60, help:HELP.ggResonance, hint:"La première sonne deux temps, la seconde s'arrête net."}],
+        teacher:"Arrêter une note n'est pas la frapper moins fort. La note courte part avec la même énergie, c'est la suite qui change.",
+        mistakes:[
+          {e:"La note courte fait un bruit en s'arrêtant.", fix:"Ta paume frappe la corde. Pose-la doucement, comme pour la caresser."},
+        ],
+        criteria:["J'arrête volontairement la résonance d'une note."],
+      },
+      {
+        id:'caractere', title:"Donner du caractère", novelty:"les nuances",
+        goal:"Un motif régulier, avec des attaques contrastées.",
+        sections:[
+          {h:"Un paramètre à la fois", list:[
+            "<b>Accents :</b> légèrement plus fort sur les notes marquées >.",
+            "<b>Silences :</b> des notes plus courtes, pour laisser respirer le riff.",
+            "<b>Attaque souple :</b> certaines notes plus douces, au lieu de tout jouer à la même force.",
+          ]},
+          {h:"Dans l'ordre", p:"Trois exercices, un paramètre chacun. Ne passe au suivant que quand le précédent sonne naturellement."},
+        ],
+        drills:[
+          {label:"1. Les accents", riff:ggRiff(i=>i===0||i===6?{acc:true}:{}), tempos:[60,70], tempo:60, help:HELP.ggCharacter, hint:"Plus fort sur le premier temps de chaque mesure."},
+          {label:"2. Les silences", riff:GG_STACCATO, tempos:[60,70], tempo:60, hint:"Toutes les notes courtes : le riff respire."},
+          {label:"3. L'attaque souple", riff:ggRiff(i=>i===1||i===5?{dyn:'doux'}:{}), tempos:[60,70], tempo:60, hint:"Les notes marquées « doux » sont jouées plus légèrement."},
+        ],
+        teacher:"Les Cramps, ce n'est pas une course de vitesse. Cherche plutôt ce côté un peu traînant, presque insolent.",
+        mistakes:[
+          {e:"Tu accélères sur les accents.", fix:"Le tempo ne bouge pas : seule la force change."},
+          {e:"Tout finit par sonner pareil.", fix:"Exagère au début. Les nuances se réduiront d'elles-mêmes."},
+        ],
+        criteria:["J'obtiens un motif régulier avec des attaques contrastées."],
+      },
+      {
+        id:'son', title:"Jouer avec un son garage", novelty:"le son",
+        goal:"Trouver un son mordant, sans que l'exercice en dépende.",
+        sections:[
+          {h:"Des réglages simples, facultatifs", list:[
+            "<b>Micro chevalet</b> pour une attaque mordante.",
+            "<b>Gain ou overdrive</b> léger à modéré.",
+            "<b>Un peu de réverbération.</b>",
+            "Pas besoin d'une grosse distorsion : trop de saturation noie les silences.",
+          ]},
+          {h:"À savoir", p:"Ce sont des suggestions de son, pas une reproduction du matériel des Cramps. L'exercice doit aussi sonner en son clair : commence par là, puis ajoute le crunch."},
+        ],
+        drills:[{label:"Le mini-riff, clair puis crunch", riff:GG_RIFF, tempos:[60,70,80], tempo:70, help:HELP.ggRhythm, hint:"Quatre boucles en son clair, quatre avec un peu de gain."}],
+        teacher:"Avec plus de gain, chaque bruit parasite s'entend davantage. C'est le moment de vérifier tes silences et tes cordes étouffées.",
+        mistakes:[
+          {e:"Avec le gain, ça devient brouillon.", fix:"Baisse le gain et étouffe mieux les cordes que tu ne joues pas."},
+        ],
+        criteria:["Je joue le mini-riff en son clair.", "Puis avec un peu de crunch, en gardant des silences nets."],
+      },
+    ],
+    session: {
+      title:"Séance guidée",
+      intro:"Dix minutes en cinq blocs. Ils s'enchaînent seuls ; tu peux recommencer un bloc ou le marquer terminé à tout moment.",
+      blocks:[
+        {min:2, title:"Précision", how:"Quatre notes sur Mi grave.", drill:{riff:E_QUARTERS, tempo:70}},
+        {min:2, title:"Placement", how:"Cases 2 et 4 sur la corde de La.", drill:{riff:A_QUARTERS, tempo:60}},
+        {min:2, title:"Assemblage", how:"Les fragments du mini-riff, à ton rythme.", drill:{manual:true, label:"Le mini-riff", riff:seqRiff(GG_NOTES), hint:"Une note, puis « Suivant »."}},
+        {min:2, title:"Rythme", how:"Le mini-riff au métronome, à ton palier du jour.", drill:{riff:GG_RIFF, tempo:'palier'}},
+        {min:2, title:"Expression", how:"Silences, accents et notes arrêtées.", drill:{riff:ggRiff(i=>i===0||i===6?{acc:true}:{}), tempo:'palier'}},
+      ],
+    },
+    checkpoint: {
+      title:"Validation finale",
+      intro:"Coche seulement ce que tu fais vraiment sans y penser. La synthèse en dessous te dit ce qui est acquis et quelle étape revoir pour le reste.",
+      criteria:[
+        {t:"Je joue une note isolée sans toucher les autres cordes.", step:'une-corde', skill:"La note isolée"},
+        {t:"Je passe d'une corde à l'autre.", step:'mini-riff', skill:"Le changement de corde"},
+        {t:"Je connais par cœur la courte phrase du mini-riff.", step:'mini-riff', skill:"Mémoriser une phrase"},
+        {t:"Je joue quatre répétitions au même tempo.", step:'rythme', skill:"La régularité"},
+        {t:"Je respecte les silences.", step:'silences', skill:"Les silences"},
+        {t:"Je contrôle la durée des notes.", step:'resonance', skill:"La durée des notes"},
+      ],
+      doneText:"Leçon validée. Tu as les bases du jeu en riff.",
+    },
+  },
 };
 
 /* ---------- Outils notes ---------- */
@@ -1864,7 +2228,7 @@ function renderSongs(){
   $('songs').innerHTML = SONGS.map(s=>
     `<li><a class="song" href="#morceau-${s.id}"><span class="disc"></span>
       <div><div class="t">${s.title}</div><div class="a">${s.artist} · ${s.year}</div></div>
-      <span class="meta">${s.chords.length} accords<br>${s.level}${LESSONS[s.id]?`<br><span class="lesson">${lessonSummary(s)}</span>`:''}</span></a></li>`).join('');
+      <span class="meta">${s.chords?s.chords.length+' accords':'Riff'}<br>${s.level}${LESSONS[s.id]?`<br><span class="lesson">${lessonSummary(s)}</span>`:''}</span></a></li>`).join('');
 }
 function renderSong(s){
   const t = TUNINGS.find(x=>x.id===s.tuning);
@@ -1876,15 +2240,17 @@ function renderSong(s){
     <p>${s.intro}</p>
     <div class="actions">${LESSONS[s.id]?`<a class="secondary" href="#apprendre-${s.id}">Apprendre</a>`:''}${s.play?`<a class="secondary${LESSONS[s.id]?' btn-dark':''}" href="#jouer-${s.id}">Jouer le morceau</a>`:''}
       <button class="ghost" type="button" id="tune-for">Accorder en ${t.name}</button></div>
-    <div class="block"><h3>Les accords</h3>
+    ${s.riffPreview?`<div class="block"><h3>Le mini-riff de la leçon</h3><div class="tab-wrap">${tabSvg(s.riffPreview)}</div>
+      <p class="note-small">Sous la tablature, le doigt conseillé et le comptage. Un trait après un chiffre : la note dure plus longtemps.</p></div>`:''}
+    ${s.chords?`<div class="block"><h3>Les accords</h3>
       <div class="chords">${s.chords.map((c,i)=>`<button type="button" class="chord" data-c="${i}" aria-label="Agrandir l'accord ${c.name}"><b>${c.name}</b>${chordSvg(c.frets)}</button>`).join('')}</div>
-      <p class="note-small">Les chiffres dans les pastilles sont les doigts : 1 index, 2 majeur, 3 annulaire, 4 auriculaire. Le chiffre à droite du schéma est la case de départ, × une corde à ne pas jouer. Touche un accord pour l'agrandir.</p></div>
-    <div class="block"><h3>La grille</h3><div>
+      <p class="note-small">Les chiffres dans les pastilles sont les doigts : 1 index, 2 majeur, 3 annulaire, 4 auriculaire. Le chiffre à droite du schéma est la case de départ, × une corde à ne pas jouer. Touche un accord pour l'agrandir.</p></div>`:''}
+    ${s.sections?`<div class="block"><h3>La grille</h3><div>
       ${s.sections.map(x=>`<div class="section"><div class="n">${x.name}${x.note?`<small>${x.note}</small>`:''}</div>
-        <div class="prog">${x.prog.map(c=>`<b>${c}</b>`).join('<i>→</i>')}</div></div>`).join('')}</div></div>
-    <div class="block"><h3>La main droite</h3>
+        <div class="prog">${x.prog.map(c=>`<b>${c}</b>`).join('<i>→</i>')}</div></div>`).join('')}</div></div>`:''}
+    ${s.strum?`<div class="block"><h3>La main droite</h3>
       <div class="strum">${s.strum.pattern.map((p,i)=>`<div><span class="arr">${p==='D'?'↓':p==='U'?'↑':'·'}</span><span class="cnt">${counts[i]}</span></div>`).join('')}</div>
-      <p>${s.strum.label}</p></div>
+      <p>${s.strum.label}</p></div>`:''}
     <div class="block"><h3>Conseils</h3><ul class="tips">${s.tips.map(x=>`<li>${x}</li>`).join('')}</ul></div>
     <p class="note-small">${s.gridNote || "Grille simplifiée pour débuter. Joue par-dessus le disque pour caler les changements à l'oreille."}</p>`;
   $('view-song').querySelectorAll('button.chord').forEach(b=>b.addEventListener('click', ()=>openChord(s, +b.dataset.c)));
@@ -2268,12 +2634,54 @@ function drawLane(now){
   }
 }
 
+/* ---------- Tablature de riff ---------- */
+const STR_NAMES = ['Mi grave','La','Ré','Sol','Si','Mi aigu'], STR_LET = ['E','A','D','G','B','e'];
+const FINGER = {1:'index', 2:'majeur', 3:'annulaire', 4:'auriculaire'};
+const fingerText = e => e.f===0 ? 'à vide' : FINGER[e.finger] || '';
+/* Six cordes, les notes à leur place dans le temps, la durée en trait, les doigts et le comptage dessous. */
+function tabSvg(r, active=-1){
+  const CW = 26, X0 = 30, top = 30, SG = 17, W = X0 + r.len*CW + 6, base = top + 5*SG, H = base + 44;
+  const Y = s => top + (5-s)*SG, F = 'font-family="var(--font)" text-anchor="middle"';
+  let h = `<svg class="tab" viewBox="0 0 ${W} ${H}" style="width:${Math.max(100, Math.round(r.len/16*100))}%" aria-hidden="true">`;
+  for(let s=0;s<6;s++) h += `<line x1="${X0}" y1="${Y(s)}" x2="${W-6}" y2="${Y(s)}" stroke="var(--line)" stroke-width="1.2"/><text x="12" y="${Y(s)+4}" font-size="12" font-weight="700" fill="var(--muted)" ${F}>${STR_LET[s]}</text>`;
+  for(let b=0;b<=r.len;b+=8) h += `<line x1="${X0+b*CW}" y1="${Y(5)}" x2="${X0+b*CW}" y2="${Y(0)}" stroke="var(--fg)" stroke-width="${b%r.len===0?2:1.2}"/>`;
+  for(let t=0;t<r.len;t++) h += `<text x="${X0+t*CW+CW/2}" y="${H-4}" font-size="11" font-weight="700" fill="var(--muted)" ${F}>${COUNTS[t%8].toUpperCase()}</text>`;
+  h += `<text x="12" y="${base+24}" font-size="9" font-weight="700" fill="var(--muted)" ${F}>DGT</text>`;
+  r.events.forEach((e,i)=>{
+    const x = X0 + e.t*CW + CW/2, y = Y(e.s);
+    if(e.d>1) h += `<line x1="${x+9}" y1="${y}" x2="${X0+(e.t+e.d)*CW-5}" y2="${y}" stroke="var(--accent)" stroke-width="3" stroke-linecap="round" opacity=".55"/>`;
+    h += `<g class="ev${i===active?' on':''}" data-ev="${i}"><rect x="${x-11}" y="${y-11}" width="22" height="22" rx="3"/><text x="${x}" y="${y+6}" font-size="17" font-weight="800" ${F}>${e.f}</text></g>`;
+    const above = e.acc ? '>' : e.dyn || e.lab || '';
+    if(above) h += `<text x="${x}" y="${e.acc?16:14}" font-size="${e.acc?17:9}" font-weight="800" fill="var(--accent-text)" ${F}>${e.acc?'&gt;':above.toUpperCase()}</text>`;
+    h += `<text x="${x}" y="${base+24}" font-size="13" font-weight="800" fill="var(--fg)" ${F}>${e.f===0?'–':e.finger||''}</text>`;
+  });
+  return h + '</svg>';
+}
+const activeEvent = (r, pos) => r.events.findIndex(e => pos>=e.t && pos<e.t+e.d);
+function showRiffPos(el, r, i){
+  el.querySelectorAll('.tab .ev').forEach(g=>g.classList.toggle('on', +g.dataset.ev===i));
+  const now$ = el.querySelector('.dc-now'), next$ = el.querySelector('.dc-next');
+  if(!now$) return;
+  if(i<0){ now$.textContent = '·'; next$.textContent = 'silence'; return; }
+  const e = r.events[i]; now$.textContent = e.f; next$.textContent = `corde de ${STR_NAMES[e.s]}${fingerText(e)?' · '+fingerText(e):''}`;
+}
+/* Une note de guitare à un instant précis (même son de corde pincée que le reste de l'app). */
+function pluckAt(freq, when, dur, gain=0.4, out){
+  const ac = audio(), p = pluck(freq, ac.sampleRate, Math.max(0.3, dur+0.1)), src = ac.createBufferSource(), g = ac.createGain();
+  src.buffer = ac.createBuffer(1, p.data.length, ac.sampleRate);
+  src.buffer.getChannelData(0).set(p.data);
+  src.playbackRate.value = p.rate;
+  const fade = Math.min(0.06, dur*0.3);
+  g.gain.setValueAtTime(gain, when); g.gain.setValueAtTime(gain, when+dur-fade); g.gain.linearRampToValueAtTime(0, when+dur);
+  src.connect(g).connect(out || ac.destination); src.start(when); src.stop(when+dur+0.05);
+}
+
 /* ---------- Mode Apprendre ---------- */
 function modeSwitch(song, cur){
   if(!LESSONS[song.id]) return '';
   return `<div class="seg mode-seg" role="tablist" aria-label="Mode">
     <a href="#apprendre-${song.id}" role="tab" aria-selected="${cur==='apprendre'}">Apprendre</a>
-    <a href="#jouer-${song.id}" role="tab" aria-selected="${cur==='jouer'}">Jouer</a></div>`;
+    ${song.play?`<a href="#jouer-${song.id}" role="tab" aria-selected="${cur==='jouer'}">Jouer</a>`:''}</div>`;
 }
 function lessonState(id){
   try{ const v = JSON.parse(store.get('lesson.'+id, '') || '{}'); return v && typeof v==='object' ? v : {}; }catch(e){ return {}; }
@@ -2382,7 +2790,7 @@ function chordCards(song, names){
 function stepHtml(song, L, st, sc){
   const s = sc.step, got = (st.checks||{})[s.id] || [];
   return `
-    <div><p class="eyebrow">Étape ${sc.n+(L.introStep?1:0)} sur ${L.introStep?L.steps.length+3:L.steps.length} · Nouveau : ${s.novelty}</p><h1 class="h-step">${s.title}</h1></div>
+    <div><p class="eyebrow">Étape ${sc.n+(L.introStep?1:0)} sur ${L.introStep?L.steps.length+3:L.numberAll?L.steps.length+2:L.steps.length} · Nouveau : ${s.novelty}</p><h1 class="h-step">${s.title}</h1></div>
     <p class="lead">${s.goal}</p>
     ${s.chords ? chordCards(song, s.chords) : ''}
     ${s.sections.map(x=>`<div class="lsec"><h3>${x.h}</h3>${x.p?`<p>${x.p}</p>`:''}${x.list?`<ul class="tips">${x.list.map(li=>`<li>${li}</li>`).join('')}</ul>`:''}</div>`).join('')}
@@ -2403,12 +2811,13 @@ function checkHtml(L, st){
   const got = (st.checks||{}).checkpoint || [];
   const done = L.checkpoint.criteria.every((_,i)=>got[i]);
   return `
-    <div><p class="eyebrow">${L.introStep?`Étape ${L.steps.length+3} sur ${L.steps.length+3}`:'Fin de la leçon'}</p><h1 class="h-step">${L.checkpoint.title||'Checkpoint'}</h1></div>
+    <div><p class="eyebrow">${L.introStep||L.numberAll?`Étape ${L.steps.length+2+(L.introStep?1:0)} sur ${L.steps.length+2+(L.introStep?1:0)}`:'Fin de la leçon'}</p><h1 class="h-step">${L.checkpoint.title||'Checkpoint'}</h1></div>
     <p class="lead">${L.checkpoint.intro}</p>
     ${critHtml('checkpoint', L.checkpoint.criteria, got)}
     <div class="badge${done?' on':''}" id="badge">${badgeText(L, done)}</div>
     <div id="summary">${summaryHtml(L, got)}</div>
-    <div class="actions"><a class="secondary" href="#jouer-${LS.song.id}">Passer en mode Jouer</a>
+    ${LS.song.play?'':`<p class="note-small">Pas encore de mode Jouer pour ce morceau : il faut d'abord une tablature et un rythme vérifiés sur l'enregistrement.</p>`}
+    <div class="actions">${LS.song.play?`<a class="secondary" href="#jouer-${LS.song.id}">Passer en mode Jouer</a>`:''}
       <button type="button" class="ghost" data-go="${LS.screens.length-2}">Refaire une séance</button></div>`;
 }
 
@@ -2436,12 +2845,14 @@ $('view-learn').addEventListener('click', e=>{
     hard.textContent = open ? 'Masquer la variante' : "C'est trop difficile"; if(!open) stopDrill(); return; }
   const demo = e.target.closest('[data-demo]');
   if(demo){ const sc = LS.screens[LS.at], dm = sc.step.demos[+demo.dataset.demo];
-    playChord(lessonChords().find(c=>c.name===dm.chord).frets, {dur:dm.dur, muted:dm.muted}); return; }
+    playChord(dm.frets || lessonChords().find(c=>c.name===dm.chord).frets, {dur:dm.dur, muted:dm.muted}); return; }
   const dt = e.target.closest('.drill [data-bpm]');
   if(dt){ const el = dt.closest('.drill'); el.querySelectorAll('[data-bpm]').forEach(b=>b.setAttribute('aria-pressed', String(b===dt)));
     if(DR && DR.el===el) startDrill(el); return; }
   const mn = e.target.closest('.drill.manual [data-man]');
   if(mn){ manualStep(mn.closest('.drill'), mn.dataset.man); return; }
+  const vo = e.target.closest('.drill [data-voice]');
+  if(vo){ const on = vo.getAttribute('aria-pressed')!=='true'; vo.setAttribute('aria-pressed', String(on)); if(DR && DR.el===vo.closest('.drill')) DR.voice = on; return; }
   const ds = e.target.closest('.drill .drill-go');
   if(ds){ const el = ds.closest('.drill'); (DR && DR.el===el) ? stopDrill() : startDrill(el); return; }
   const ss = e.target.closest('[data-session]'); if(ss){ sessionAction(ss.dataset.session); }
@@ -2455,9 +2866,9 @@ function drillHtml(d, key, opts={}){
   return withHelp(d, key, opts, `<div class="drill${d.help&&!opts.inner?' has-help':''}" id="drill-${key}" data-key="${key}" data-tempo="${d.tempo}">
     ${opts.inner ? `<p class="note-small">${d.hint||''}</p>` : opts.bare ? '' : `<div class="drill-head"><b>${d.label}</b><span class="tag ${d.source||'exercice'}">${d.source==='morceau'?'Grille du morceau, simplifiée':'Exercice'}</span></div>
     <p class="note-small">${d.hint}</p>`}
-    <div class="drill-chord"${d.bars?'':' hidden'}><span class="dc-now">${d.bars?drillBars(d)[0][0]:''}</span><span class="dc-next"></span><span class="dc-note"></span></div>
-    <div class="drill-row">${d.pattern.map((p,i)=>`<div class="cell${p==='X'?' x':''}" data-s="${i}">${d.marks?`<span class="mark${d.marks[i]==='>'?' acc':''}">${d.marks[i]||'&nbsp;'}</span>`:''}<span class="arr">${!p&&d.cut&&i%2===0?'<small>coupe</small>':SYM[p]}</span><span class="cnt">${COUNTS[i]}</span></div>`).join('')}</div>
-    <div class="drill-ctrl">${tempos.length>1?`<div class="seg tempo-seg">${tempos.map(t=>`<button type="button" data-bpm="${t}" aria-pressed="${t===d.tempo}"><b>${t}</b></button>`).join('')}</div>`:''}
+    <div class="drill-chord"${d.bars||d.riff?'':' hidden'}><span class="dc-now">${d.bars?drillBars(d)[0][0]:d.riff?d.riff.events[0].f:''}</span><span class="dc-next"></span><span class="dc-note"></span></div>
+    ${d.riff ? `<div class="tab-wrap">${tabSvg(d.riff)}</div>` : `<div class="drill-row">${d.pattern.map((p,i)=>`<div class="cell${p==='X'?' x':''}" data-s="${i}">${d.marks?`<span class="mark${d.marks[i]==='>'?' acc':''}">${d.marks[i]||'&nbsp;'}</span>`:''}<span class="arr">${!p&&d.cut&&i%2===0?'<small>coupe</small>':SYM[p]}</span><span class="cnt">${COUNTS[i]}</span></div>`).join('')}</div>`}
+    <div class="drill-ctrl">${d.riff?`<button type="button" class="voice" data-voice aria-pressed="true" title="L'app joue les notes avec toi">Entendre le riff</button>`:''}${tempos.length>1?`<div class="seg tempo-seg">${tempos.map(t=>`<button type="button" data-bpm="${t}" aria-pressed="${t===d.tempo}"><b>${t}</b></button>`).join('')}</div>`:''}
       <button type="button" class="drill-go">Démarrer</button></div>
   </div>`);
 }
@@ -2475,12 +2886,17 @@ function manualHtml(d, key, opts={}){
   return withHelp(d, key, opts, `<div class="drill manual${d.help&&!opts.inner?' has-help':''}" id="drill-${key}" data-key="${key}" data-i="0">
     ${opts.inner ? '' : `<div class="drill-head"><b>${d.label}</b><span class="tag exercice">Sans métronome</span></div>`}
     <p class="note-small">${d.hint}</p>
-    <div class="man">${manualView(d, 0)}</div>
-    <div class="drill-ctrl"><button type="button" class="ghost" data-man="reset">Recommencer</button>
+    <div class="man${d.riff?' riff':''}">${manualView(d, 0)}</div>
+    <div class="drill-ctrl"><button type="button" class="ghost" data-man="reset">Recommencer</button>${d.riff?`<button type="button" class="ghost" data-man="hear">Écouter</button>`:''}
       <button type="button" class="drill-go" data-man="next">Suivant</button></div>
   </div>`);
 }
 function manualView(d, i){
+  if(d.riff){
+    const e = d.riff.events[i];
+    return `<div class="man-txt"><span class="dc-now">${e.f}</span><span class="dc-next">corde de ${STR_NAMES[e.s]}${fingerText(e)?' · '+fingerText(e):''}</span>
+      <span class="man-count">${i+1} / ${d.riff.events.length}</span></div><div class="tab-wrap">${tabSvg(d.riff, i)}</div>`;
+  }
   const c = d.seq[i], nx = d.seq[i+1], ch = lessonChords().find(x=>x.name===c);
   return `<div class="man-txt"><span class="dc-now">${c}</span><span class="dc-next">${nx ? 'puis '+nx : 'Dernier'}</span>
       <span class="man-count">${i+1} / ${d.seq.length}</span></div><div class="man-svg">${chordSvg(ch.frets)}</div>`;
@@ -2488,12 +2904,14 @@ function manualView(d, i){
 function manualStep(el, what){
   const d = findDrill(el.dataset.key);
   let i = +el.dataset.i;
+  const count = d.riff ? d.riff.events.length : d.seq.length;
+  if(what==='hear'){ const e = d.riff.events[i]; pluckAt(midiFreq(OPEN[e.s]+e.f), audio().currentTime+0.02, 1.2); return; }
   if(what==='reset') i = 0;
-  else if(i < d.seq.length-1) i++;
+  else if(i < count-1) i++;
   else i = 0;
   el.dataset.i = i;
   el.querySelector('.man').innerHTML = manualView(d, i);
-  el.querySelector('[data-man="next"]').textContent = i===d.seq.length-1 ? 'Encore un tour' : 'Suivant';
+  el.querySelector('[data-man="next"]').textContent = i===count-1 ? 'Encore un tour' : 'Suivant';
 }
 function findDrill(key){
   if(key.includes('~h')){ const [base, n] = key.split('~h'); return findDrill(base).help.levels[+n].drill; }
@@ -2510,7 +2928,8 @@ function startDrill(el, bpmOverride){
   const sel = el.querySelector('[data-bpm][aria-pressed="true"]');
   const bpm = bpmOverride || (sel ? +sel.dataset.bpm : +el.dataset.tempo);
   const ac = audio(), e8 = 60/bpm/2;
-  DR = {el, d, bars: d.bars ? drillBars(d) : null, e8, t0: ac.currentTime+0.15+8*e8, nextClick:-8, last:null};
+  DR = {el, d, bars: d.bars ? drillBars(d) : null, riff: d.riff || null, e8, t0: ac.currentTime+0.15+8*e8, nextClick:-8, nextNote:0, last:null,
+        voice: el.querySelector('[data-voice]')?.getAttribute('aria-pressed')==='true'};
   el.classList.add('running');
   el.querySelector('.drill-go').textContent = 'Arrêter';
   try{ navigator.wakeLock.request('screen').then(w=>{ if(DR) DR.wake = w; else w.release(); }).catch(()=>{}); }catch(e){}
@@ -2535,6 +2954,11 @@ function drillFrame(){
     click(Math.max(now, DR.t0+DR.nextClick*DR.e8), ((DR.nextClick%8)+8)%8===0);
     DR.nextClick += 2;
   }
+  if(DR.riff) while(DR.t0+DR.nextNote*DR.e8 < now+0.15){          // les notes du riff, jouées par l'app
+    const pos = DR.nextNote % DR.riff.len, when = DR.t0+DR.nextNote*DR.e8;
+    if(DR.voice && when >= now-0.01) DR.riff.events.forEach(e=>{ if(e.t===pos) pluckAt(midiFreq(OPEN[e.s]+e.f), when, e.d*DR.e8*0.92, e.acc?0.55:e.dyn?0.22:0.4); });
+    DR.nextNote++;
+  }
   const lat = ctx.outputLatency || 0;
   const n = Math.floor((now-lat-DR.t0)/DR.e8);
   if(n!==DR.last){
@@ -2544,8 +2968,10 @@ function drillFrame(){
     const now$ = DR.el.querySelector('.dc-now'), next$ = DR.el.querySelector('.dc-next');
     if(n<0){
       if(DR.bars){ now$.textContent = String(Math.ceil(-n/2)); next$.textContent = 'puis '+DR.bars[0][0]; }
+      if(DR.riff){ now$.textContent = String(Math.ceil(-n/2)); next$.textContent = 'prêt ?'; }
     }else{
-      cells[n%8].classList.add('on');
+      if(cells.length) cells[n%8].classList.add('on');
+      if(DR.riff) showRiffPos(DR.el, DR.riff, activeEvent(DR.riff, n % DR.riff.len));
       if(DR.bars){
         const L = DR.bars.length, bar = Math.floor(n/8)%L, beat = (n%8)>>1, cur = DR.bars[bar][beat];
         let k = bar*4+beat+1, nx = cur;
@@ -2563,7 +2989,7 @@ let SS = null;
 function sessionHtml(L){
   const S = L.session, total = S.blocks.reduce((a,b)=>a+b.min,0), palier = ladderTempo(L, LS.st);
   return `
-    <div><p class="eyebrow">${L.introStep?`Étape ${L.steps.length+2} sur ${L.steps.length+3} · `:''}Entraînement · ${total} minutes</p><h1 class="h-step">${S.title}</h1></div>
+    <div><p class="eyebrow">${L.introStep||L.numberAll?`Étape ${L.steps.length+1+(L.introStep?1:0)} sur ${L.steps.length+2+(L.introStep?1:0)} · `:''}Entraînement · ${total} minutes</p><h1 class="h-step">${S.title}</h1></div>
     <p class="lead">${S.intro}</p>
     <ol class="blocks">${S.blocks.map((b,i)=>`<li data-b="${i}"><div class="bh"><b>${b.title}</b><span>${b.min} min${b.drill?` · ${b.drill.tempo==='palier'?palier:b.drill.tempo} bpm`:''}</span></div><p>${b.how}</p></li>`).join('')}</ol>
     <div class="session-box" id="session-box">
