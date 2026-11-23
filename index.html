@@ -152,6 +152,11 @@ nav.tabs a[aria-current="page"]::before{content:"";position:absolute;top:-1px;le
 .song .disc{flex:none;width:48px;height:48px;border-radius:50%;background:radial-gradient(circle,var(--surface) 0 7%,var(--accent) 8% 30%,var(--btn) 31% 100%);box-shadow:0 1px 2px rgba(0,0,0,.3)}
 .song .t{font-family:var(--display);font-size:34px;font-weight:800;line-height:.92;text-transform:uppercase}
 .song .a{font-size:14px;color:var(--muted);margin-top:2px}
+.stars{display:block;font-size:14px;letter-spacing:1px;line-height:1.2}
+.stars i{font-style:normal;color:var(--lamp-off)}
+.stars i.on{color:var(--accent)}
+.facts-stars{display:inline-flex;align-items:center;gap:8px}
+.facts-stars .stars{font-size:13px}
 .song .meta{margin-left:auto;flex:none;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-align:right;line-height:1.5}
 .song > div{min-width:0}
 .more{font-size:13px;color:var(--muted)}
@@ -2224,11 +2229,14 @@ function chordSvg(fr){
   if(base>1) s+=`<text x="${X(5)+9.5}" y="${Y(0)+11.5}" font-size="9.5" font-weight="700" fill="var(--fg)" font-family="var(--font)">${base}</text>`;
   return s+'</svg>';
 }
+/* Difficulté sur 5 : celle de la leçon, sinon celle indiquée sur le morceau. */
+const songLevel = s => (LESSONS[s.id] && LESSONS[s.id].difficulty) || s.difficulty || 2;
+const stars = n => `<span class="stars" role="img" aria-label="Difficulté ${n} sur 5">${[1,2,3,4,5].map(k=>`<i class="${k<=n?'on':''}">★</i>`).join('')}</span>`;
 function renderSongs(){
   $('songs').innerHTML = SONGS.map(s=>
     `<li><a class="song" href="#morceau-${s.id}"><span class="disc"></span>
       <div><div class="t">${s.title}</div><div class="a">${s.artist} · ${s.year}</div></div>
-      <span class="meta">${s.chords?s.chords.length+' accords':'Riff'}<br>${s.level}${LESSONS[s.id]?`<br><span class="lesson">${lessonSummary(s)}</span>`:''}</span></a></li>`).join('');
+      <span class="meta">${stars(songLevel(s))}${s.chords?s.chords.length+' accords':'Riff'}<br>${s.level}${LESSONS[s.id]?`<br><span class="lesson">${lessonSummary(s)}</span>`:''}</span></a></li>`).join('');
 }
 function renderSong(s){
   const t = TUNINGS.find(x=>x.id===s.tuning);
@@ -2236,7 +2244,7 @@ function renderSong(s){
   $('view-song').innerHTML = `
     <a class="back" href="#morceaux">‹ Morceaux</a>
     <div><p class="eyebrow">${s.artist} · ${s.year}</p><h1 class="h-page">${s.title}</h1></div>
-    <div class="facts"><span>${s.level}</span><span>${s.feel}</span><span>Accordage ${t.name}</span></div>
+    <div class="facts"><span class="facts-stars">${stars(songLevel(s))}${s.level}</span><span>${s.feel}</span><span>Accordage ${t.name}</span></div>
     <p>${s.intro}</p>
     <div class="actions">${LESSONS[s.id]?`<a class="secondary" href="#apprendre-${s.id}">Apprendre</a>`:''}${s.play?`<a class="secondary${LESSONS[s.id]?' btn-dark':''}" href="#jouer-${s.id}">Jouer le morceau</a>`:''}
       <button class="ghost" type="button" id="tune-for">Accorder en ${t.name}</button></div>
